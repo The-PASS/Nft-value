@@ -1,0 +1,41 @@
+const plugin = require("tailwindcss/plugin");
+// const defaultTheme = require('tailwindcss/defaultTheme')
+
+module.exports = {
+  content: ["./index.html", "./src/**/*.{vue,ts}"],
+  theme: {
+    extend: {
+      // here's how to extend fonts if needed
+      // fontFamily: {
+      //   sans: [...defaultTheme.fontFamily.sans],
+      // },
+      colors: {
+        wall: "rgba(18, 20, 22, 1)",
+      },
+      spacing: {
+        22: "5.5rem",
+      },
+    },
+  },
+  plugins: [
+    require("@tailwindcss/aspect-ratio"),
+    require("@tailwindcss/line-clamp"),
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/forms"),
+    plugin(function ({ addVariant, e, postcss }) {
+      addVariant("firefox", ({ container, separator }) => {
+        const isFirefoxRule = postcss.atRule({
+          name: "-moz-document",
+          params: "url-prefix()",
+        });
+        isFirefoxRule.append(container.nodes);
+        container.append(isFirefoxRule);
+        isFirefoxRule.walkRules((rule) => {
+          rule.selector = `.${e(
+            `firefox${separator}${rule.selector.slice(1)}`
+          )}`;
+        });
+      });
+    }),
+  ],
+};
