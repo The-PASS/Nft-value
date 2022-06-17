@@ -268,17 +268,23 @@ const basicData = computed(() => [
     // gains: "-14.31",
   },
   {
-    value: `${state.info.volume} ETH`,
+    value: `${state.info.volume.toFixed(2)} ETH`,
     name: "Volume",
     gains: (state.info.volumeRate * 100).toFixed(2),
   },
 ]);
 
-onMounted(async () => {
+const loadData = async () => {
   state.loading = true;
   state.info = await getProjectDetails(route.params.id);
   state.loading = false;
+};
+
+onMounted(async () => {
+  loadData();
 });
+
+watch(() => JSON.stringify(route.params), loadData);
 </script>
 
 <style scoped>

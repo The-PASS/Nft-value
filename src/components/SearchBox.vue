@@ -84,7 +84,10 @@
           class="flex h-12 items-center p-2 hover:bg-[#ffffff1a]"
           v-for="(item, i) in state.list"
           :key="i"
-          @click="router.push(`/detail/${item.projectName}/${item.id}`)"
+          @click="
+            state.flag = false;
+            router.push(`/detail/${item.projectName}/${item.id}`);
+          "
         >
           <ui-img
             class="w-8 h-8 rounded-full mr-4 overflow-hidden"
