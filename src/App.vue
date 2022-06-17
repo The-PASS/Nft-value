@@ -5,6 +5,7 @@
 <style>
 @import url("@/assets/font/iconfont.css");
 @import url("tippy.js/dist/tippy.css");
+@import url("vue-skeletor/dist/vue-skeletor.css");
 
 html {
   background: rgba(18, 20, 22, 1);

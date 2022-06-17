@@ -65,7 +65,7 @@
       <div class="flex mt-8">
         <div class="mr-8">
           <div class="text-xl font-bold mb-4">ITEMS</div>
-          <div class="w-[720px] h-[364px]">
+          <div class="w-[760px] h-[364px]">
             <ui-scrollbars
               class="w-full h-full"
               v-if="state.info.tokenList.length > 0"
