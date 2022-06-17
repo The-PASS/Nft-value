@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import * as OverlayScrollbars from "overlayscrollbars";
+import OverlayScrollbars from "overlayscrollbars";
 
 const container = ref(null);
 

@@ -8,7 +8,6 @@ declare module '@vue/runtime-core' {
     Button: typeof import('./src/components/Button.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconfontIcon: typeof import('./src/components/IconfontIcon.vue')['default']
     Page: typeof import('./src/components/Page.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -18,9 +17,7 @@ declare module '@vue/runtime-core' {
     ThirdLink: typeof import('./src/components/ThirdLink.vue')['default']
     UiImg: typeof import('./src/components/Ui/Img.vue')['default']
     UiScrollbars: typeof import('./src/components/Ui/Scrollbars.vue')['default']
-    UiTippy: typeof import('./src/components/Ui/Tippy.vue')['default']
     UiTippyer: typeof import('./src/components/Ui/Tippyer.vue')['default']
-    UiX: typeof import('./src/components/Ui/X.vue')['default']
   }
 }
 
