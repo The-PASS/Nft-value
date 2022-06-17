@@ -17,4 +17,23 @@ html {
   height: 100%;
   color: white;
 }
+
+input {
+  box-shadow: none !important;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-leave-from,
+.fade-enter-to {
+  opacity: 1;
+}
 </style>

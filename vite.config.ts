@@ -18,6 +18,7 @@ export default defineConfig({
         "vue",
         "vue-router",
         "@vueuse/head",
+        "@vueuse/core",
         "pinia",
         {
           "@/store": ["useStore"],

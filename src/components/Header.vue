@@ -4,7 +4,7 @@
       <img class="w-20 h-7" src="@/assets/images/logo.png" alt="" />
     </router-link>
 
-    <div v-if="search">Searchxxx</div>
+    <search-box v-if="search"></search-box>
   </div>
 </template>
 
@@ -17,4 +17,4 @@ defineProps({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style></style>

@@ -15,7 +15,7 @@
     ></animateTransform>
     <circle
         fill="none"
-        stroke="currentColor"
+        stroke="#fff"
         stroke-width="20"
         stroke-linecap="round"
         cx="100"

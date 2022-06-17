@@ -1,11 +1,11 @@
 <template>
-  <i class="iconfont" :class="props.name"></i>
+  <i class="iconfont" :class="name"></i>
 </template>
 
-<script setup lang="ts">
-const props = defineProps<{
-  name: string;
-}>();
+<script setup>
+defineProps({
+  name: String,
+});
 </script>
 
 <style lang="scss" scoped></style>
