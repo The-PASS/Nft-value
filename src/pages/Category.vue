@@ -49,6 +49,7 @@
                   class="hover:bg-[#ffffff0d] h-14 cursor-pointer"
                   v-for="(item, i) in state.list"
                   :key="i"
+                  @click="router.push(`/detail/${item.projectName}/${item.id}`)"
                 >
                   <td class="text-left" style="width: 24%">
                     <div class="flex items-center">

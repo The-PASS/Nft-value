@@ -11,6 +11,7 @@ module.exports = {
       // },
       colors: {
         wall: "rgba(18, 20, 22, 1)",
+        nowAllowed: "#666666",
       },
       spacing: {
         22: "5.5rem",

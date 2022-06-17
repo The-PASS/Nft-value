@@ -18,7 +18,7 @@ const routes = [
     component: Category,
   },
   {
-    path: "/detail",
+    path: "/detail/:name/:id",
     component: Dashboard,
   },
 ];

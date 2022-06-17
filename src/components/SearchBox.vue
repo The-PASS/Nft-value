@@ -66,6 +66,7 @@
             class="flex h-12 items-center p-2 hover:bg-[#ffffff1a]"
             v-for="(item, i) in state.searchList"
             :key="i"
+            @click="router.push(`/detail/${item.projectName}/${item.id}`)"
           >
             <ui-img
               class="w-8 h-8 rounded-full mr-4 overflow-hidden"
@@ -83,6 +84,7 @@
           class="flex h-12 items-center p-2 hover:bg-[#ffffff1a]"
           v-for="(item, i) in state.list"
           :key="i"
+          @click="router.push(`/detail/${item.projectName}/${item.id}`)"
         >
           <ui-img
             class="w-8 h-8 rounded-full mr-4 overflow-hidden"
@@ -103,6 +105,8 @@ import { list } from "postcss";
 const box = ref(null);
 const floatBox = ref(null);
 const searchInput = ref(null);
+
+const router = useRouter();
 
 const state = reactive({
   flag: false,
