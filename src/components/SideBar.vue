@@ -9,9 +9,12 @@
       >
         <span
           class="transition-all"
-          :class="{ 'font-bold': state.selectIndex == i }"
+          :class="{
+            'font-bold': state.selectIndex == i,
+            ' cursor-not-allowed text-[#fff6]': tab.disabled,
+          }"
         >
-          {{ tab }}
+          {{ tab.key }}
         </span>
       </div>
     </div>
@@ -43,6 +46,9 @@ const state = reactive({
 const $emits = defineEmits(["update:modelValue"]);
 
 const onSelect = (i) => {
+  if (props.tabs[i].disabled) {
+    return;
+  }
   state.selectIndex = i;
 };
 

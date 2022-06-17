@@ -1,6 +1,6 @@
 import { passHttp } from "./request";
 
-export const searchProject = async (key: string, cancel: boolean) => {
+export const searchProject = async (key: string, cancel = false) => {
   const res = await passHttp.get(
     "/nftvalue/search",
     {
@@ -19,12 +19,16 @@ enum VaultType {
   COLLECTABLES = "COLLECTABLES",
 }
 
-export const getVaultList = (type: VaultType) =>
-  passHttp.get("/nftvalue/home", {
-    params: {
-      type,
+export const getVaultList = (type: VaultType, cancel = false) =>
+  passHttp.get(
+    "/nftvalue/home",
+    {
+      params: {
+        type,
+      },
     },
-  });
+    cancel
+  );
 
 export const getProjectInfoById = (id: number) =>
   passHttp.get("/nftvalue/project/info", {

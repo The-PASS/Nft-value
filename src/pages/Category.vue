@@ -4,22 +4,80 @@
       <div
         class="w-44 flex flex-col justify-between border-r-[1px] border-[#9797971a]"
       >
-        <side-bar :tabs="['Collectables', 'Art', 'Game Assets']"></side-bar>
+        <side-bar v-model="state.tabIndex" :tabs="tabs"></side-bar>
         <third-link></third-link>
       </div>
-      <div class="flex-1 h-full min-w-0 rounded ml-6 bg-[#9797971a]">
-        <UiScrollbars class="w-full h-full">
-          <div class="flex items-center justify-center">
-            <Button @click="router.push('/detail')">下一页</Button>
+      <div class="flex-1 h-full text-xs min-w-0 rounded-lg ml-6 bg-[#9797971a]">
+        <div
+          class="w-full h-full flex items-center justify-center"
+          v-if="state.loading"
+        >
+          <img class="w-16 h-16" src="@/assets/svgs/spin.svg" alt="" />
+        </div>
+
+        <UiScrollbars
+          class="w-full h-full"
+          v-if="!state.loading && state.list.length > 0"
+        >
+          <div class="px-2 pb-2">
+            <Table class="w-full h-14 sticky top-0 bg-[#1f2123]">
+              <colgroup>
+                <col style="width: 24%" />
+                <col style="width: 20%" />
+                <col style="width: 16%" />
+                <col style="width: 20%" />
+                <col style="width: 20%" />
+              </colgroup>
+              <thead>
+                <th class="text-left" style="width: 24%">Collection</th>
+                <th class="text-left" style="width: 20%">Volume(24H)</th>
+                <th class="text-right" style="width: 16%">Volume(24H)</th>
+                <th class="text-right" style="width: 20%">Floor Price</th>
+                <th class="text-right" style="width: 20%">Market Cap</th>
+              </thead>
+            </Table>
+            <Table class="w-full">
+              <colgroup>
+                <col style="width: 24%" />
+                <col style="width: 20%" />
+                <col style="width: 16%" />
+                <col style="width: 20%" />
+                <col style="width: 20%" />
+              </colgroup>
+              <tbody>
+                <tr
+                  class="hover:bg-[#ffffff0d] h-14 cursor-pointer"
+                  v-for="(item, i) in state.list"
+                  :key="i"
+                >
+                  <td class="text-left" style="width: 24%">
+                    <div class="flex items-center">
+                      <ui-img
+                        class="w-8 h-8 rounded-full mr-2 overflow-hidden"
+                        :src="item.logo"
+                        alt=""
+                      />
+                      <div class="text-[#26AAFF]">{{ item.projectName }}</div>
+                    </div>
+                  </td>
+                  <td class="text-left" style="width: 20%">
+                    ${{ item.volume }}
+                  </td>
+                  <td class="text-right" style="width: 16%">
+                    +{{ item.volumeRate }}%
+                  </td>
+                  <td style="width: 20%">
+                    <div class="flex items-center justify-end">
+                      9.99&nbsp; <iconfont-icon name="icon-ETH"></iconfont-icon>
+                    </div>
+                  </td>
+                  <td class="text-right" style="width: 20%">
+                    ${{ item.marketCap }}
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
           </div>
-          <p
-            v-for="(_, i) in [
-              1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-              1, 1, 1, 1, 1, 1, 1,
-            ]"
-          >
-            {{ i }}
-          </p>
         </UiScrollbars>
       </div>
     </div>
@@ -27,7 +85,44 @@
 </template>
 
 <script setup>
+import { getVaultList } from "@/api";
+
+const tabs = [
+  {
+    key: "Collectables",
+    value: "COLLECTABLES",
+  },
+  { key: "Art", value: "ART" },
+  { key: "Game Assets", value: "", disabled: true },
+];
+
 const router = useRouter();
+const state = reactive({
+  loading: 0,
+  list: [],
+  tabIndex: 0,
+});
+
+const loadData = async (type) => {
+  state.loading++;
+  const x = await getVaultList(type, true);
+  state.loading--;
+  state.list = x;
+};
+
+onMounted(async () => {
+  loadData(tabs[state.tabIndex].value);
+});
+
+watch(
+  () => state.tabIndex,
+  (i) => loadData(tabs[i].value)
+);
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+table td,
+table th {
+  padding: 0 0.5rem;
+}
+</style>
