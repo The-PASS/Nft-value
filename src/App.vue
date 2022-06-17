@@ -22,6 +22,11 @@ input {
   box-shadow: none !important;
 }
 
+table th,
+table td {
+  padding: 0 0.5rem;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: all 0.3s;

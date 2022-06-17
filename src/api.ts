@@ -11,7 +11,7 @@ export const searchProject = async (key: string, cancel = false) => {
     cancel
   );
 
-  return key ? res : res.slice(0, 5);
+  return key ? res : (res || []).slice(0, 5);
 };
 
 enum VaultType {
@@ -30,13 +30,44 @@ export const getVaultList = (type: VaultType, cancel = false) =>
     cancel
   );
 
-export const getProjectInfoById = (id: number) =>
+export const getProjectInfoById = (id: number | string) =>
   passHttp.get("/nftvalue/project/info", {
-    id,
+    params: {
+      id,
+    },
   });
 export const getProjectInfoByName = (name: string) =>
   passHttp.get("/nftvalue/project/info", {
-    name,
+    params: {
+      name,
+    },
   });
-export const getTokenListByCid = (cid: string) =>
-  passHttp.get(`/nftvalue/project/token/owner/${cid}`);
+export const getTokenListByCid = (cid: string | number) =>
+  passHttp.get(`/nftvalue/project/tokens/${cid}`);
+
+export const getTokenRanks = (
+  contractId: string | number,
+  tokenId: string | number
+) =>
+  passHttp.get(`/nftvalue/project/token/info/${contractId}`, {
+    params: {
+      tokenId,
+    },
+  });
+
+export const getProjectDetails = async (id: string | number) => {
+  const baseInfo = await getProjectInfoById(id);
+  const tokenList = (await getTokenListByCid(baseInfo.bprojectContractId))
+    .records;
+  const holderList: any[] = [];
+  const ranks = await getTokenRanks(baseInfo.bprojectContractId, id);
+
+  const owers = holderList.reduce((a: any, b: any) => {
+    return a + b.numberOwned;
+  }, 0);
+  baseInfo.holderNumber = owers;
+  baseInfo.holders = holderList;
+  baseInfo.ranks = ranks;
+  baseInfo.tokenList = tokenList;
+  return baseInfo;
+};
