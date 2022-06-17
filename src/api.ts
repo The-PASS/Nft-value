@@ -57,8 +57,9 @@ export const getTokenRanks = (
 
 export const getProjectDetails = async (id: string | number) => {
   const baseInfo = await getProjectInfoById(id);
-  const tokenList = (await getTokenListByCid(baseInfo.bprojectContractId))
-    .records;
+  const tokenList =
+    ((await getTokenListByCid(baseInfo.bprojectContractId)) || {}).records ||
+    [];
   const holderList: any[] = [];
   const ranks = await getTokenRanks(baseInfo.bprojectContractId, id);
 

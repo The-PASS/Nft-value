@@ -65,30 +65,47 @@
       <div class="flex mt-8">
         <div class="mr-8">
           <div class="text-xl font-bold mb-4">ITEMS</div>
-          <ui-scrollbars class="w-full h-[364px]">
-            <div class="grid grid-cols-4 gap-4">
-              <div
-                v-for="(item, i) in state.info.tokenList"
-                :key="i"
-                class="w-44 h-44 rounded overflow-hidden bg-white relative"
-              >
-                <ui-img class="w-full h-full" :src="item.logo"></ui-img>
+          <div class="w-[720px] h-[364px]">
+            <ui-scrollbars
+              class="w-full h-full"
+              v-if="state.info.tokenList.length > 0"
+            >
+              <div class="grid grid-cols-4 gap-4">
                 <div
-                  class="absolute p-2 space-y-1 w-full bottom-0 token-list__float"
+                  v-for="(item, i) in state.info.tokenList"
+                  :key="i"
+                  class="w-44 h-44 rounded overflow-hidden bg-white relative group cursor-pointer"
                 >
-                  <div>Estimated Price</div>
-                  <div class="flex justify-between">
-                    <div>history:</div>
-                    <div>{{ item.history }} ETH</div>
-                  </div>
-                  <div class="flex justify-between">
-                    <div>floor:</div>
-                    <div>{{ item.floor }} ETH</div>
+                  <ui-img class="w-full h-full" :src="item.logo"></ui-img>
+                  <div
+                    class="absolute p-2 space-y-1 w-full bottom-0 token-list__float hidden group-hover:block"
+                  >
+                    <div>Estimated Price</div>
+                    <div class="flex justify-between">
+                      <div>history:</div>
+                      <div>{{ item.history }} ETH</div>
+                    </div>
+                    <div class="flex justify-between">
+                      <div>floor:</div>
+                      <div>{{ item.floor }} ETH</div>
+                    </div>
                   </div>
                 </div>
               </div>
+            </ui-scrollbars>
+            <div v-else class="w-full h-full relative">
+              <img
+                class="w-full h-full"
+                src="@/assets/images/no-tokenlist.png"
+                alt=""
+              />
+              <div class="absolute right-28 bottom-36 space-y-2">
+                <p class="text-sm">NFT asset fetch fails or no asset exists.</p>
+                <p class="text-[#ffffff4d]">· Please refresh your</p>
+                <p class="text-[#ffffff4d]">· connection Check your network</p>
+              </div>
             </div>
-          </ui-scrollbars>
+          </div>
         </div>
         <div class="flex-1 flex flex-col">
           <div class="text-xl font-bold mb-4">Whales</div>
@@ -253,7 +270,7 @@ const basicData = computed(() => [
   {
     value: `${state.info.volume} ETH`,
     name: "Volume",
-    gains: state.info.volumeRate * 100,
+    gains: (state.info.volumeRate * 100).toFixed(2),
   },
 ]);
 
