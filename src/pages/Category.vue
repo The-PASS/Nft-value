@@ -22,25 +22,25 @@
           <div class="px-2 pb-2">
             <Table class="w-full h-14 sticky top-0 bg-[#1f2123]">
               <colgroup>
-                <col style="width: 24%" />
-                <col style="width: 20%" />
-                <col style="width: 16%" />
+                <col style="width: 32%" />
+                <col style="width: 14%" />
+                <col style="width: 14%" />
                 <col style="width: 20%" />
                 <col style="width: 20%" />
               </colgroup>
               <thead>
-                <th class="text-left" style="width: 24%">Collection</th>
-                <th class="text-left" style="width: 20%">Volume(24H)</th>
-                <th class="text-right" style="width: 16%">Volume(24H)</th>
+                <th class="text-left" style="width: 32%">Collection</th>
+                <th class="text-left" style="width: 14%">Volume(24H)</th>
+                <th class="text-right" style="width: 14%">Volume(24H)</th>
                 <th class="text-right" style="width: 20%">Floor Price</th>
                 <th class="text-right" style="width: 20%">Market Cap</th>
               </thead>
             </Table>
             <Table class="w-full">
               <colgroup>
-                <col style="width: 24%" />
-                <col style="width: 20%" />
-                <col style="width: 16%" />
+                <col style="width: 32%" />
+                <col style="width: 14%" />
+                <col style="width: 14%" />
                 <col style="width: 20%" />
                 <col style="width: 20%" />
               </colgroup>
@@ -51,7 +51,7 @@
                   :key="i"
                   @click="router.push(`/detail/${item.projectName}/${item.id}`)"
                 >
-                  <td class="text-left" style="width: 24%">
+                  <td class="text-left" style="width: 32%">
                     <div class="flex items-center">
                       <ui-img
                         class="w-8 h-8 rounded-full mr-2 overflow-hidden"
@@ -61,11 +61,18 @@
                       <div class="text-[#26AAFF]">{{ item.projectName }}</div>
                     </div>
                   </td>
-                  <td class="text-left" style="width: 20%">
+                  <td class="text-left" style="width: 14%">
                     ${{ item.volume }}
                   </td>
-                  <td class="text-right" style="width: 16%">
-                    +{{ item.volumeRate }}%
+                  <td
+                    class="text-right"
+                    :class="{
+                      'text-[#5EFF6A]': item.volumeRate > 0,
+                      'text-[#FF5166]': item.volumeRate < 0,
+                    }"
+                    style="width: 14%"
+                  >
+                    {{ item.volumeRate }}%
                   </td>
                   <td style="width: 20%">
                     <div class="flex items-center justify-end">

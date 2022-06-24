@@ -6,6 +6,10 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Button: typeof import('./src/components/Button.vue')['default']
+    DashboardCoreTraitsRank: typeof import('./src/components/Dashboard/CoreTraitsRank.vue')['default']
+    DashboardItems: typeof import('./src/components/Dashboard/Items.vue')['default']
+    DashboardTraitsHistory: typeof import('./src/components/Dashboard/TraitsHistory.vue')['default']
+    DashboardWhales: typeof import('./src/components/Dashboard/Whales.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     IconfontIcon: typeof import('./src/components/IconfontIcon.vue')['default']
