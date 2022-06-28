@@ -3,12 +3,13 @@
     <div class="text-xl font-bold mb-4">ITEMS</div>
     <div class="w-[760px] h-[364px]">
       <ui-scrollbars
+        :onIns="onIns"
         class="w-full h-full"
-        v-if="store.dashboard.tokenList.length > 0"
+        v-if="results.length > 0 || loading"
       >
         <div class="grid grid-cols-4 gap-4 pb-4">
           <div
-            v-for="(item, i) in store.dashboard.tokenList"
+            v-for="(item, i) in results"
             :key="i"
             class="w-44 p-2 bg-[#FFFFFF0D] rounded overflow-hidden relative cursor-pointer transition-all border-[1px] border-transparent hover:border-white"
           >
@@ -35,8 +36,33 @@
             </div>
           </div>
         </div>
+
+        <div class="grid grid-cols-4 gap-4 pb-4" v-if="loading">
+          <div
+            v-for="(_, i) in Array(4).fill(0)"
+            :key="i"
+            class="w-44 p-2 bg-[#FFFFFF0D] rounded overflow-hidden relative cursor-pointer transition-all border-[1px] border-transparent hover:border-white"
+          >
+            <Skeletor class="w-40 h-40 rounded"></Skeletor>
+
+            <div class="mt-4 space-y-1 w-full">
+              <Skeletor class="w-22 h-4 rounded"></Skeletor>
+              <div class="flex justify-between">
+                <Skeletor class="w-10 h-4 rounded"></Skeletor>
+                <Skeletor class="w-16 h-4 rounded"></Skeletor>
+              </div>
+              <div class="flex justify-between">
+                <Skeletor class="w-10 h-4 rounded"></Skeletor>
+                <Skeletor class="w-16 h-4 rounded"></Skeletor>
+              </div>
+            </div>
+          </div>
+        </div>
       </ui-scrollbars>
-      <div v-else class="w-full h-full relative">
+      <div
+        v-if="results.length == 0 && !loading"
+        class="w-full h-full relative"
+      >
         <img
           class="w-full h-full"
           src="@/assets/images/no-tokenlist.png"
@@ -53,12 +79,38 @@
 </template>
 
 <script setup>
-const store = useStore();
+import { Skeletor } from "vue-skeletor";
+import { formatAddress, copyTx } from "@/utils";
+import { useReqPages } from "@/hooks";
+import { withThrottling } from "@/with";
+import { getTokenList } from "@/api";
 
+const store = useStore();
 const pid = inject("pid");
+const scrollEl = ref(null);
+
+const {
+  isEnd,
+  loading,
+  current,
+  next,
+  rows,
+  total,
+  results,
+  loadNext,
+  loadRest,
+} = useReqPages((i) => {
+  return getTokenList(pid, i);
+});
+
+useInfiniteScroll(scrollEl, withThrottling(loadNext));
+
+const onIns = (ins) => {
+  scrollEl.value = ins.getElements("viewport");
+};
 
 onMounted(() => {
-  store.loadBoardTokenList(pid);
+  loadRest();
 });
 </script>
 

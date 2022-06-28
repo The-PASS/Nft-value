@@ -62,10 +62,15 @@ export const getProjectInfoByName = async (name: string) => {
   return res;
 };
 
-export const getTokenList = async (pid: string | number) => {
-  const res = await passHttp.get(`/nftvalue/project/tokens/${pid}`);
+export const getTokenList = async (pid: string | number, page = 1) => {
+  const res = await passHttp.get(`/nftvalue/project/tokens/${pid}`, {
+    params: {
+      pageSize: 16,
+      page,
+    },
+  });
 
-  return res.records || [];
+  return res;
 };
 
 export const getTokenRanks = (pid: string | number, tokenId: string | number) =>

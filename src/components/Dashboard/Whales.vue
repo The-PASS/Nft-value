@@ -71,7 +71,6 @@ const onIns = (ins) => {
 };
 
 onMounted(() => {
-  console.log(scrollEl.value);
   loadRest();
 });
 </script>
