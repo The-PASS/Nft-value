@@ -22,6 +22,7 @@ const defaultDashboard = () => ({
   floorPrice: 0,
   marketCap: 0,
   owners: 0,
+  items: 0,
   tokenList: [],
   ownerList: [],
   traitList: [],
@@ -78,10 +79,12 @@ export const useStore = defineStore("main", {
       this.dashboard.ownerList = res;
     },
     async loadBoardTraitList(id: any, tokenId: any) {
-      /*  */
+      const traits = await getTokenRanks(id, tokenId);
+      this.dashboard.traitList = traits;
     },
     async loadBoardTraitHistory(pid: any, traitType: any, value: any) {
-      /*  */
+      const x = await getBoardTraitHistory(pid, traitType, value);
+      this.dashboard.traitHistory = x;
     },
     resetDashboard() {
       this.dashboard = defaultDashboard();

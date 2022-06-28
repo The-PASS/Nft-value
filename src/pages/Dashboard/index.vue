@@ -120,7 +120,7 @@ const store = useStore();
 provide("pid", route.params.id);
 
 const basicData = computed(() => [
-  { value: 0, name: "Items" },
+  { value: store.dashboard.items, name: "Items" },
   {
     value: store.dashboard.marketCap + " ETH",
     name: "Evaluation",

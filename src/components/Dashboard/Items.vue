@@ -39,7 +39,7 @@
 
         <div class="grid grid-cols-4 gap-4 pb-4" v-if="loading">
           <div
-            v-for="(_, i) in Array(4).fill(0)"
+            v-for="(_, i) in Array(8).fill(0)"
             :key="i"
             class="w-44 p-2 bg-[#FFFFFF0D] rounded overflow-hidden relative cursor-pointer transition-all border-[1px] border-transparent hover:border-white"
           >

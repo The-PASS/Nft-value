@@ -40,7 +40,7 @@
         </colgroup>
         <tbody>
           <tr
-            class="h-11"
+            class="h-11 hover:bg-[#ffffff1a] cursor-pointer"
             v-for="(item, i) in store.dashboard.traitList"
             :key="i"
           >
@@ -79,7 +79,7 @@ const store = useStore();
 const pid = inject("pid");
 
 onMounted(() => {
-  store.loadBoardTraitList(pid, "29");
+  store.loadBoardTraitList(pid);
 });
 </script>
 
