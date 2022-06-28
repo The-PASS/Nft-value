@@ -12,26 +12,32 @@ const versionString =
     ? import.meta.env.VITE_APP_VERSION + "-dev"
     : import.meta.env.VITE_APP_VERSION;
 
+const defaultDashboard = () => ({
+  id: "",
+  projectName: "",
+  logo: "",
+  des: "",
+  volume: 0,
+  volumeRate: 0,
+  floorPrice: 0,
+  marketCap: 0,
+  owners: 0,
+  tokenList: [],
+  ownerList: [],
+  traitList: [],
+  traitHistory: [],
+});
+
 export const useStore = defineStore("main", {
   state: () => ({
     debug: import.meta.env.MODE === "development",
     version: versionString,
     isInitialized: false,
     count: 0,
-    dashboard: {
-      id: "",
-      projectName: "",
-      logo: "",
-      des: "",
-      volume: 0,
-      volumeRate: 0,
-      floorPrice: 0,
-      marketCap: 0,
-      owners: 0,
-      tokenList: [],
-      ownerList: [],
-      traitList: [],
-      traitHistory: [],
+    dashboard: defaultDashboard(),
+    loading: {
+      dashboardInfo: true,
+      dashboardWhales: true,
     },
   }),
 
@@ -45,9 +51,10 @@ export const useStore = defineStore("main", {
       this.count += value;
     },
     async loadBoardBaseInfo(id: any) {
+      this.loading.dashboardInfo = true;
       const res = await getProjectInfoById(id);
       this.dashboard = { ...this.dashboard, ...res };
-      console.log(this.dashboard);
+      this.loading.dashboardInfo = false;
     },
     async loadBoardTokenList(id: any) {
       const tokenls = await getTokenList(id);
@@ -68,7 +75,6 @@ export const useStore = defineStore("main", {
     },
     async loadBoardOwnerList(pid: any, page: number) {
       const res = await getBoardOwnerList(pid, page);
-      console.log(res);
       this.dashboard.ownerList = res;
     },
     async loadBoardTraitList(id: any, tokenId: any) {
@@ -76,6 +82,9 @@ export const useStore = defineStore("main", {
     },
     async loadBoardTraitHistory(pid: any, traitType: any, value: any) {
       /*  */
+    },
+    resetDashboard() {
+      this.dashboard = defaultDashboard();
     },
   },
 

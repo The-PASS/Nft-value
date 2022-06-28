@@ -8,11 +8,12 @@
         <div>Address</div>
         <div>Number owned</div>
       </div>
+
       <div class="flex-1 min-h-0 text-base" style="height: 368px">
-        <ui-scrollbars class="w-full h-full">
+        <ui-scrollbars class="w-full h-full" :onIns="onIns">
           <div
             class="flex h-9 items-center justify-between px-2"
-            v-for="(item, i) in store.dashboard.ownerList"
+            v-for="(item, i) in results"
             :key="i"
           >
             <div
@@ -23,6 +24,16 @@
             </div>
             <div class="w-20">{{ item.numberOwned }}</div>
           </div>
+          <div v-if="loading">
+            <div
+              class="flex h-9 items-center justify-between px-2"
+              v-for="(_, i) in Array(8).fill(0)"
+              :key="i"
+            >
+              <Skeletor class="w-40 h-7 rounded"></Skeletor>
+              <Skeletor class="w-20 h-7 rounded"></Skeletor>
+            </div>
+          </div>
         </ui-scrollbars>
       </div>
     </div>
@@ -30,13 +41,38 @@
 </template>
 
 <script setup>
+import { Skeletor } from "vue-skeletor";
 import { formatAddress, copyTx } from "@/utils";
+import { useReqPages } from "@/hooks";
+import { withThrottling } from "@/with";
+import { getBoardOwnerList } from "@/api";
 const store = useStore();
-
 const pid = inject("pid");
+const scrollEl = ref(null);
+
+const {
+  isEnd,
+  loading,
+  current,
+  next,
+  rows,
+  total,
+  results,
+  loadNext,
+  loadRest,
+} = useReqPages((i) => {
+  return getBoardOwnerList(pid, i);
+});
+
+useInfiniteScroll(scrollEl, withThrottling(loadNext));
+
+const onIns = (ins) => {
+  scrollEl.value = ins.getElements("viewport");
+};
 
 onMounted(() => {
-  store.loadBoardOwnerList(pid);
+  console.log(scrollEl.value);
+  loadRest();
 });
 </script>
 

@@ -6,7 +6,7 @@
         class="w-full h-full"
         v-if="store.dashboard.tokenList.length > 0"
       >
-        <div class="grid grid-cols-4 gap-4 py-4">
+        <div class="grid grid-cols-4 gap-4 pb-4">
           <div
             v-for="(item, i) in store.dashboard.tokenList"
             :key="i"

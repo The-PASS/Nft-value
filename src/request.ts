@@ -1,7 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 
 const getSuccessResult = (data: any) => {
-  console.log(data);
   if (data.success) {
     return data.data;
   } else {

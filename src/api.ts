@@ -34,6 +34,7 @@ export const getVaultList = async (type: VaultType, cancel = false) => {
     el.volumeRate = (el.volumeRate * 100).toFixed(2);
     el.marketCap = el.marketCap.toFixed(2);
     el.volume = el.volume.toFixed(2);
+    el.floorPrice = el.floorPrice.toFixed(2);
   });
 
   return res;
@@ -80,7 +81,7 @@ export const getBoardOwnerList = async (pid: string | number, page = 1) => {
       page,
     },
   });
-  return res.records || [];
+  return res;
 };
 
 export const getBoardTraitHistory = (pid: any, traitType: any, value: any) =>

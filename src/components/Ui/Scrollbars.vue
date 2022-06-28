@@ -25,6 +25,8 @@
 <script setup>
 import OverlayScrollbars from "overlayscrollbars";
 
+const position = ref({ x: 0, y: 0 });
+
 const container = ref(null);
 
 const osInstance = ref(null);
@@ -59,6 +61,32 @@ onMounted(() => {
   if (props.onIns) {
     props.onIns(osInstance.value);
   }
+});
+
+/* 页面初次加载不会触发它的更新，但是由其他路由导入进来，会出发它的更新 */
+
+onDeactivated(() => {
+  console.log();
+  const y = osInstance.value
+    .getElements("scrollbarVertical.handle")
+    .style.transform.match(/(\d+)/gi);
+
+  position.value.y = y != null ? y[1] : 0;
+
+  const x = osInstance.value
+    .getElements("scrollbarHorizontal.handle")
+    .style.transform.match(/(\d+)/gi);
+
+  position.value.x = x != null ? x[0] : 0;
+});
+
+onActivated(() => {
+  setTimeout(() => {
+    osInstance.value.scroll({
+      x: position.value.x + "px",
+      y: position.value.y + "px",
+    });
+  }, 3000);
 });
 
 onBeforeUnmount(() => {

@@ -1,6 +1,33 @@
 <template>
-  <router-view></router-view>
+  <div class="w-full h-full flex flex-col">
+    <Header :search="$route.meta.search"></Header>
+    <div
+      class="flex-1 min-h-0"
+      :class="{ 'px-[125px]': !$route.meta.nopadding }"
+    >
+      <router-view></router-view>
+      <!-- <router-view v-slot="{ Component }">
+        <KeepAlive>
+          <component
+            :is="Component"
+            v-if="$route.meta.keepAlive"
+            :key="$route.path"
+          />
+        </KeepAlive>
+        <component
+          :is="Component"
+          v-if="!$route.meta.keepAlive"
+          :key="$route.path"
+        />
+      </router-view> -->
+    </div>
+    <Footer v-if="$route.meta.footer"></Footer>
+  </div>
 </template>
+
+<script setup>
+const $route = useRoute();
+</script>
 
 <style>
 @import url("@/assets/font/iconfont.css");
@@ -21,6 +48,14 @@ html {
 
 input {
   box-shadow: none !important;
+}
+
+.vue-skeletor {
+  background: rgba(42, 46, 51, 1);
+}
+
+.os-content {
+  height: auto !important;
 }
 
 table th,
