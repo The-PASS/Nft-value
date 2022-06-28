@@ -42,6 +42,10 @@
           <tr
             class="h-11 hover:bg-[#ffffff1a] cursor-pointer"
             v-for="(item, i) in store.dashboard.traitList"
+            :class="{
+              'bg-[#ffffff1a]': store.dashboard.traitHistoryIndex == i,
+            }"
+            @click="selectTraits(i)"
             :key="i"
           >
             <td class="text-left w-[20%]">
@@ -77,6 +81,10 @@
 const store = useStore();
 
 const pid = inject("pid");
+
+const selectTraits = (i) => {
+  store.selectTraits(i);
+};
 
 onMounted(() => {
   store.loadBoardTraitList(pid);

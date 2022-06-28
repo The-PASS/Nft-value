@@ -6,6 +6,7 @@ import {
   getBoardOwnerList,
   getBoardTraitHistory,
 } from "@/api";
+import { number } from "echarts/core";
 
 const versionString =
   import.meta.env.MODE === "development"
@@ -26,7 +27,11 @@ const defaultDashboard = () => ({
   tokenList: [],
   ownerList: [],
   traitList: [],
-  traitHistory: [],
+  traitHistoryIndex: 0,
+  traitHistory: {
+    trades: [],
+    cutData: {},
+  },
 });
 
 export const useStore = defineStore("main", {
@@ -39,6 +44,7 @@ export const useStore = defineStore("main", {
     loading: {
       dashboardInfo: true,
       dashboardWhales: true,
+      dashboardTraitHistory: true,
     },
   }),
 
@@ -81,10 +87,21 @@ export const useStore = defineStore("main", {
     async loadBoardTraitList(id: any, tokenId: any) {
       const traits = await getTokenRanks(id, tokenId);
       this.dashboard.traitList = traits;
+      this.loadBoardTraitHistory(id, traits[0].traitType, traits[0].value);
     },
     async loadBoardTraitHistory(pid: any, traitType: any, value: any) {
+      this.loading.dashboardTraitHistory = true;
       const x = await getBoardTraitHistory(pid, traitType, value);
       this.dashboard.traitHistory = x;
+      this.loading.dashboardTraitHistory = false;
+    },
+    selectTraits(i: number) {
+      this.dashboard.traitHistoryIndex = i;
+      this.loadBoardTraitHistory(
+        this.dashboard.id,
+        this.dashboard.traitList[i].traitType,
+        this.dashboard.traitList[i].value
+      );
     },
     resetDashboard() {
       this.dashboard = defaultDashboard();
