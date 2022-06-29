@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { passHttp } from "./request";
 
 export const searchProject = async (key: string, cancel = false) => {
@@ -100,20 +101,26 @@ export const getBoardTraitHistory = (pid: any, traitType: any, value: any) =>
     },
   });
 
-// export const getProjectDetails = async (id: string | number) => {
-//   const baseInfo = await getProjectInfoById(id);
-//   const tokenList =
-//     ((await getTokenListByCid(baseInfo.bprojectContractId)) || {}).records ||
-//     [];
-//   const holderList: any[] = [];
-//   const ranks = await getTokenRanks(baseInfo.bprojectContractId, id);
+export const getBoardTradeHistory = async (pid: number | string, size = 30) => {
+  const res = await passHttp.get(`/nftvalue/project/bottom/chart/${pid}`, {
+    params: {
+      size,
+    },
+  });
 
-//   const owers = holderList.reduce((a: any, b: any) => {
-//     return a + b.numberOwned;
-//   }, 0);
-//   baseInfo.holderNumber = owers;
-//   baseInfo.holders = holderList;
-//   baseInfo.ranks = ranks;
-//   baseInfo.tokenList = tokenList;
-//   return baseInfo;
-// };
+  res.maxPriceRate = (res.maxPriceRate * 100).toFixed(2);
+  res.medianRate = (res.medianRate * 100).toFixed(2);
+  res.minPriceRate = (res.minPriceRate * 100).toFixed(2);
+  res.volumeRate = (res.volumeRate * 100).toFixed(2);
+
+  res.datas.forEach((x: any) => {
+    if (x.ctime == 1644796800000) {
+      console.log(x.id);
+    }
+    x.ctime = dayjs(x.ctime).format("YYYY-MM-DD HH:mm:ss");
+  });
+
+  res.datas.shift();
+
+  return res;
+};

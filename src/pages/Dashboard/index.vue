@@ -96,16 +96,7 @@
       class="mt-8 rounded w-full p-6"
       style="background: #1e1f21; height: 720px"
     >
-      <div>
-        <div class="flex justify-between">
-          <div class="text-xl font-bold mb-4">Item trade history</div>
-          <div>年月日</div>
-        </div>
-        图表
-      </div>
-      <div>
-        <div class="text-xl font-bold mb-4">Volume</div>
-      </div>
+      <dashboard-trade-history></dashboard-trade-history>
     </div>
   </div>
 </template>

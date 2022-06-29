@@ -8,6 +8,7 @@ declare module '@vue/runtime-core' {
     Button: typeof import('./src/components/Button.vue')['default']
     DashboardCoreTraitsRank: typeof import('./src/components/Dashboard/CoreTraitsRank.vue')['default']
     DashboardItems: typeof import('./src/components/Dashboard/Items.vue')['default']
+    DashboardTradeHistory: typeof import('./src/components/Dashboard/TradeHistory.vue')['default']
     DashboardTraitsHistory: typeof import('./src/components/Dashboard/TraitsHistory.vue')['default']
     DashboardWhales: typeof import('./src/components/Dashboard/Whales.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
@@ -21,6 +22,7 @@ declare module '@vue/runtime-core' {
     ThirdLink: typeof import('./src/components/ThirdLink.vue')['default']
     UiImg: typeof import('./src/components/Ui/Img.vue')['default']
     UiScrollbars: typeof import('./src/components/Ui/Scrollbars.vue')['default']
+    UiTabs: typeof import('./src/components/Ui/Tabs.vue')['default']
     UiTippyer: typeof import('./src/components/Ui/Tippyer.vue')['default']
   }
 }

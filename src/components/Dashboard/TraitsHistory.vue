@@ -55,6 +55,7 @@ use([
 //   store.loadBoardTraitHistory(pid, "Clothing", "Kimono with Jacket");
 // });
 
+/* 图表数据的完整性还有待调整 */
 const option = computed(() => {
   // echarts.registerTransform(ecStat.transform.clustering);
   return {
