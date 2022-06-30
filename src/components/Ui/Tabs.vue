@@ -67,7 +67,6 @@ const wrapper = ref(null);
 
 onMounted(() => {
   Array.from(wrapper.value.children).forEach((child, i) => {
-    console.log(child);
     if (i == 0) {
       state.offsetLeft = child.offsetLeft;
       state.height = child.offsetHeight;

@@ -1,6 +1,6 @@
 <template>
   <div class="flex-1 mr-6" style="height: 364px">
-    <ui-scrollbars class="w-full h-full">
+    <ui-scrollbars class="w-full h-full" :onIns="onIns">
       <table class="w-full text-[#5E6873] sticky top-0 bg-wall">
         <colgroup>
           <col style="width: 20%" />
@@ -41,11 +41,13 @@
         <tbody>
           <tr
             class="h-11 hover:bg-[#ffffff1a] cursor-pointer"
-            v-for="(item, i) in store.dashboard.traitList"
+            v-for="(item, i) in results"
             :class="{
-              'bg-[#ffffff1a]': store.dashboard.traitHistoryIndex == i,
+              'bg-[#ffffff1a]':
+                store.dashboard.traitType == item.traitType &&
+                store.dashboard.traitValue == item.value,
             }"
-            @click="selectTraits(i)"
+            @click="store.selectTraits(item.traitType, item.value)"
             :key="i"
           >
             <td class="text-left w-[20%]">
@@ -80,16 +82,40 @@
 </template>
 
 <script setup>
+import { Skeletor } from "vue-skeletor";
+import { formatAddress, copyTx } from "@/utils";
+import { useReqPages } from "@/hooks";
+import { withThrottling } from "@/with";
+import { getTokenRanks } from "@/api";
+
 const store = useStore();
-
 const pid = inject("pid");
+const scrollEl = ref(null);
 
-const selectTraits = (i) => {
-  store.selectTraits(i);
+const {
+  isEnd,
+  loading,
+  current,
+  next,
+  rows,
+  total,
+  results,
+  loadNext,
+  loadRest,
+} = useReqPages((i) => {
+  return getTokenRanks(pid, undefined, i);
+});
+
+useInfiniteScroll(scrollEl, withThrottling(loadNext));
+
+const onIns = (ins) => {
+  scrollEl.value = ins.getElements("viewport");
 };
 
-onMounted(() => {
-  store.loadBoardTraitList(pid);
+onMounted(async () => {
+  await loadRest();
+  results.value[0] &&
+    store.selectTraits(results.value[0].traitType, results.value[0].value);
 });
 </script>
 

@@ -2,15 +2,9 @@
   <div class="flex-1 px-5 py-4" style="background: #1e1f21; height: 364px">
     <div class="text-base font-bold">
       “
-      {{
-        (store.dashboard.traitList[store.dashboard.traitHistoryIndex] || {})
-          .traitType
-      }}
+      {{ store.dashboard.traitType }}
       +
-      {{
-        (store.dashboard.traitList[store.dashboard.traitHistoryIndex] || {})
-          .value
-      }}
+      {{ store.dashboard.traitValue }}
       ” price by history.
     </div>
     <div

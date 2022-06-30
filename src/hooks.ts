@@ -46,12 +46,12 @@ export const useReqPages = (req: any) => {
     loading.value--;
   };
 
-  const loadRest = () => {
+  const loadRest = async () => {
     current.value = 0;
     next.value = 1;
     isEnd.value = false;
     results.value = [];
-    loadNext();
+    await loadNext();
   };
 
   return {

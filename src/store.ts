@@ -28,6 +28,8 @@ const defaultDashboard = () => ({
   ownerList: [],
   traitList: [],
   traitHistoryIndex: 0,
+  traitType: "",
+  traitValue: "",
   traitHistory: {
     trades: [],
     cutData: {},
@@ -95,13 +97,12 @@ export const useStore = defineStore("main", {
       this.dashboard.traitHistory = x;
       this.loading.dashboardTraitHistory = false;
     },
-    selectTraits(i: number) {
-      this.dashboard.traitHistoryIndex = i;
-      this.loadBoardTraitHistory(
-        this.dashboard.id,
-        this.dashboard.traitList[i].traitType,
-        this.dashboard.traitList[i].value
-      );
+    selectTraits(type: string, value: string) {
+      this.dashboard.traitType = type;
+
+      this.dashboard.traitValue = value;
+
+      this.loadBoardTraitHistory(this.dashboard.id, type, value);
     },
     resetDashboard() {
       this.dashboard = defaultDashboard();

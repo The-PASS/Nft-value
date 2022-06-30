@@ -76,11 +76,13 @@ export const getTokenList = async (pid: string | number, page = 1) => {
 
 export const getTokenRanks = (
   pid: string | number,
-  tokenId?: string | number
+  tokenId?: string | number,
+  page = 1
 ) =>
   passHttp.get(`/nftvalue/project/token/info/${pid}`, {
     params: {
       tokenId,
+      page,
     },
   });
 
