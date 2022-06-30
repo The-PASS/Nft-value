@@ -77,6 +77,20 @@
           </tr>
         </tbody>
       </table>
+      <div v-if="loading">
+        <div
+          class="h-11 flex items-center"
+          v-for="(_, i) in Array(8).fill(0)"
+          :key="i"
+        >
+          <Skeletor class="h-8 rounded w-[20%] mr-2"></Skeletor>
+          <Skeletor class="h-8 rounded w-[16%] mr-2"></Skeletor>
+          <Skeletor class="h-8 rounded w-[20%] mr-2"></Skeletor>
+          <Skeletor class="h-8 rounded w-[14%] mr-2"></Skeletor>
+          <Skeletor class="h-8 rounded w-[20%] mr-2"></Skeletor>
+          <Skeletor class="h-8 rounded w-[20%] mr-2"></Skeletor>
+        </div>
+      </div>
     </ui-scrollbars>
   </div>
 </template>
