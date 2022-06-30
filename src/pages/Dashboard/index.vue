@@ -64,7 +64,7 @@
                 }"
                 >{{ item.gains }}%
               </span>
-              （24H）
+              (24H)
             </div>
           </div>
         </div>
@@ -106,7 +106,7 @@
 
 <script setup>
 import { Skeletor } from "vue-skeletor";
-import { formatAddress, copyTx } from "@/utils";
+import { formatAddress, copyTx, localeNumber, suffixNum } from "@/utils";
 
 const route = useRoute();
 const store = useStore();
@@ -114,22 +114,25 @@ const store = useStore();
 provide("pid", route.params.id);
 
 const basicData = computed(() => [
-  { value: store.dashboard.items, name: "Items" },
+  { value: localeNumber(store.dashboard.items, 0), name: "Items" },
   {
-    value: store.dashboard.marketCap + " ETH",
+    value: localeNumber(store.dashboard.marketCap, 2) + " ETH",
     name: "Market cap",
     tip: "Based on estimated price by history.",
   },
-  { value: store.dashboard.owners, name: "Owners" /* gains: "+14.31" */ },
   {
-    value: `${store.dashboard.floorPrice} ETH`,
+    value: localeNumber(store.dashboard.owners, 0),
+    name: "Owners" /* gains: "+14.31" */,
+  },
+  {
+    value: `${localeNumber(store.dashboard.floorPrice, 2)} ETH`,
     name: "Floor Price",
     // gains: "-14.31",
   },
   {
-    value: `${store.dashboard.volume.toFixed(2)} ETH`,
+    value: `${localeNumber(store.dashboard.volume, 2)} ETH`,
     name: "Volume",
-    gains: (store.dashboard.volumeRate * 100).toFixed(2),
+    gains: suffixNum((store.dashboard.volumeRate * 100).toFixed(2)),
   },
 ]);
 

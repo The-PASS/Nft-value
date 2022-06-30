@@ -60,7 +60,12 @@
                     <div class="text-[#26AAFF]">{{ item.projectName }}</div>
                   </div>
                 </td>
-                <td class="text-left" style="width: 14%">${{ item.volume }}</td>
+                <td class="text-left" style="width: 14%">
+                  <div class="flex items-center">
+                    {{ item.volume }}
+                    <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
+                  </div>
+                </td>
                 <td
                   class="text-right"
                   :class="{
@@ -69,16 +74,22 @@
                   }"
                   style="width: 14%"
                 >
-                  {{ item.volumeRate }}%
+                  {{ suffixNum(localeNumber(item.volumeRate, 2)) }}%
                 </td>
                 <td style="width: 20%">
                   <div class="flex items-center justify-end">
-                    {{ item.floorPrice }}&nbsp;
-                    <iconfont-icon name="icon-ETH"></iconfont-icon>
+                    {{ localeNumber(item.floorPrice, 2) }}&nbsp;
+                    <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
                   </div>
                 </td>
-                <td class="text-right" style="width: 20%">
-                  ${{ item.marketCap }}
+                <td style="width: 20%">
+                  <div class="flex items-center justify-end">
+                    {{ localeNumber(item.marketCap, 2)
+                    }}<iconfont-icon
+                      name="icon-ETH"
+                      class="ml-1"
+                    ></iconfont-icon>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -91,6 +102,7 @@
 
 <script setup>
 import { getVaultList } from "@/api";
+import { suffixNum, localeNumber } from "@/utils";
 
 const tabs = [
   {
