@@ -54,7 +54,13 @@ const option = computed(() => {
   // echarts.registerTransform(ecStat.transform.clustering);
   return {
     xAxis: {
-      show: false,
+      // show: false,
+      splitLine: {
+        show: false,
+      },
+      axisLabel: {
+        formatter: (value) => dayjs(value).format("YYYY MMM DD"),
+      },
       min: store.dashboard.traitHistory.trades[
         store.dashboard.traitHistory.trades.length - 1
       ].tradeTime,
@@ -104,6 +110,8 @@ const option = computed(() => {
         ]),
         symbolSize: 8,
         markLine: {
+          silent: true,
+          symbol: "none",
           label: {
             color: "#fff",
             position: "start",
@@ -114,23 +122,10 @@ const option = computed(() => {
             color: "#fff",
           },
           data: [
-            [
-              {
-                coord: [store.dashboard.traitHistory.cutData.cutPoint, 0],
-                symbol: "none",
-              },
-              {
-                coord: [
-                  store.dashboard.traitHistory.cutData.cutPoint,
-                  max(
-                    store.dashboard.traitHistory.trades.map(
-                      (x) => x.historyPrice
-                    )
-                  ),
-                ],
-                symbol: "none",
-              },
-            ],
+            {
+              name: "Cut Time",
+              xAxis: store.dashboard.traitHistory.cutData.cutPoint,
+            },
           ],
         },
       },
