@@ -1,6 +1,6 @@
 <template>
   <div class="flex-1 flex flex-col">
-    <div class="text-xl font-bold mb-4">Whales</div>
+    <div class="text-xl font-bold mb-4">WHALES</div>
     <div
       class="flex-1 min-h-0 flex flex-col px-8 pt-6 pb-4 bg-[#1e1f21] rounded-lg"
     >

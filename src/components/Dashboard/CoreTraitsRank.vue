@@ -52,9 +52,11 @@
               {{ item.traitType }}
             </td>
             <td class="text-left w-[16%]">
-              <div class="line-clamp-1">
-                {{ item.value }}
-              </div>
+              <ui-tippyer :content="item.value">
+                <div class="line-clamp-1">
+                  {{ item.value }}
+                </div>
+              </ui-tippyer>
             </td>
             <td class="w-[w-[20%]]x">{{ item.rarity }}</td>
             <td class="w-[14%]">{{ item.rank }}</td>

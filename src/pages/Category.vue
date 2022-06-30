@@ -30,7 +30,7 @@
             <thead>
               <th class="text-left" style="width: 32%">Collection</th>
               <th class="text-left" style="width: 14%">Volume(24H)</th>
-              <th class="text-right" style="width: 14%">Volume(24H)</th>
+              <th class="text-right" style="width: 14%">▲ Volume(24H)</th>
               <th class="text-right" style="width: 20%">Floor Price</th>
               <th class="text-right" style="width: 20%">Market Cap</th>
             </thead>

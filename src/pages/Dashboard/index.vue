@@ -45,7 +45,9 @@
         >
           <div class="text-xl font-bold">{{ item.value }}</div>
           <div class="text-sm m-2 relative flex items-center">
-            {{ item.name }}
+            <span class="mr-2">
+              {{ item.name }}
+            </span>
             <tippy
               v-if="item.tip"
               :content="item.tip"
@@ -53,15 +55,16 @@
               placement="bottom"
               ><i class="iconfont icon-tishi cursor-pointer ml-2"></i
             ></tippy>
-            <div
-              class="font-bold absolute -right-2 top-0 transform translate-x-full"
-              :class="{
-                'text-green': +item.gains > 0,
-                'text-red': +item.gains < 0,
-              }"
-              v-if="item.gains"
-            >
-              {{ item.gains }}%
+            <div v-if="item.gains">
+              <span
+                class="font-bold"
+                :class="{
+                  'text-green': +item.gains > 0,
+                  'text-red': +item.gains < 0,
+                }"
+                >{{ item.gains }}%
+              </span>
+              （24H）
             </div>
           </div>
         </div>
@@ -84,7 +87,7 @@
 
     <!-- section 4 -->
     <div class="mt-8">
-      <div class="text-xl font-bold mb-4">Core traits Rank</div>
+      <div class="text-xl font-bold mb-4">CORE TRAITS RANK</div>
       <div class="flex">
         <dashboard-core-traits-rank></dashboard-core-traits-rank>
         <dashboard-traits-history></dashboard-traits-history>
@@ -114,7 +117,7 @@ const basicData = computed(() => [
   { value: store.dashboard.items, name: "Items" },
   {
     value: store.dashboard.marketCap + " ETH",
-    name: "Evaluation",
+    name: "Market cap",
     tip: "Based on estimated price by history.",
   },
   { value: store.dashboard.owners, name: "Owners" /* gains: "+14.31" */ },
