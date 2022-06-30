@@ -25,3 +25,22 @@ export const suffixNum = (num) => {
   const flag = +num > 0 ? "+" : "";
   return flag + num;
 };
+
+export const toExploreAddress = (
+  address: string,
+  network: string,
+  type = "address"
+) => {
+  window.open(
+    `${
+      (
+        {
+          Ethereum: "https://etherscan.io",
+          Polygon: "https://polygonscan.com",
+          Ronin: "https://explorer.roninchain.com",
+        } as any
+      )[network]
+    }/${type}/${address}`,
+    "_blank"
+  );
+};

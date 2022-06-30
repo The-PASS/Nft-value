@@ -18,7 +18,7 @@
           >
             <div
               class="text-[#26AAFF] hover: underline cursor-pointer line-clamp-1 w-40 break-words"
-              @click="copyTx(item.address)"
+              @click="toExploreAddress(item.address, 'Ethereum')"
             >
               {{ item.address }}
             </div>
@@ -42,7 +42,7 @@
 
 <script setup>
 import { Skeletor } from "vue-skeletor";
-import { formatAddress, copyTx } from "@/utils";
+import { formatAddress, toExploreAddress } from "@/utils";
 import { useReqPages } from "@/hooks";
 import { withThrottling } from "@/with";
 import { getBoardOwnerList } from "@/api";
