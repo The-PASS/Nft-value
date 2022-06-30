@@ -101,7 +101,10 @@ export const getBoardTraitHistory = (pid: any, traitType: any, value: any) =>
     },
   });
 
-export const getBoardTradeHistory = async (pid: number | string, size = 30) => {
+export const getBoardTradeHistory = async (
+  pid: number | string,
+  size = 365
+) => {
   const res = await passHttp.get(`/nftvalue/project/bottom/chart/${pid}`, {
     params: {
       size,
@@ -117,7 +120,7 @@ export const getBoardTradeHistory = async (pid: number | string, size = 30) => {
     if (x.ctime == 1644796800000) {
       console.log(x.id);
     }
-    x.ctime = dayjs(x.ctime).format("YYYY-MM-DD HH:mm:ss");
+    x.ctime = dayjs(x.ctime).format("YYYY MMM DD");
   });
 
   res.datas.shift();

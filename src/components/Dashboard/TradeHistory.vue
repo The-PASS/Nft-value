@@ -123,20 +123,36 @@ use([
   MarkLineComponent,
 ]);
 
-const lineOptions = computed(() => {
-  const labels = state.info.datas.map((x) => x.ctime);
+const periodMap = [7, 30, 90, 365];
 
-  console.log(labels);
+const lineOptions = computed(() => {
+  console.log(state.mode);
+
+  const data = periodMap[state.mode]
+    ? state.info.datas.slice(0, periodMap[state.mode])
+    : state.info.datas;
+
+  let labels = data.map((x) => x.ctime);
 
   return {
+    color: ["#F72585FF", "#9317B5FF", "#3F37C9FF"],
     tooltip: {
       trigger: "axis",
       axisPointer: {
         type: "cross",
       },
+      borderColor: "#FFFFFF66",
+      backgroundColor: "#1e1f21",
+      textStyle: {
+        color: "#fff",
+      },
+      valueFormatter: (value) => value.toFixed(2) + " ETH",
     },
     yAxis: [
       {
+        splitLine: {
+          show: false,
+        },
         type: "value",
       },
     ],
@@ -145,39 +161,68 @@ const lineOptions = computed(() => {
       {
         name: "Max",
         type: "line",
-        data: state.info.datas.map((x) => x.maxPrice),
+        data: data.map((x) => x.maxPrice),
+        smooth: true,
+        areaStyle: {
+          opacity: 0.2,
+        },
       },
       {
         name: "Medium",
         type: "line",
-        data: state.info.datas.map((x) => x.median),
+        data: data.map((x) => x.median),
+        smooth: true,
+        areaStyle: {
+          opacity: 0.2,
+        },
       },
       {
         name: "Min",
         type: "line",
-        data: state.info.datas.map((x) => x.minPrice),
+        data: data.map((x) => x.minPrice),
+        smooth: true,
+        areaStyle: {
+          opacity: 0.2,
+        },
       },
     ],
   };
 });
 const barOptions = computed(() => {
-  const labels = state.info.datas.map((x) => x.ctime);
+  const data = periodMap[state.mode]
+    ? state.info.datas.slice(0, periodMap[state.mode])
+    : state.info.datas;
+
+  const labels = data.map((x) => x.ctime);
   return {
+    color: ["#F72585FF"],
     yAxis: [
       {
+        splitLine: {
+          show: false,
+        },
         type: "value",
       },
     ],
     xAxis: [{ data: labels }],
+    tooltip: {
+      trigger: "axis",
+      borderColor: "#FFFFFF66",
+      backgroundColor: "#1e1f21",
+      textStyle: {
+        color: "#fff",
+      },
+      valueFormatter: (value) => value.toFixed(2) + " ETH",
+    },
     series: {
       type: "bar",
-      data: state.info.datas.map((x) => x.volume),
+      data: data.map((x) => x.volume),
     },
   };
 });
 
 onMounted(async () => {
-  const res = await getBoardTradeHistory(pid, 365);
+  const res = await getBoardTradeHistory(pid);
   state.info = res;
 });
 </script>
