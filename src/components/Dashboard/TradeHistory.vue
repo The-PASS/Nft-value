@@ -129,7 +129,7 @@ const lineOptions = computed(() => {
   console.log(state.mode);
 
   const data = periodMap[state.mode]
-    ? state.info.datas.slice(0, periodMap[state.mode])
+    ? state.info.datas.slice(state.info.datas.length - periodMap[state.mode])
     : state.info.datas;
 
   let labels = data.map((x) => x.ctime);
@@ -190,7 +190,7 @@ const lineOptions = computed(() => {
 });
 const barOptions = computed(() => {
   const data = periodMap[state.mode]
-    ? state.info.datas.slice(0, periodMap[state.mode])
+    ? state.info.datas.slice(state.info.datas.length - periodMap[state.mode])
     : state.info.datas;
 
   const labels = data.map((x) => x.ctime);
