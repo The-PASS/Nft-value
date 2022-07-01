@@ -39,6 +39,7 @@
           :class="{
             'basic-data-box__red': +item.gains < 0,
             'basic-data-box__green': +item.gains > 0,
+            'basic-data-box__zero': +item.gains == 0,
           }"
           v-for="(item, i) in basicData"
           :key="i"
@@ -61,6 +62,7 @@
                 :class="{
                   'text-green': +item.gains > 0,
                   'text-red': +item.gains < 0,
+                  'text-zero': +item.gains == 0,
                 }"
                 >{{ item.gains }}%
               </span>
@@ -122,12 +124,13 @@ const basicData = computed(() => [
   },
   {
     value: localeNumber(store.dashboard.owners, 0),
-    name: "Owners" /* gains: "+14.31" */,
+    name: "Owners",
+    gains: suffixNum((store.dashboard.floorPriceRate * 100).toFixed(2)),
   },
   {
     value: `${localeNumber(store.dashboard.floorPrice, 2)} ETH`,
     name: "Floor Price",
-    // gains: "-14.31",
+    gains: suffixNum((store.dashboard.ownersRate * 100).toFixed(2)),
   },
   {
     value: `${localeNumber(store.dashboard.totalVolume, 2)} ETH`,
@@ -162,10 +165,16 @@ watch(() => JSON.stringify(route.params), loadData);
   background: rgba(255, 255, 255, 0.05);
   box-shadow: inset 0px 0px 16px 0px rgba(94, 255, 106, 0.3);
 }
+.basic-data-box__zero {
+  box-shadow: inset 0px 0px 16px 0px rgba(255, 255, 255, 0.3);
+}
 .text-green {
   color: rgba(94, 255, 106, 1);
 }
 .text-red {
   color: rgba(255, 81, 102, 1);
+}
+.text-zero {
+  color: rgba(255, 255, 255, 0.6);
 }
 </style>
