@@ -59,7 +59,7 @@ const option = computed(() => {
         show: false,
       },
       axisLabel: {
-        formatter: (value) => dayjs(value).format("YYYY MMM DD"),
+        formatter: (value) => dayjs(value).format("MMM DD"),
       },
       min: store.dashboard.traitHistory.trades[
         store.dashboard.traitHistory.trades.length - 1
@@ -114,7 +114,7 @@ const option = computed(() => {
           symbol: "none",
           label: {
             color: "#fff",
-            position: "start",
+            position: "end",
             formatter: "Cut Time",
           },
           lineStyle: {
