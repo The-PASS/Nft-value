@@ -34,6 +34,7 @@ const defaultDashboard = () => ({
     trades: [],
     cutData: {},
   },
+  tokenId: "",
 });
 
 export const useStore = defineStore("main", {
@@ -103,6 +104,13 @@ export const useStore = defineStore("main", {
       this.dashboard.traitValue = value;
 
       this.loadBoardTraitHistory(this.dashboard.id, type, value);
+    },
+    selectToken(tokenId: string) {
+      if (this.dashboard.tokenId == tokenId) {
+        this.dashboard.tokenId = "";
+        return;
+      }
+      this.dashboard.tokenId = tokenId;
     },
     resetDashboard() {
       this.dashboard = defaultDashboard();

@@ -11,7 +11,12 @@
           <div
             v-for="(item, i) in results"
             :key="i"
-            class="w-44 p-2 bg-[#FFFFFF0D] rounded overflow-hidden relative cursor-pointer transition-all border-[1px] border-transparent hover:border-white"
+            class="w-44 p-2 bg-[#FFFFFF0D] rounded overflow-hidden relative cursor-pointer transition-all border-[1px] hover:border-white"
+            :class="{
+              'border-white': store.dashboard.tokenId == item.tokenId,
+              'border-transparent': store.dashboard.tokenId != item.tokenId,
+            }"
+            @click="store.selectToken(item.tokenId)"
           >
             <div
               class="absolute left-2 top-2 p-2 space-y-1 w-40 token-list__idfloat"

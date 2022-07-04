@@ -117,7 +117,7 @@ const {
   loadNext,
   loadRest,
 } = useReqPages((i) => {
-  return getTokenRanks(pid, undefined, i);
+  return getTokenRanks(pid, store.dashboard.tokenId, i);
 });
 
 useInfiniteScroll(scrollEl, withThrottling(loadNext));
@@ -126,10 +126,17 @@ const onIns = (ins) => {
   scrollEl.value = ins.getElements("viewport");
 };
 
-onMounted(async () => {
+const loadData = async () => {
+  store.loading.dashboardTraitHistory = true;
   await loadRest();
   results.value[0] &&
     store.selectTraits(results.value[0].traitType, results.value[0].value);
+};
+
+watch(() => store.dashboard.tokenId, loadData);
+
+onMounted(() => {
+  loadData();
 });
 </script>
 
