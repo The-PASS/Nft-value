@@ -56,7 +56,7 @@
             <td class="text-left w-[16%]">
               <ui-tippyer :content="item.value">
                 <div class="line-clamp-1">
-                  {{ item.value }}
+                  {{ item.value == undefined ? "--" : item.value }}
                 </div>
               </ui-tippyer>
             </td>
@@ -71,7 +71,7 @@
             <td class="w-[20%]">
               <div class="flex items-center">
                 <iconfont-icon name="icon-ETH" class="mr-2"></iconfont-icon>
-                {{ item.floor }}
+                {{ item.floor == undefined ? "—" : item.floor }}
               </div>
             </td>
           </tr>
