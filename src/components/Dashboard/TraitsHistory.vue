@@ -53,6 +53,10 @@ use([
 const option = computed(() => {
   // echarts.registerTransform(ecStat.transform.clustering);
   return {
+    grid: {
+      left: "40",
+      right: "20",
+    },
     xAxis: {
       // show: false,
       splitLine: {
@@ -67,7 +71,13 @@ const option = computed(() => {
       max: store.dashboard.traitHistory.trades[0].tradeTime,
     },
     yAxis: {
-      show: false,
+      splitLine: {
+        show: false,
+      },
+      axisLine: {
+        show: false,
+      },
+      // show: false,
     },
     tooltip: {
       axisPointer: {
