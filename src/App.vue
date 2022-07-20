@@ -5,7 +5,7 @@
       class="flex-1 min-h-0"
       :class="{ 'px-[125px]': !$route.meta.nopadding }"
     >
-      <router-view></router-view>
+      <router-view :key="$route.path"></router-view>
       <!-- <router-view v-slot="{ Component }">
         <KeepAlive>
           <component
