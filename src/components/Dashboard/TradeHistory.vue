@@ -146,7 +146,7 @@ const lineOptions = computed(() => {
       textStyle: {
         color: "#fff",
       },
-      valueFormatter: (value) => value.toFixed(2) + " ETH",
+      valueFormatter: (value) => value.toFixed(4) + " ETH",
     },
     yAxis: [
       {
@@ -212,7 +212,7 @@ const barOptions = computed(() => {
       textStyle: {
         color: "#fff",
       },
-      valueFormatter: (value) => value.toFixed(2) + " ETH",
+      valueFormatter: (value) => value.toFixed(4) + " ETH",
     },
     series: {
       type: "bar",

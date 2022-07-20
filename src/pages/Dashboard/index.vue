@@ -134,7 +134,7 @@ const basicData = computed(() => [
   },
   {
     value: `${localeNumber(store.dashboard.totalVolume, 2)} ETH`,
-    name: "Volume",
+    name: "Total Volume",
     gains: suffixNum((store.dashboard.volumeRate * 100).toFixed(2)),
   },
 ]);

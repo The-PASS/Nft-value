@@ -118,6 +118,11 @@ export const getBoardTradeHistory = async (
   res.minPriceRate = (res.minPriceRate * 100).toFixed(2);
   res.volumeRate = (res.volumeRate * 100).toFixed(2);
 
+  res.maxPrice = +res.maxPrice.toFixed(4);
+  res.minPrice = +res.minPrice.toFixed(4);
+  res.volume = +res.volume.toFixed(4);
+  res.median = +res.median.toFixed(4);
+
   res.datas.forEach((x: any) => {
     if (x.ctime == 1644796800000) {
       console.log(x.id);
