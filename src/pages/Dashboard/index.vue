@@ -21,9 +21,27 @@
         />
         <div class="mt-4 w-2/3">
           <p class="font-bold text-xl">{{ store.dashboard.projectName }}</p>
-          <p class="text-xs">
+          <p
+            class="text-xs"
+            :class="{
+              'line-clamp-2': !state.more,
+            }"
+          >
             {{ store.dashboard.des }}
           </p>
+          <div
+            class="mt-2 flex items-center cursor-pointer"
+            @click="state.more = !state.more"
+          >
+            See {{ state.more ? "less" : "more" }}
+            <i
+              class="iconfont text-sm ml-2"
+              :class="{
+                'icon-shang1': state.more,
+                'icon-xia1': !state.more,
+              }"
+            ></i>
+          </div>
         </div>
       </div>
 
@@ -112,6 +130,10 @@ import { formatAddress, copyTx, localeNumber, suffixNum } from "@/utils";
 
 const route = useRoute();
 const store = useStore();
+
+const state = reactive({
+  more: false,
+});
 
 provide("pid", route.params.id);
 
