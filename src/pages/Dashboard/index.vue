@@ -2,9 +2,11 @@
   <!-- <div v-if="state.loading" class="h-full flex items-center justify-center">
     <img class="w-16 h-16" src="@/assets/svgs/spin.svg" alt="" />
   </div> -->
-  <div class="text-whitebase mt-16 text-xs pb-8 max-w-[1200px] mx-auto">
+  <div
+    class="text-whitebase mt-16 text-xs pb-8 max-w-[1200px] min-w-[1200px] mx-auto"
+  >
     <!-- section 1 -->
-    <div class="flex justify-between w-full">
+    <div class="flex justify-between w-full items-start">
       <div v-if="store.loading.dashboardInfo" class="flex w-full">
         <Skeletor class="w-20 h-20 mr-6"></Skeletor>
         <div class="mt-4 w-2/3 space-y-1">
@@ -30,6 +32,7 @@
             {{ store.dashboard.des }}
           </p>
           <div
+            v-if="store.dashboard.des && store.dashboard.des.length > 200"
             class="mt-2 flex items-center cursor-pointer"
             @click="state.more = !state.more"
           >
@@ -45,7 +48,89 @@
         </div>
       </div>
 
-      <div></div>
+      <div class="flex">
+        <a
+          class="block flex-shrink-0"
+          :href="`https://etherscan.io/token/${store.dashboard.contractAdd}`"
+          v-if="
+            store.dashboard.chain == 'ETHEREUM' && store.dashboard.contractAdd
+          "
+          target="_blank"
+        >
+          <div class="p-2 flex-shrink-0 hover:bg-[#FFFFFF1A] rounded">
+            <img
+              class="w-5 h-5 cursor-pointer"
+              src="@/assets/images/etherscan.png"
+              alt=""
+            />
+          </div>
+        </a>
+
+        <a
+          class="block flex-shrink-0"
+          :href="`https://polygonscan.com/token/${store.dashboard.contractAdd}`"
+          v-if="
+            store.dashboard.chain == 'POLYGON' &&
+            store.dashboard.officialWebsite
+          "
+          target="_blank"
+        >
+          <div class="p-2 flex-shrink-0 hover:bg-[#FFFFFF1A] rounded">
+            <img
+              class="w-5 h-5 cursor-pointer"
+              src="@/assets/images/polygon.png"
+              alt=""
+            />
+          </div>
+        </a>
+
+        <a
+          class="block flex-shrink-0"
+          :href="`https://explorer.roninchain.com/token/${store.dashboard.contractAdd}`"
+          v-if="
+            store.dashboard.chain == 'RONIN' && store.dashboard.officialWebsite
+          "
+          target="_blank"
+        >
+          <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
+            <img
+              class="w-5 h-5 cursor-pointer"
+              src="@/assets/images/ronin.png"
+              alt=""
+            />
+          </div>
+        </a>
+
+        <a
+          class="block flex-shrink-0"
+          :href="store.dashboard.officialWebsite"
+          v-if="store.dashboard.officialWebsite"
+          target="_blank"
+        >
+          <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
+            <img
+              class="w-5 h-5 cursor-pointer"
+              src="@/assets/images/website.png"
+              alt=""
+            />
+          </div>
+        </a>
+
+        <a
+          class="block flex-shrink-0"
+          :href="`https://twitter.com/${store.dashboard.twitterName}`"
+          target="_blank"
+          v-if="store.dashboard.twitterName"
+        >
+          <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
+            <img
+              class="w-5 h-5 cursor-pointer"
+              src="@/assets/images/twitter.png"
+              alt=""
+            />
+          </div>
+        </a>
+      </div>
     </div>
 
     <!-- section 2 -->
