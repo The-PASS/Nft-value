@@ -2,7 +2,7 @@
   <!-- <div v-if="state.loading" class="h-full flex items-center justify-center">
     <img class="w-16 h-16" src="@/assets/svgs/spin.svg" alt="" />
   </div> -->
-  <div class="text-whitebase mt-16 text-xs pb-8">
+  <div class="text-whitebase mt-16 text-xs pb-8 max-w-[1200px] mx-auto">
     <!-- section 1 -->
     <div class="flex justify-between w-full">
       <div v-if="store.loading.dashboardInfo" class="flex w-full">
