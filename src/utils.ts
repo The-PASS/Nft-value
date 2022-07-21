@@ -13,7 +13,7 @@ export const localeNumber = (xnum: number, bit = 0, zero = true) => {
   const floatNum = num - intNum;
 
   return (
-    (xnum > 0 ? "" : "-") +
+    (xnum < 0 ? "-" : "") +
     (intNum.toLocaleString() +
       (bit == 0
         ? ""

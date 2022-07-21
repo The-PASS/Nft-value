@@ -18,17 +18,17 @@
             {
               text: 'Max',
               value: state.info.maxPrice,
-              rate: state.info.maxPriceRate,
+              rate: suffixNum(state.info.maxPriceRate),
             },
             {
               text: 'Medium',
               value: state.info.median,
-              rate: state.info.medianRate,
+              rate: suffixNum(state.info.medianRate),
             },
             {
               text: 'Min',
               value: state.info.minPrice,
-              rate: state.info.minPriceRate,
+              rate: suffixNum(state.info.minPriceRate),
             },
           ]"
           :key="i"
@@ -43,6 +43,9 @@
               }"
             ></div>
             {{ item.text }}
+            <span class="text-base font-normal text-[#5E6873FF]">
+              &nbsp;( today )
+            </span>
           </div>
           <div class="break-all">
             {{ item.value }} ETH
@@ -64,17 +67,20 @@
   </div>
   <div class="flex mt-10">
     <div class="text-xl font-bold mb-4 w-60 pr-8">
-      <div>Volume</div>
+      <div>
+        Volume
+        <span class="text-base font-normal text-[#5E6873FF]">( today )</span>
+      </div>
       <div class="ml-4 mt-8">
         {{ state.info.volume }} ETH
-        <span
+        <!-- <span
           class="font-normal"
           :class="{
             'text-[#5EFF6A]': state.info.volumeRate > 0,
             'text-[#FF5166]': state.info.volumeRate < 0,
           }"
           >{{ state.info.volumeRate }}%</span
-        >
+        > -->
       </div>
     </div>
     <div class="rounded bg-[#121416FF] flex-1" style="height: 284px">
@@ -95,6 +101,7 @@ import {
   MarkLineComponent,
 } from "echarts/components";
 import VChart from "vue-echarts";
+import { suffixNum } from "@/utils";
 
 const pid = inject("pid");
 
