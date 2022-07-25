@@ -109,7 +109,7 @@ const tabs = [
     key: "Collectables",
     value: "COLLECTABLES",
   },
-  { key: "Art", value: "ART" },
+  { key: "Art", value: "ART", disabled: true },
   { key: "Game Assets", value: "", disabled: true },
 ];
 
