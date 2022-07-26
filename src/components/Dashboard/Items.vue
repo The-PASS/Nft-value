@@ -19,9 +19,20 @@
             @click="store.selectToken(item.tokenId)"
           >
             <div
-              class="absolute left-2 top-2 p-2 space-y-1 w-40 token-list__idfloat"
+              class="absolute left-2 top-2 p-2 w-40 token-list__idfloat flex"
             >
-              ID:{{ item.tokenId }}
+              <div>ID:&nbsp;</div>
+
+              <div
+                v-if="item.tokenId.length > 10"
+                class="self-start text-[8px] mt-1"
+                style="word-break: break-word; line-height: 1.2"
+              >
+                {{ item.tokenId }}
+              </div>
+              <div v-else>
+                {{ item.tokenId }}
+              </div>
             </div>
 
             <ui-img
