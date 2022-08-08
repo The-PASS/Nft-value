@@ -53,9 +53,12 @@
             <td class="text-left w-[20%]">
               {{ item.traitType }}
             </td>
-            <td class="text-left w-[16%]">
+            <td class="text-left w-[72px]">
               <ui-tippyer :content="item.value">
-                <div class="line-clamp-1">
+                <div
+                  class="line-clamp-1 text-ellipsis w-[72px] whitespace-nowrap"
+                  style="display: block"
+                >
                   {{ item.value == undefined ? "--" : item.value }}
                 </div>
               </ui-tippyer>

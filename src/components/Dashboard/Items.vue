@@ -47,7 +47,7 @@
               </div>
               <div class="flex justify-between">
                 <div class="text-[#5E6873FF]">floor:</div>
-                <div>{{ item.floor }} ETH</div>
+                <div>{{ +item.floor ? item.floor : "--" }} ETH</div>
               </div>
             </div>
           </div>

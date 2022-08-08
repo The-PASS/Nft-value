@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <div class="flex" v-else>
+      <div class="flex" style="width: fit-content" v-else>
         <ui-img
           class="w-20 h-20 rounded-full overflow-hidden bg-white mr-6 flex-shrink-0"
           :src="store.dashboard.logo"
@@ -23,6 +23,10 @@
         />
         <div class="mt-4 w-2/3">
           <p class="font-bold text-xl">{{ store.dashboard.projectName }}</p>
+          <p class="text-[#5E6873FF] mb-2">
+            Created Time:
+            {{ dayjs(store.dashboard.createdDate).format("YYYY/MM/DD") }}
+          </p>
           <p
             class="text-xs"
             :class="{
@@ -49,93 +53,104 @@
       </div>
 
       <div class="flex">
-        <a
-          class="block flex-shrink-0"
-          :href="`https://etherscan.io/token/${store.dashboard.contractAdd}`"
-          v-if="
-            store.dashboard.chain == 'ETHEREUM' && store.dashboard.contractAdd
-          "
-          target="_blank"
-        >
-          <div class="p-2 flex-shrink-0 hover:bg-[#FFFFFF1A] rounded">
-            <img
-              class="w-5 h-5 cursor-pointer"
-              src="@/assets/images/etherscan.png"
-              alt=""
-            />
-          </div>
-        </a>
+        <ui-tippyer content="ETHEREUM" class="flex-shrink-0">
+          <a
+            class="block flex-shrink-0"
+            :href="`https://etherscan.io/token/${store.dashboard.contractAdd}`"
+            v-if="
+              store.dashboard.chain == 'ETHEREUM' && store.dashboard.contractAdd
+            "
+            target="_blank"
+          >
+            <div class="p-2 flex-shrink-0 hover:bg-[#FFFFFF1A] rounded">
+              <img
+                class="w-5 h-5 cursor-pointer"
+                src="@/assets/images/etherscan.png"
+                alt=""
+              />
+            </div>
+          </a>
+        </ui-tippyer>
 
-        <a
-          class="block flex-shrink-0"
-          :href="`https://polygonscan.com/token/${store.dashboard.contractAdd}`"
-          v-if="
-            store.dashboard.chain == 'POLYGON' &&
-            store.dashboard.officialWebsite
-          "
-          target="_blank"
-        >
-          <div class="p-2 flex-shrink-0 hover:bg-[#FFFFFF1A] rounded">
-            <img
-              class="w-5 h-5 cursor-pointer"
-              src="@/assets/images/polygon.png"
-              alt=""
-            />
-          </div>
-        </a>
+        <ui-tippyer content="POLYGON" class="flex-shrink-0">
+          <a
+            class="block flex-shrink-0"
+            :href="`https://polygonscan.com/token/${store.dashboard.contractAdd}`"
+            v-if="
+              store.dashboard.chain == 'POLYGON' &&
+              store.dashboard.officialWebsite
+            "
+            target="_blank"
+          >
+            <div class="p-2 flex-shrink-0 hover:bg-[#FFFFFF1A] rounded">
+              <img
+                class="w-5 h-5 cursor-pointer"
+                src="@/assets/images/polygon.png"
+                alt=""
+              />
+            </div>
+          </a>
+        </ui-tippyer>
 
-        <a
-          class="block flex-shrink-0"
-          :href="`https://explorer.roninchain.com/token/${store.dashboard.contractAdd}`"
-          v-if="
-            store.dashboard.chain == 'RONIN' && store.dashboard.officialWebsite
-          "
-          target="_blank"
-        >
-          <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
-            <img
-              class="w-5 h-5 cursor-pointer"
-              src="@/assets/images/ronin.png"
-              alt=""
-            />
-          </div>
-        </a>
+        <ui-tippyer content="RONIN" class="flex-shrink-0">
+          <a
+            class="block flex-shrink-0"
+            :href="`https://explorer.roninchain.com/token/${store.dashboard.contractAdd}`"
+            v-if="
+              store.dashboard.chain == 'RONIN' &&
+              store.dashboard.officialWebsite
+            "
+            target="_blank"
+          >
+            <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
+              <img
+                class="w-5 h-5 cursor-pointer"
+                src="@/assets/images/ronin.png"
+                alt=""
+              />
+            </div>
+          </a>
+        </ui-tippyer>
 
-        <a
-          class="block flex-shrink-0"
-          :href="store.dashboard.officialWebsite"
-          v-if="store.dashboard.officialWebsite"
-          target="_blank"
-        >
-          <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
-            <img
-              class="w-5 h-5 cursor-pointer"
-              src="@/assets/images/website.png"
-              alt=""
-            />
-          </div>
-        </a>
+        <ui-tippyer content="WEBSITE" class="flex-shrink-0">
+          <a
+            class="block flex-shrink-0"
+            :href="store.dashboard.officialWebsite"
+            v-if="store.dashboard.officialWebsite"
+            target="_blank"
+          >
+            <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
+              <img
+                class="w-5 h-5 cursor-pointer"
+                src="@/assets/images/website.png"
+                alt=""
+              />
+            </div>
+          </a>
+        </ui-tippyer>
 
-        <a
-          class="block flex-shrink-0"
-          :href="`https://twitter.com/${store.dashboard.twitterName}`"
-          target="_blank"
-          v-if="store.dashboard.twitterName"
-        >
-          <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
-            <img
-              class="w-5 h-5 cursor-pointer"
-              src="@/assets/images/twitter.png"
-              alt=""
-            />
-          </div>
-        </a>
+        <ui-tippyer content="TWITTER" class="flex-shrink-0">
+          <a
+            class="block flex-shrink-0"
+            :href="`https://twitter.com/${store.dashboard.twitterName}`"
+            target="_blank"
+            v-if="store.dashboard.twitterName"
+          >
+            <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
+              <img
+                class="w-5 h-5 cursor-pointer"
+                src="@/assets/images/twitter.png"
+                alt=""
+              />
+            </div>
+          </a>
+        </ui-tippyer>
       </div>
     </div>
 
     <!-- section 2 -->
     <div class="mt-16">
-      <div class="text-xl font-bold mb-4">Basic data</div>
+      <div class="text-xl font-bold mb-4">BASIC DATA</div>
       <div class="flex justify-between" v-if="!store.loading.dashboardInfo">
         <div
           class="w-56 h-24 rounded basic-data-box flex flex-col items-center justify-center"
@@ -212,6 +227,8 @@
 <script setup>
 import { Skeletor } from "vue-skeletor";
 import { formatAddress, copyTx, localeNumber, suffixNum } from "@/utils";
+import dayjs from "dayjs";
+import numeral from "numeral";
 
 const route = useRoute();
 const store = useStore();
@@ -225,9 +242,16 @@ provide("pid", route.params.id);
 const basicData = computed(() => [
   { value: localeNumber(store.dashboard.items, 0), name: "Items" },
   {
-    value: localeNumber(store.dashboard.marketCap, 2) + " ETH",
+    value:
+      numeral(store.dashboard.marketCap).format("0.00a").toUpperCase() + " ETH",
     name: "Market cap",
     tip: "Based on estimated price by history.",
+  },
+  {
+    value: `${numeral(store.dashboard.totalVolume)
+      .format("0.00a")
+      .toUpperCase()} ETH`,
+    name: "Volume",
   },
   {
     value: localeNumber(store.dashboard.owners, 0),
@@ -238,11 +262,6 @@ const basicData = computed(() => [
     value: `${localeNumber(store.dashboard.floorPrice, 2)} ETH`,
     name: "Floor Price",
     gains: suffixNum((store.dashboard.ownersRate * 100).toFixed(2)),
-  },
-  {
-    value: `${localeNumber(store.dashboard.totalVolume, 2)} ETH`,
-    name: "Total Volume",
-    gains: suffixNum((store.dashboard.volumeRate * 100).toFixed(2)),
   },
 ]);
 

@@ -30,6 +30,11 @@
               value: state.info.minPrice,
               rate: suffixNum(state.info.minPriceRate),
             },
+            {
+              text: 'Transations',
+              value: state.info.transactions,
+              rate: suffixNum(state.info.transactionsRate),
+            },
           ]"
           :key="i"
         >
@@ -40,15 +45,16 @@
                 'bg-[#F72585FF]': i == 0,
                 'bg-[#9317B5FF]': i == 1,
                 'bg-[#3F37C9FF]': i == 2,
+                'bg-[#4895EFFF]': i == 3,
               }"
             ></div>
             {{ item.text }}
             <span class="text-base font-normal text-[#5E6873FF]">
-              &nbsp;( today )
+              &nbsp;(24H)
             </span>
           </div>
           <div class="break-all">
-            {{ item.value }} ETH
+            {{ item.value }} <span v-if="i != 3">ETH</span>
             <span
               class="font-normal ml-4"
               :class="{
@@ -66,14 +72,15 @@
     </div>
   </div>
   <div class="flex mt-10">
-    <div class="text-xl font-bold mb-4 w-60 pr-8">
+    <div class="text-xl font-bold w-60 pr-8 flex flex-col justify-between">
       <div>
-        Volume
-        <span class="text-base font-normal text-[#5E6873FF]">( today )</span>
-      </div>
-      <div class="ml-4 mt-8">
-        {{ state.info.volume }} ETH
-        <!-- <span
+        <div>
+          Volume
+          <span class="text-base font-normal text-[#5E6873FF]">(24H)</span>
+        </div>
+        <div class="ml-4 mt-8">
+          {{ state.info.volume }} ETH
+          <!-- <span
           class="font-normal"
           :class="{
             'text-[#5EFF6A]': state.info.volumeRate > 0,
@@ -81,6 +88,11 @@
           }"
           >{{ state.info.volumeRate }}%</span
         > -->
+        </div>
+      </div>
+
+      <div class="text-[#FFFFFF4D] text-xs">
+        Statistics are based on UTC(00:00)
       </div>
     </div>
     <div class="rounded bg-[#121416FF] flex-1" style="height: 284px">
@@ -116,6 +128,8 @@ const state = reactive({
     minPriceRate: 0,
     volumeRate: 0,
     medianRate: 0,
+    transactions: 0,
+    transactionsRate: 0,
     datas: [],
   },
 });
@@ -142,7 +156,7 @@ const lineOptions = computed(() => {
   let labels = data.map((x) => x.ctime);
 
   return {
-    color: ["#F72585FF", "#9317B5FF", "#3F37C9FF"],
+    color: ["#F72585FF", "#9317B5FF", "#3F37C9FF", "#4895EFFF"],
     tooltip: {
       trigger: "axis",
       axisPointer: {
@@ -153,7 +167,6 @@ const lineOptions = computed(() => {
       textStyle: {
         color: "#fff",
       },
-      valueFormatter: (value) => value.toFixed(4) + " ETH",
     },
     yAxis: [
       {
@@ -173,6 +186,9 @@ const lineOptions = computed(() => {
         areaStyle: {
           opacity: 0.2,
         },
+        tooltip: {
+          valueFormatter: (value) => value.toFixed(4) + " ETH",
+        },
       },
       {
         name: "Medium",
@@ -182,6 +198,9 @@ const lineOptions = computed(() => {
         areaStyle: {
           opacity: 0.2,
         },
+        tooltip: {
+          valueFormatter: (value) => value.toFixed(4) + " ETH",
+        },
       },
       {
         name: "Min",
@@ -190,6 +209,21 @@ const lineOptions = computed(() => {
         smooth: true,
         areaStyle: {
           opacity: 0.2,
+        },
+        tooltip: {
+          valueFormatter: (value) => value.toFixed(4) + " ETH",
+        },
+      },
+      {
+        name: "Transations",
+        type: "line",
+        data: data.map((x) => x.transactions),
+        smooth: true,
+        areaStyle: {
+          opacity: 0.2,
+        },
+        tooltip: {
+          valueFormatter: (value) => value.toFixed(0),
         },
       },
     ],

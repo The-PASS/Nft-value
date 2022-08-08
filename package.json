@@ -23,6 +23,7 @@
     "dayjs": "^1.11.3",
     "echarts": "^5.3.3",
     "lodash": "^4.17.21",
+    "numeral": "^2.0.6",
     "overlayscrollbars": "^1.13.2",
     "pinia": "2.0.14",
     "vue": "3.2.36",
