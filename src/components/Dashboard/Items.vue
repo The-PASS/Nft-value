@@ -1,6 +1,36 @@
 <template>
   <div class="mr-8">
-    <div class="text-xl font-bold mb-4">ITEMS</div>
+    <div class="flex justify-between mb-4">
+      <div class="text-xl font-bold">ITEMS</div>
+      <div class="flex">
+        <div
+          class="w-16 h-6 mr-6 rounded bg-[#FFFFFF1A] flex items-center justify-center cursor-pointer"
+          @click="state.orderType = !state.orderType"
+        >
+          Price
+          <span
+            class="ml-2 text-[10px]"
+            :class="{
+              'transform rotate-180': state.orderType,
+            }"
+            >▲</span
+          >
+        </div>
+        <div class="relative">
+          <input
+            class="w-[174px] h-6 rounded bg-[#FFFFFF1A] border-0 pl-3 pr-6 text-xs"
+            type="text"
+            placeholder="tokenID"
+            v-model="state.tokenId"
+          />
+          <iconfont-icon
+            name="icon-sousuo1"
+            class="absolute text-xs right-2 top-1/2 transform -translate-y-1/2"
+          ></iconfont-icon>
+        </div>
+      </div>
+    </div>
+
     <div class="w-[760px] h-[364px]">
       <ui-scrollbars
         :onIns="onIns"
@@ -105,6 +135,11 @@ const store = useStore();
 const pid = inject("pid");
 const scrollEl = ref(null);
 
+const state = reactive({
+  tokenId: "",
+  orderType: true,
+});
+
 const {
   isEnd,
   loading,
@@ -115,8 +150,16 @@ const {
   results,
   loadNext,
   loadRest,
-} = useReqPages((i) => {
-  return getTokenList(pid, i);
+} = useReqPages((i, cancel) => {
+  return getTokenList(
+    pid,
+    i,
+    {
+      tokenId: state.tokenId,
+      orderType: state.orderType ? "desc" : "asc",
+    },
+    cancel
+  );
 });
 
 useInfiniteScroll(scrollEl, withThrottling(loadNext));
@@ -124,6 +167,13 @@ useInfiniteScroll(scrollEl, withThrottling(loadNext));
 const onIns = (ins) => {
   scrollEl.value = ins.getElements("viewport");
 };
+
+watch(
+  () => [state.tokenId, state.orderType],
+  () => {
+    loadRest(true);
+  }
+);
 
 onMounted(() => {
   loadRest();

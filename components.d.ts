@@ -20,6 +20,7 @@ declare module '@vue/runtime-core' {
     SearchBox: typeof import('./src/components/SearchBox.vue')['default']
     SideBar: typeof import('./src/components/SideBar.vue')['default']
     ThirdLink: typeof import('./src/components/ThirdLink.vue')['default']
+    UiDropdown: typeof import('./src/components/Ui/Dropdown.vue')['default']
     UiImg: typeof import('./src/components/Ui/Img.vue')['default']
     UiScrollbars: typeof import('./src/components/Ui/Scrollbars.vue')['default']
     UiTabs: typeof import('./src/components/Ui/Tabs.vue')['default']

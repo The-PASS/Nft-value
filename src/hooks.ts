@@ -8,7 +8,7 @@ export const useReqPages = (req: any) => {
   const pages = ref(-1);
   const results: any = ref([]);
 
-  const loadNext = async () => {
+  const loadNext = async (cancel = false) => {
     if (isEnd.value) {
       return;
     }
@@ -17,8 +17,7 @@ export const useReqPages = (req: any) => {
     loading.value++;
     let result = null;
     try {
-      result = await req(current.value);
-      console.log(result);
+      result = await req(current.value, cancel);
     } catch (error) {
       /*  */
     }
@@ -46,12 +45,12 @@ export const useReqPages = (req: any) => {
     loading.value--;
   };
 
-  const loadRest = async () => {
+  const loadRest = (cancel = false) => {
     current.value = 0;
     next.value = 1;
     isEnd.value = false;
     results.value = [];
-    await loadNext();
+    loadNext(cancel);
   };
 
   return {
