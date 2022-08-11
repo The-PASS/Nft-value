@@ -80,14 +80,14 @@
         </div>
         <div class="ml-4 mt-8">
           {{ state.info.volume }} ETH
-          <!-- <span
-          class="font-normal"
-          :class="{
-            'text-[#5EFF6A]': state.info.volumeRate > 0,
-            'text-[#FF5166]': state.info.volumeRate < 0,
-          }"
-          >{{ state.info.volumeRate }}%</span
-        > -->
+          <span
+            class="font-normal"
+            :class="{
+              'text-[#5EFF6A]': state.info.volumeRate > 0,
+              'text-[#FF5166]': state.info.volumeRate < 0,
+            }"
+            >{{ state.info.volumeRate }}%</span
+          >
         </div>
       </div>
 

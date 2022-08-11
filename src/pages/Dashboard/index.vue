@@ -215,10 +215,7 @@
     </div>
 
     <!-- section 5 -->
-    <div
-      class="mt-8 rounded w-full p-6"
-      style="background: #1e1f21; height: 720px"
-    >
+    <div class="mt-8 rounded w-full p-6" style="background: #1e1f21">
       <dashboard-trade-history></dashboard-trade-history>
     </div>
   </div>
