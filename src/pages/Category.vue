@@ -78,7 +78,11 @@
                 </td>
                 <td style="width: 20%">
                   <div class="flex items-center justify-end">
-                    {{ localeNumber(item.floorPrice, 2) }}&nbsp;
+                    {{
+                      +item.floorPrice == 0
+                        ? "--"
+                        : localeNumber(item.floorPrice, 2)
+                    }}&nbsp;
                     <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
                   </div>
                 </td>

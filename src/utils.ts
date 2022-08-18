@@ -8,7 +8,7 @@ export const formatAddress = (address: string, bit = 8) => {
 export const copyTx = (text: string) => copy(text);
 
 export const localeNumber = (xnum: number, bit = 0, zero = true) => {
-  const num = Math.abs(xnum);
+  const num = Math.abs(xnum || 0);
   const intNum = Math.floor(num);
   const floatNum = num - intNum;
 

@@ -33,9 +33,9 @@ export const getVaultList = async (type: VaultType, cancel = false) => {
 
   res.forEach((el: any) => {
     el.volumeRate = (el.volumeRate * 100).toFixed(2);
-    el.marketCap = el.marketCap.toFixed(2);
-    el.volume = el.volume.toFixed(2);
-    el.floorPrice = el.floorPrice.toFixed(2);
+    el.marketCap = (el.marketCap || 0).toFixed(2);
+    el.volume = (el.volume || 0).toFixed(2);
+    el.floorPrice = (el.floorPrice || 0).toFixed(2);
   });
 
   return res;
@@ -127,6 +127,7 @@ export const getBoardTradeHistory = async (
   res.medianRate = (res.medianRate * 100).toFixed(2);
   res.minPriceRate = (res.minPriceRate * 100).toFixed(2);
   res.volumeRate = (res.volumeRate * 100).toFixed(2);
+  res.transactionsRate = (res.transactionsRate * 100).toFixed(2);
 
   res.maxPrice = +res.maxPrice.toFixed(4);
   res.minPrice = +res.minPrice.toFixed(4);
