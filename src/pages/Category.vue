@@ -22,25 +22,28 @@
           <table class="w-full h-14 sticky top-0 bg-[#1f2123]">
             <colgroup>
               <col style="width: 32%" />
-              <col style="width: 14%" />
-              <col style="width: 14%" />
-              <col style="width: 20%" />
+              <col style="width: 11%" />
+              <col style="width: 11%" />
+              <col style="width: 11%" />
+              <col style="width: 11%" />
               <col style="width: 20%" />
             </colgroup>
             <thead>
               <th class="text-left" style="width: 32%">Collection</th>
-              <th class="text-left" style="width: 14%">Volume(24H)</th>
-              <th class="text-right" style="width: 14%">▲ Volume(24H)</th>
-              <th class="text-right" style="width: 20%">Floor Price</th>
+              <th class="text-left" style="width: 11%">Volume</th>
+              <th class="text-left" style="width: 11%">Volume(24H)</th>
+              <th class="text-right" style="width: 11%">▲ Volume(24H)</th>
+              <th class="text-right" style="width: 11%">Floor Price</th>
               <th class="text-right" style="width: 20%">Market Cap</th>
             </thead>
           </table>
           <table class="w-full">
             <colgroup>
               <col style="width: 32%" />
-              <col style="width: 14%" />
-              <col style="width: 14%" />
-              <col style="width: 20%" />
+              <col style="width: 11%" />
+              <col style="width: 11%" />
+              <col style="width: 11%" />
+              <col style="width: 11%" />
               <col style="width: 20%" />
             </colgroup>
             <tbody>
@@ -60,7 +63,15 @@
                     <div class="text-[#26AAFF]">{{ item.projectName }}</div>
                   </div>
                 </td>
-                <td class="text-left" style="width: 14%">
+
+                <td class="text-left" style="width: 11%">
+                  <div class="flex items-center">
+                    {{ numeral(item.totalVolume).format("0.0a").toUpperCase() }}
+                    <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
+                  </div>
+                </td>
+
+                <td class="text-left" style="width: 11%">
                   <div class="flex items-center">
                     {{ item.volume }}
                     <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
@@ -72,11 +83,11 @@
                     'text-[#5EFF6A]': item.volumeRate > 0,
                     'text-[#FF5166]': item.volumeRate < 0,
                   }"
-                  style="width: 14%"
+                  style="width: 11%"
                 >
                   {{ suffixNum(localeNumber(item.volumeRate, 2)) }}%
                 </td>
-                <td style="width: 20%">
+                <td style="width: 11%">
                   <div class="flex items-center justify-end">
                     {{
                       +item.floorPrice == 0
@@ -107,6 +118,7 @@
 <script setup>
 import { getVaultList } from "@/api";
 import { suffixNum, localeNumber } from "@/utils";
+import numeral from "numeral";
 
 const tabs = [
   {

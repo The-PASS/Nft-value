@@ -53,6 +53,23 @@
       </div>
 
       <div class="flex">
+        <ui-tippyer content="OPENSEA" class="flex-shrink-0">
+          <a
+            class="block flex-shrink-0"
+            :href="`https://opensea.io/collection/${store.dashboard.openseaSlug}`"
+            target="_blank"
+            v-if="store.dashboard.openseaSlug"
+          >
+            <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
+              <img
+                class="w-5 h-5 cursor-pointer"
+                src="@/assets/images/i-opensea.png"
+                alt=""
+              />
+            </div>
+          </a>
+        </ui-tippyer>
+
         <ui-tippyer content="ETHEREUM" class="flex-shrink-0">
           <a
             class="block flex-shrink-0"
