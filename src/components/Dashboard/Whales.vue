@@ -61,7 +61,7 @@ const {
   loadNext,
   loadRest,
 } = useReqPages((i) => {
-  return getBoardOwnerList(pid, i);
+  return getBoardOwnerList(pid.value, i);
 });
 
 useInfiniteScroll(scrollEl, withThrottling(loadNext));

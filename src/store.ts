@@ -5,6 +5,7 @@ import {
   getTokenRanks,
   getBoardOwnerList,
   getBoardTraitHistory,
+  getProjectInfoByPath,
 } from "@/api";
 import { number } from "echarts/core";
 
@@ -62,13 +63,15 @@ export const useStore = defineStore("main", {
     },
     async loadBoardBaseInfo(id: any) {
       this.loading.dashboardInfo = true;
-      const res = await getProjectInfoById(id);
+      const res = await getProjectInfoByPath(id);
       this.dashboard = { ...this.dashboard, ...res };
       this.loading.dashboardInfo = false;
     },
     async loadBoardTokenList(id: any) {
       const tokenls = await getTokenList(id);
       this.dashboard.tokenList = tokenls;
+
+      console.log(tokenls);
 
       if (tokenls.length > 0) {
         const traits = await getTokenRanks(id, tokenls[0]);

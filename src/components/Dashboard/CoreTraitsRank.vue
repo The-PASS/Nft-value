@@ -78,7 +78,11 @@
                 </div>
               </ui-tippyer>
             </td>
-            <td>{{ item.rarity }}</td>
+            <td>
+              <ui-tippyer :content="item.rarity">
+                {{ formatRarity(item.rarity) }}
+              </ui-tippyer>
+            </td>
             <td>{{ item.rank }}</td>
             <td>{{ item.k }}</td>
             <td>
@@ -116,7 +120,7 @@
 
 <script setup>
 import { Skeletor } from "vue-skeletor";
-import { formatAddress, copyTx } from "@/utils";
+import { formatAddress, copyTx, localeNumber } from "@/utils";
 import { useReqPages } from "@/hooks";
 import { withThrottling } from "@/with";
 import { getTokenRanks } from "@/api";
@@ -135,8 +139,8 @@ const {
   results,
   loadNext,
   loadRest,
-} = useReqPages((i) => {
-  return getTokenRanks(pid, store.dashboard.tokenId, i);
+} = useReqPages((i, cancel) => {
+  return getTokenRanks(pid.value, store.dashboard.tokenId, i, cancel);
 });
 
 useInfiniteScroll(scrollEl, withThrottling(loadNext));
@@ -147,13 +151,25 @@ const onIns = (ins) => {
 
 const loadData = async () => {
   store.loading.dashboardTraitHistory = true;
-  await loadRest();
-  console.log(results.value);
+  await loadRest(true);
   results.value[0] &&
     store.selectTraits(results.value[0].traitType, results.value[0].value);
 };
 
-watch(() => store.dashboard.tokenId, loadData);
+watch(
+  () => store.dashboard.tokenId,
+  () => {
+    loadData();
+  }
+);
+
+const formatRarity = (num) => {
+  if (num >= 0.000001) {
+    return localeNumber(num, 4, false);
+  } else {
+    return "< 0.0001";
+  }
+};
 
 onMounted(() => {
   loadData();

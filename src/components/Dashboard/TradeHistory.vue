@@ -147,8 +147,6 @@ use([
 const periodMap = [7, 30, 90, 365];
 
 const lineOptions = computed(() => {
-  console.log(state.mode);
-
   const data = periodMap[state.mode]
     ? state.info.datas.slice(state.info.datas.length - periodMap[state.mode])
     : state.info.datas;
@@ -263,7 +261,7 @@ const barOptions = computed(() => {
 });
 
 onMounted(async () => {
-  const res = await getBoardTradeHistory(pid);
+  const res = await getBoardTradeHistory(pid.value);
   state.info = res;
 });
 </script>

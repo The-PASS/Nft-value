@@ -1,8 +1,12 @@
 <template>
-  <!-- <div v-if="state.loading" class="h-full flex items-center justify-center">
-    <img class="w-16 h-16" src="@/assets/svgs/spin.svg" alt="" />
-  </div> -->
   <div
+    v-if="store.loading.dashboardInfo"
+    class="h-full flex items-center justify-center"
+  >
+    <img class="w-16 h-16" src="@/assets/svgs/spin.svg" alt="" />
+  </div>
+  <div
+    v-else
     class="text-whitebase mt-16 text-xs pb-8 max-w-[1200px] min-w-[1200px] mx-auto"
   >
     <!-- section 1 -->
@@ -251,7 +255,10 @@ const state = reactive({
   more: false,
 });
 
-provide("pid", route.params.id);
+provide(
+  "pid",
+  computed(() => store.dashboard.id)
+);
 
 const basicData = computed(() => [
   { value: localeNumber(store.dashboard.items, 0), name: "Items" },
@@ -280,12 +287,15 @@ const basicData = computed(() => [
 ]);
 
 const loadData = async () => {
-  const id = route.params.id;
+  const id = route.params.name;
   await store.loadBoardBaseInfo(id);
 };
 
-onMounted(async () => {
+onBeforeMount(() => {
   store.resetDashboard();
+});
+
+onMounted(async () => {
   loadData();
 });
 

@@ -23,7 +23,7 @@ export const localeNumber = (xnum: number, bit = 0, zero = true) => {
   );
 };
 
-export const suffixNum = (num) => {
+export const suffixNum = (num: number | string) => {
   const flag = +num > 0 ? "+" : "";
   return flag + num;
 };

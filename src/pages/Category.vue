@@ -51,12 +51,12 @@
                 class="hover:bg-[#ffffff0d] h-14 cursor-pointer"
                 v-for="(item, i) in state.list"
                 :key="i"
-                @click="router.push(`/detail/${item.projectName}/${item.id}`)"
+                @click="router.push(`/detail/${item.path}`)"
               >
                 <td class="text-left" style="width: 32%">
                   <div class="flex items-center">
                     <ui-img
-                      class="w-8 h-8 rounded-full mr-2 overflow-hidden"
+                      class="w-8 h-8 rounded-full mr-2 overflow-hidden flex-shrink-0"
                       :src="item.logo"
                       alt=""
                     />

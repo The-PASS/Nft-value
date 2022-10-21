@@ -27,7 +27,7 @@ const routes = [
   },
   {
     name: "details",
-    path: "/detail/:name/:id",
+    path: "/detail/:name/:tokenId?",
     component: Dashboard,
     meta: {
       keepAlive: false,

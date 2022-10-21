@@ -63,38 +63,58 @@ export const getProjectInfoByName = async (name: string) => {
   return res;
 };
 
+export const getProjectInfoByPath = async (path: string) => {
+  const res = await passHttp.get("/nftvalue/project/info", {
+    params: {
+      path,
+    },
+  });
+
+  res.marketCap = res.marketCap.toFixed(2);
+  return res;
+};
+
 export const getTokenList = async (
   pid: string | number,
   page = 1,
   options = {},
   cancel = false
 ) => {
-  const res = await passHttp.get(
-    `/nftvalue/project/tokens/${pid}`,
-    {
-      params: {
-        pageSize: 16,
-        page,
-        ...options,
+  try {
+    const res = await passHttp.get(
+      `/nftvalue/project/tokens/${pid}`,
+      {
+        params: {
+          pageSize: 16,
+          page,
+          ...options,
+        },
       },
-    },
-    cancel
-  );
+      cancel
+    );
 
-  return res;
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const getTokenRanks = (
   pid: string | number,
   tokenId?: string | number,
-  page = 1
+  page = 1,
+  cancel = false
 ) =>
-  passHttp.get(`/nftvalue/project/token/info/${pid}`, {
-    params: {
-      tokenId,
-      page,
+  passHttp.get(
+    `/nftvalue/project/token/info/${pid}`,
+    {
+      params: {
+        tokenId,
+        page,
+      },
     },
-  });
+    cancel
+  );
 
 export const getBoardOwnerList = async (pid: string | number, page = 1) => {
   const res = await passHttp.get(`/nftvalue/project/token/owner/${pid}`, {

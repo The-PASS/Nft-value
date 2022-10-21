@@ -134,6 +134,7 @@ import { getTokenList } from "@/api";
 const store = useStore();
 const pid = inject("pid");
 const scrollEl = ref(null);
+const $route = useRoute();
 
 const state = reactive({
   tokenId: "",
@@ -152,7 +153,7 @@ const {
   loadRest,
 } = useReqPages((i, cancel) => {
   return getTokenList(
-    pid,
+    pid.value,
     i,
     {
       tokenId: state.tokenId,
@@ -175,8 +176,28 @@ watch(
   }
 );
 
+watch(
+  () => $route.params.tokenId,
+  (val) => {
+    state.tokenId = val || "";
+  }
+);
+
+watch(
+  () => state.tokenId,
+  (val) => {
+    if (val == $route.params.tokenId) {
+      store.selectToken(val);
+    } else store.selectToken("");
+  }
+);
+
 onMounted(() => {
-  loadRest();
+  if ($route.params.tokenId) {
+    state.tokenId = $route.params.tokenId;
+  } else {
+    loadRest();
+  }
 });
 </script>
 
