@@ -14,7 +14,7 @@ declare module '@vue/runtime-core' {
     Footer: typeof import('./src/components/Footer.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     IconfontIcon: typeof import('./src/components/IconfontIcon.vue')['default']
-    MbSide: typeof import('./src/components/MbSide.vue')['default']
+    MbSideBar: typeof import('./src/components/MbSideBar.vue')['default']
     Page: typeof import('./src/components/Page.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

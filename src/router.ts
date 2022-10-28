@@ -2,7 +2,8 @@ import { createRouter, createWebHashHistory } from "vue-router";
 
 import Index from "@/pages/Index.vue";
 import Category from "@/pages/Category.vue";
-import Dashboard from "@/pages/Dashboard/index.vue";
+import Details from "@/pages/Dashboard/index.vue";
+import Search from "@/pages/Search.vue";
 
 const routes = [
   {
@@ -11,7 +12,6 @@ const routes = [
     component: Index,
     meta: {
       title: "Vite + Vue + TypeScript + Tailwind Starter Template",
-      search: false,
       footer: true,
       nopadding: true,
       keepAlive: false,
@@ -23,22 +23,24 @@ const routes = [
     component: Category,
     meta: {
       keepAlive: false,
+      search: true,
     },
   },
   {
     name: "details",
     path: "/detail/:name/:tokenId?",
-    component: Dashboard,
+    component: Details,
     meta: {
       keepAlive: false,
     },
   },
   {
     name: "search",
-    path: "/search/:keyword",
-    component: import("@/pages/Search.vue"),
+    path: "/search/:keyword?",
+    component: Search,
     meta: {
       keepAlive: false,
+      noHeader: true,
     },
   },
 ];

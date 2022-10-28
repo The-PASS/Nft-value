@@ -9,10 +9,14 @@
         <span class="text-xl font-bold ml-4">THEPASS</span>
       </a>
     </div>
-    <third-link></third-link>
+    <third-link v-if="isDesktop"></third-link>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useDesktop } from "@/hooks";
+
+const isDesktop = useDesktop();
+</script>
 
 <style lang="scss" scoped></style>

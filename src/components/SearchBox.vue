@@ -22,7 +22,7 @@
     <div
       v-if="state.flag"
       ref="floatBox"
-      class="absolute z-50 text-xs bg-wall w-96 flex flex-col px-4 rounded-lg border-white border-[1px] cursor-pointer"
+      class="absolute z-50 text-xs bg-wall w-96 flex flex-col px-4 pb-4 rounded-lg border-white border-[1px] cursor-pointer"
       :style="`top:${state.top}px;right:${state.right}px`"
     >
       <div class="flex items-center">
@@ -61,7 +61,7 @@
         >
           Not found any results～
         </div>
-        <ui-scrollbars class="w-full h-full max-h-[20rem]" v-else>
+        <div class="w-full h-full max-h-[20rem] overflow-y-scroll" v-else>
           <div
             class="flex h-12 items-center p-2 hover:bg-[#ffffff1a]"
             v-for="(item, i) in state.searchList"
@@ -75,7 +75,7 @@
             />
             <span class="font-bold"> {{ item.projectName }} </span>
           </div>
-        </ui-scrollbars>
+        </div>
       </div>
 
       <div v-if="state.searchList.length == 0">
@@ -100,7 +100,6 @@
 
 <script setup>
 import { searchProject } from "@/api";
-import { list } from "postcss";
 
 const box = ref(null);
 const floatBox = ref(null);

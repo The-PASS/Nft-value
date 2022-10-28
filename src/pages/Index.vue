@@ -1,6 +1,8 @@
 <template>
   <div class="w-full h-full flex flex-col">
-    <div class="flex-1 min-h-0 flex flex-col justify-center items-center">
+    <div
+      class="flex-1 min-h-0 flex flex-col justify-center items-center px-4 md:px-0"
+    >
       <div class="text-[2.5rem] md:text-[4rem] font-bold text-center">
         <p>PRICE IS WHAT YOUR PAY ,</p>
         <p>VALUE IS WHAT YOU GET.</p>

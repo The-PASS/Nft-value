@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-full flex flex-col">
-    <Header :search="$route.meta.search"></Header>
+    <Header :search="$route.meta.search" v-if="!$route.meta.noHeader"></Header>
     <div
       class="flex-1 min-h-0"
       :class="{ 'px-[16px] md:px-[125px]': !$route.meta.nopadding }"
@@ -59,6 +59,7 @@ input {
 
 .vue-skeletor {
   background: rgba(42, 46, 51, 1);
+  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
 }
 
 .os-content {
