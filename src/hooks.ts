@@ -1,3 +1,5 @@
+import { defineProps, defineEmits } from "vue";
+
 export const useReqPages = (req: any) => {
   const loading = ref(0);
   const isEnd = ref(false);
@@ -63,5 +65,50 @@ export const useReqPages = (req: any) => {
     results,
     loadNext,
     loadRest,
+  };
+};
+
+export const useDesktop = () => {
+  const isLargeScreen = useMediaQuery("(min-width: 768px)");
+  return isLargeScreen;
+};
+
+export const useSideBar = (onChange: any) => {
+  const props: any = defineProps({
+    tabs: Array,
+    modelValue: { type: Number, default: 0 },
+  });
+
+  const comState = reactive({
+    selectIndex: 0,
+  });
+
+  const $emits = defineEmits(["update:modelValue"]);
+
+  const onSelect = (i: any) => {
+    if (props.tabs[i].disabled) {
+      return;
+    }
+    comState.selectIndex = i;
+  };
+
+  watch(
+    () => comState.selectIndex,
+    (val) => {
+      onChange && onChange(val);
+      $emits("update:modelValue", val);
+    }
+  );
+
+  // watch(
+  //   () => props.modelValue,
+  //   (val) => (comState.selectIndex = val)
+  // );
+
+  return {
+    props,
+    $emits,
+    comState,
+    onSelect,
   };
 };

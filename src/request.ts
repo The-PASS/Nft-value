@@ -60,25 +60,28 @@ class HttpRequest {
         return data;
       },
       (error: any) => {
-        let errorInfo = error.response;
+        if (error.response) {
+          let errorInfo = error.response;
 
-        if (error.response.status != 401) {
-          if (!errorInfo) {
-            const {
-              request: { statusText, status },
-              config,
-            } = JSON.parse(JSON.stringify(error));
-            errorInfo = {
-              statusText,
-              status,
-              request: { responseURL: config.url },
-            };
+          if (error.response.status != 401) {
+            if (!errorInfo) {
+              const {
+                request: { statusText, status },
+                config,
+              } = JSON.parse(JSON.stringify(error));
+              errorInfo = {
+                statusText,
+                status,
+                request: { responseURL: config.url },
+              };
+            }
+          } else {
+            //   store.dispatch("logOut", true);
+            //   checkWalletFlow();
+            return;
           }
-          return Promise.reject(error);
-        } else {
-          //   store.dispatch("logOut", true);
-          //   checkWalletFlow();
         }
+        return Promise.reject(error);
       }
     );
   }
@@ -115,8 +118,9 @@ class HttpRequest {
       headers: { ...this.getInsideConfig().headers, ...options.headers },
     };
 
-    return this.axios(options).catch(() => {
+    return this.axios(options).catch((error) => {
       this.destroy(options.url || "");
+      return Promise.reject(error);
     });
   }
 

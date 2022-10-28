@@ -1,5 +1,5 @@
 <template>
-  <div class="flex space-x-12">
+  <div class="flex space-x-6 md:space-x-12">
     <ui-tippyer content="Twitter">
       <a href="https://twitter.com/thepass_to" target="_blank" title="Twitter">
         <i class="iconfont icon-Twitter2 text-4xl"></i>
@@ -13,6 +13,13 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+const props = defineProps({
+  spaceSize: {
+    type: Number,
+    default: 12,
+  },
+});
+</script>
 
 <style lang="scss" scoped></style>

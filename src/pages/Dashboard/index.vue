@@ -236,9 +236,9 @@
     </div>
 
     <!-- section 5 -->
-    <div class="mt-8 rounded w-full p-6" style="background: #1e1f21">
+    <!-- <div class="mt-8 rounded w-full p-6" style="background: #1e1f21">
       <dashboard-trade-history></dashboard-trade-history>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -301,7 +301,14 @@ onMounted(async () => {
 
 // useInfiniteScroll 待处理操作 ++
 
-watch(() => JSON.stringify(route.params), loadData);
+watch(
+  () => JSON.stringify(route.params),
+  (val) => {
+    if (val.name) {
+      loadData();
+    }
+  }
+);
 </script>
 
 <style scoped>

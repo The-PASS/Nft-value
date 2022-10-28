@@ -12,7 +12,7 @@
     />
     <div
       v-if="state.status == STATUS.ERROR"
-      class="w-full h-full flex justify-center items-center bg-boxBg"
+      class="w-full h-full flex justify-center items-center bg-[#232323]"
     >
       <i class="iconfont icon-jinggao text-red-500"></i>
     </div>

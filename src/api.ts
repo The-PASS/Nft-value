@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { passHttp } from "./request";
 
 export const searchProject = async (key: string, cancel = false) => {
-  const res = await passHttp.get(
+  let res = await passHttp.get(
     "/nftvalue/search",
     {
       params: {
@@ -11,6 +11,8 @@ export const searchProject = async (key: string, cancel = false) => {
     },
     cancel
   );
+
+  res = res.filter((x: any) => x != null);
 
   return key ? res : (res || []).slice(0, 5);
 };
@@ -21,15 +23,17 @@ enum VaultType {
 }
 
 export const getVaultList = async (type: VaultType, cancel = false) => {
-  const res = await passHttp.get(
-    "/nftvalue/home",
-    {
-      params: {
-        type,
+  const res = (
+    await passHttp.get(
+      "/nftvalue/home",
+      {
+        params: {
+          type,
+        },
       },
-    },
-    cancel
-  );
+      cancel
+    )
+  ).filter((x: any) => x != null);
 
   res.forEach((el: any) => {
     el.volumeRate = (el.volumeRate * 100).toFixed(2);
@@ -69,6 +73,8 @@ export const getProjectInfoByPath = async (path: string) => {
       path,
     },
   });
+
+  console.log(res);
 
   res.marketCap = res.marketCap.toFixed(2);
   return res;

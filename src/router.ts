@@ -33,6 +33,14 @@ const routes = [
       keepAlive: false,
     },
   },
+  {
+    name: "search",
+    path: "/search/:keyword",
+    component: import("@/pages/Search.vue"),
+    meta: {
+      keepAlive: false,
+    },
+  },
 ];
 
 const router = createRouter({

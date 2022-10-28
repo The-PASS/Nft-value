@@ -3,7 +3,7 @@
     <Header :search="$route.meta.search"></Header>
     <div
       class="flex-1 min-h-0"
-      :class="{ 'px-[125px]': !$route.meta.nopadding }"
+      :class="{ 'px-[16px] md:px-[125px]': !$route.meta.nopadding }"
     >
       <router-view :key="$route.path"></router-view>
       <!-- <router-view v-slot="{ Component }">
@@ -37,6 +37,13 @@ const $route = useRoute();
 html {
   background: rgba(18, 20, 22, 1);
   font-family: Helvetica !important;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
 }
 
 #app {

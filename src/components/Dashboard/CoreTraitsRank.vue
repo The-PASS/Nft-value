@@ -66,7 +66,14 @@
             :key="i"
           >
             <td class="text-left">
-              {{ item.traitType }}
+              <ui-tippyer :content="item.traitType">
+                <div
+                  class="line-clamp-1"
+                  style="width: 60px; display: block; text-overflow: ellipsis"
+                >
+                  {{ item.traitType }}
+                </div>
+              </ui-tippyer>
             </td>
             <td class="text-left">
               <ui-tippyer :content="item.value">
@@ -167,7 +174,7 @@ const formatRarity = (num) => {
   if (num >= 0.000001) {
     return localeNumber(num, 4, false);
   } else {
-    return "< 0.0001";
+    return "<0.0001";
   }
 };
 

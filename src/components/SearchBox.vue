@@ -22,7 +22,7 @@
     <div
       v-if="state.flag"
       ref="floatBox"
-      class="absolute z-50 text-xs bg-wall w-96 flex flex-col px-4 pb-4 rounded-lg border-white border-[1px] cursor-pointer"
+      class="absolute z-50 text-xs bg-wall w-96 flex flex-col px-4 rounded-lg border-white border-[1px] cursor-pointer"
       :style="`top:${state.top}px;right:${state.right}px`"
     >
       <div class="flex items-center">
@@ -66,7 +66,7 @@
             class="flex h-12 items-center p-2 hover:bg-[#ffffff1a]"
             v-for="(item, i) in state.searchList"
             :key="i"
-            @click="router.push(`/detail/${item.projectName}/${item.id}`)"
+            @click="jump(item)"
           >
             <ui-img
               class="w-8 h-8 rounded-full mr-4 overflow-hidden"
@@ -84,10 +84,7 @@
           class="flex h-12 items-center p-2 hover:bg-[#ffffff1a]"
           v-for="(item, i) in state.list"
           :key="i"
-          @click="
-            state.flag = false;
-            router.push(`/detail/${item.projectName}/${item.id}`);
-          "
+          @click="jump(item)"
         >
           <ui-img
             class="w-8 h-8 rounded-full mr-4 overflow-hidden"
@@ -136,22 +133,41 @@ const showSearch = () => {
 // TODO 这里差一个鼠标点击操作
 
 const loadData = async (key) => {
-  if (!key) {
-    state.list = await searchProject();
-  } else {
-    state.loading++;
-    const list = await searchProject(key, true);
-    state.loading--;
-    if (list) {
-      state.searchList = list;
+  try {
+    if (!key) {
+      state.list = await searchProject();
+    } else {
+      state.loading++;
+      const list = await searchProject(key, true);
+      state.loading--;
+      if (list) {
+        state.searchList = list;
+      }
     }
+  } catch (error) {
+    state.loading--;
   }
+};
+
+const jump = (item) => {
+  state.flag = false;
+  router.push(`/detail/${item.path}`);
 };
 
 // TODO 热度列表元素只会在加载的时候进行请求，其他不进行更新
 onMounted(() => {
   loadData();
 });
+
+watch(
+  () => state.flag,
+  (val) => {
+    if (!val) {
+      state.searchKey = "";
+      state.searchList = [];
+    }
+  }
+);
 
 watch(
   () => state.searchKey,

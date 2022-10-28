@@ -24,9 +24,17 @@
             v-model="state.tokenId"
           />
           <iconfont-icon
+            v-if="!state.tokenId"
             name="icon-sousuo1"
             class="absolute text-xs right-2 top-1/2 transform -translate-y-1/2"
           ></iconfont-icon>
+          <div
+            v-else
+            class="absolute text-xs right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
+            @click="state.tokenId = ''"
+          >
+            <iconfont-icon name="icon-guanbi" class="text-xs"></iconfont-icon>
+          </div>
         </div>
       </div>
     </div>
@@ -41,7 +49,7 @@
           <div
             v-for="(item, i) in results"
             :key="i"
-            class="w-44 p-2 bg-[#FFFFFF0D] rounded overflow-hidden relative cursor-pointer transition-all border-[1px] hover:border-white"
+            class="w-44 p-2 rounded overflow-hidden relative cursor-pointer transition-all border-[1px] hover:border-white"
             :class="{
               'border-white': store.dashboard.tokenId == item.tokenId,
               'border-transparent': store.dashboard.tokenId != item.tokenId,
@@ -65,10 +73,7 @@
               </div>
             </div>
 
-            <ui-img
-              class="w-40 h-40 rounded bg-white"
-              :src="item.logo"
-            ></ui-img>
+            <ui-img class="w-40 h-40 rounded" :src="item.logo"></ui-img>
             <div class="mt-4 space-y-1 w-full">
               <div>Estimated Price</div>
               <div class="flex justify-between">
