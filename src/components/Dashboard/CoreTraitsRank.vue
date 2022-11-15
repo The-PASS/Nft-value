@@ -66,7 +66,7 @@
             :key="i"
           >
             <td class="text-left">
-              <ui-tippyer :content="item.traitType">
+              <ui-tippyer :content="item.value">
                 <div
                   class="line-clamp-1"
                   style="width: 60px; display: block; text-overflow: ellipsis"
@@ -150,7 +150,9 @@ const {
   return getTokenRanks(pid.value, store.dashboard.tokenId, i, cancel);
 });
 
-useInfiniteScroll(scrollEl, withThrottling(loadNext));
+useInfiniteScroll(scrollEl, withThrottling(loadNext), {
+  distance: 44,
+});
 
 const onIns = (ins) => {
   scrollEl.value = ins.getElements("viewport");
