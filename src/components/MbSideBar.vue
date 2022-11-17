@@ -30,6 +30,8 @@
 <script setup>
 import { useSideBar } from "@/hooks";
 
+const $router = useRouter();
+
 const props = defineProps({
   tabs: Array,
   modelValue: { type: Number, default: 0 },
@@ -46,6 +48,10 @@ const onSelect = (i) => {
     return;
   }
   state.selectIndex = i;
+};
+
+const jump = (tab) => {
+  $router.replace(tab.link);
 };
 
 watch(

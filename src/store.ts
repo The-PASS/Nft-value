@@ -117,6 +117,7 @@ export const useStore = defineStore("main", {
     },
     resetDashboard() {
       this.dashboard = defaultDashboard();
+      this.loading.dashboardInfo = true;
     },
   },
 

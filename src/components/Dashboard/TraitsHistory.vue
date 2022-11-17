@@ -13,7 +13,11 @@
     >
       <img src="@/assets/svgs/spin.svg" class="w-10 h-10" alt="" />
     </div>
-    <VChart class="chart" :option="option" v-else></VChart>
+    <VChart
+      class="chart"
+      :option="option"
+      v-else-if="store.dashboard.traitHistory.trades.length > 0"
+    ></VChart>
   </div>
 </template>
 

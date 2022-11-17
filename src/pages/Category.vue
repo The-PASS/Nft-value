@@ -335,13 +335,15 @@ const tabs = [
   {
     key: "Collectables",
     value: "COLLECTABLES",
+    link: "/list",
   },
-  { key: "Art", value: "ART", disabled: true },
+  { key: "Art", value: "ART", link: "/list/Art" },
   { key: "Game Assets", value: "", disabled: true },
 ];
 
 const isDesktop = useDesktop();
 
+const $route = useRoute();
 const router = useRouter();
 const state = reactive({
   loading: 0,
@@ -361,8 +363,8 @@ onMounted(async () => {
 });
 
 watch(
-  () => state.tabIndex,
-  (i) => loadData(tabs[i].value)
+  () => $route.query.type,
+  (val) => loadData(val)
 );
 </script>
 

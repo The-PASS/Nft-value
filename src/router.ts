@@ -20,11 +20,24 @@ const routes = [
   {
     name: "List",
     path: "/list",
-    component: Category,
+    component: import("@/pages/Category/index.vue"),
+    redirect: "/list/Collectables",
     meta: {
       keepAlive: false,
       search: true,
     },
+    children: [
+      {
+        name: "Collectables",
+        path: "/list/Collectables",
+        component: import("@/pages/Category/Collectables.vue"),
+      },
+      {
+        name: "Art",
+        path: "/list/Art",
+        component: import("@/pages/Category/Art.vue"),
+      },
+    ],
   },
   {
     name: "details",

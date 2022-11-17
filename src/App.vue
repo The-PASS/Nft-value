@@ -5,21 +5,7 @@
       class="flex-1 min-h-0"
       :class="{ 'px-[16px] md:px-[125px]': !$route.meta.nopadding }"
     >
-      <router-view :key="$route.path"></router-view>
-      <!-- <router-view v-slot="{ Component }">
-        <KeepAlive>
-          <component
-            :is="Component"
-            v-if="$route.meta.keepAlive"
-            :key="$route.path"
-          />
-        </KeepAlive>
-        <component
-          :is="Component"
-          v-if="!$route.meta.keepAlive"
-          :key="$route.path"
-        />
-      </router-view> -->
+      <router-view></router-view>
     </div>
     <Footer v-if="$route.meta.footer"></Footer>
   </div>

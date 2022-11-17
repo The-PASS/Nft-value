@@ -30,6 +30,8 @@
 <script setup>
 import TWEEN from "@tweenjs/tween.js";
 
+const $router = useRouter();
+
 const box = ref(null);
 
 const props = defineProps({
@@ -50,6 +52,7 @@ const onSelect = (i) => {
     return;
   }
   state.selectIndex = i;
+  $router.replace(props.tabs[i].link);
 };
 
 const calPosition = (i) => {
