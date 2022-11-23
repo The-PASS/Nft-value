@@ -21,7 +21,7 @@ export const useReqPages = (req: any) => {
     try {
       result = await req(current.value, cancel);
     } catch (error) {
-      /*  */
+      // console.log(error);
     }
 
     if (!result) {
@@ -110,5 +110,25 @@ export const useSideBar = (onChange: any) => {
     $emits,
     comState,
     onSelect,
+  };
+};
+
+export const useReqByBool = (req: any) => {
+  const loading = ref(true);
+
+  const loadData = async (...args: any) => {
+    loading.value = true;
+    try {
+      const res = await req(...args);
+      loading.value = false;
+      return res;
+    } catch (error) {
+      loading.value = false;
+    }
+  };
+
+  return {
+    loading,
+    loadData,
   };
 };

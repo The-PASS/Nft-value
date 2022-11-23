@@ -6,17 +6,25 @@
     </div>
     <div v-click-away="onClose" class="text-sm relative">
       <div
-        class="ui-dropdown--box pl-4 pr-2 flex items-center justify-between text-whitebase cursor-pointer font-bold outline-none"
+        class="ui-dropdown--box pl-4 pr-2 flex items-center cursor-pointer outline-none"
         :class="{
           [props.boxStyle]: true,
-          ' text-xs h-8': props.size == 'sm',
+          'h-8': props.size == 'sm',
           'h-10': props.size == 'base',
+          'justify-between': props.isBetween,
+          'justify-center': !props.isBetween,
         }"
         @click="state.open = !state.open"
         tabIndex="1"
         @keyup="onKeyup"
       >
-        <div class="flex-1">
+        <div
+          :class="{
+            'flex-1': props.isBetween,
+            'mr-2': !props.isBetween,
+            uppercase: props.textCapital,
+          }"
+        >
           {{ props.modelValue.label }}
         </div>
 
@@ -30,14 +38,20 @@
       <transition name="fade">
         <div
           v-if="state.open"
-          class="absolute w-full ui-dropdown--options mt-2 z-40 bg-white"
+          class="absolute w-full ui-dropdown--optionsx mt-2 z-40 bg-white"
           role="listbox"
         >
           <div
             v-for="(item, i) in options"
             :key="item"
-            class="h-10 ui-dropdown--option"
-            :class="{ 'ui-dropdown--option--active': state.selectIndex == i }"
+            class="ui-dropdown--optionx"
+            :class="{
+              'ui-dropdown--option--active': state.selectIndex == i,
+              'h-8': props.size == 'sm',
+              'h-10': props.size == 'base',
+              'justify-center': !props.isBetween,
+              uppercase: props.textCapital,
+            }"
             role="option"
             tabindex="-1"
             @click="change(item)"
@@ -66,6 +80,14 @@ const props = defineProps({
   },
   boxStyle: String,
   size: { type: String, default: "base" },
+  isBetween: {
+    type: Boolean,
+    default: true,
+  },
+  textCapital: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const state = reactive({
@@ -113,18 +135,22 @@ const change = (item) => {
   border-radius: 4px;
   border: 1px solid #2a2e33;
 }
-.ui-dropdown--options {
+
+.ui-dropdown--optionsx {
   border-radius: 4px;
-  border: 1px solid #831828;
+  overflow: hidden;
+  background: #2a2e34;
 }
-.ui-dropdown--option {
+.ui-dropdown--optionx {
   display: flex;
   align-items: center;
-  height: 30px;
+  /* height: 30px; */
   padding-left: 16px;
   cursor: pointer;
   color: #fff;
+  /* border-bottom: 1px solid #ffffff1a; */
 }
+
 .ui-dropdown--option:hover,
 .ui-dropdown--option--active {
   background: rgba(255, 255, 255, 0.1);

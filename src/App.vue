@@ -71,4 +71,9 @@ table td {
 .fade-enter-to {
   opacity: 1;
 }
+
+.link-hover:hover {
+  color: #26aaffff;
+  text-decoration: underline;
+}
 </style>

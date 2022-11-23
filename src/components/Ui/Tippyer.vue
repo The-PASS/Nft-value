@@ -1,11 +1,32 @@
 <template>
-  <tippy tag="div" :arrow="false" :content="content">
+  <tippy
+    tag="div"
+    :arrow="false"
+    :content="content"
+    :interactive="interactive"
+    :popperOptions="popperOptions"
+    :placement="placement"
+  >
     <slot></slot>
+    <template #content>
+      <slot name="content">
+        {{ content }}
+      </slot>
+    </template>
   </tippy>
 </template>
 
 <script setup>
-const props = defineProps({ content: String });
+const props = defineProps({
+  content: String,
+  interactive: {
+    type: Boolean,
+    default: false,
+  },
+  trigger: String,
+  popperOptions: { type: Object, default: undefined },
+  placement: { type: String, default: "top" },
+});
 </script>
 
 <style>

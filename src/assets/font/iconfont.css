@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2818281 */
-  src: url('iconfont.woff2?t=1653295528511') format('woff2'),
-       url('iconfont.woff?t=1653295528511') format('woff'),
-       url('iconfont.ttf?t=1653295528511') format('truetype');
+  src: url('iconfont.woff2?t=1669201062998') format('woff2'),
+       url('iconfont.woff?t=1669201062998') format('woff'),
+       url('iconfont.ttf?t=1669201062998') format('truetype');
 }
 
 .iconfont {
@@ -13,12 +13,116 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-opensea:before {
-  content: "\e662";
+.icon-jian2-63:before {
+  content: "\e67b";
 }
 
-.icon-OpenSea1:before {
+.icon-CSV-44:before {
+  content: "\e67a";
+}
+
+.icon-xiazai:before {
+  content: "\e678";
+}
+
+.icon-fenxiang2:before {
+  content: "\e679";
+}
+
+.icon-xlsx:before {
+  content: "\e676";
+}
+
+.icon-json:before {
+  content: "\e677";
+}
+
+.icon-xiangji:before {
+  content: "\e66a";
+}
+
+.icon-shaixuan-01:before {
+  content: "\e675";
+}
+
+.icon-hezuo-26:before {
+  content: "\e673";
+}
+
+.icon-gou-28:before {
+  content: "\e674";
+}
+
+.icon-qiehuan-36:before {
+  content: "\e672";
+}
+
+.icon-Directory:before {
+  content: "\e66e";
+}
+
+.icon-a-CreatorDAO:before {
+  content: "\e66f";
+}
+
+.icon-Wiki:before {
+  content: "\e670";
+}
+
+.icon-blog:before {
+  content: "\e671";
+}
+
+.icon-caidan-31:before {
+  content: "\e66c";
+}
+
+.icon-zhuanhuan-30:before {
+  content: "\e66d";
+}
+
+.icon-fuzhi2-29:before {
+  content: "\e66b";
+}
+
+.icon-paihangbang-25:before {
+  content: "\e669";
+}
+
+.icon-ETH2-24:before {
+  content: "\e668";
+}
+
+.icon-Polygon-26:before {
+  content: "\e667";
+}
+
+.icon-Ronin-25:before {
+  content: "\e665";
+}
+
+.icon-Polygon-24:before {
+  content: "\e666";
+}
+
+.icon-Etherscan-23:before {
+  content: "\e664";
+}
+
+.icon-zhankai-20:before {
+  content: "\e658";
+}
+
+.icon-xiadie-22:before {
   content: "\e661";
+}
+
+.icon-shangzhang-21:before {
+  content: "\e663";
+}
+
+.icon-opensea:before {
+  content: "\e662";
 }
 
 .icon-daibi-16:before {
@@ -71,10 +175,6 @@
 
 .icon-telegram:before {
   content: "\e657";
-}
-
-.icon-OpenSea:before {
-  content: "\e658";
 }
 
 .icon-telegram-42:before {
@@ -279,10 +379,6 @@
 
 .icon-shang:before {
   content: "\e625";
-}
-
-.icon-fuzhi:before {
-  content: "\e626";
 }
 
 .icon-pinglun:before {

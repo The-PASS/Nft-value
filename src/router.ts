@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 
 import Index from "@/pages/Index.vue";
 import Category from "@/pages/Category.vue";
-import Details from "@/pages/Dashboard/index.vue";
+import Details from "@/pages/Overview/Collectables.vue";
 import Search from "@/pages/Search.vue";
 
 const routes = [
@@ -40,9 +40,17 @@ const routes = [
     ],
   },
   {
-    name: "details",
-    path: "/detail/:name/:tokenId?",
+    name: "Collectabless",
+    path: "/Collectables/:name/:tokenId?",
     component: Details,
+    meta: {
+      keepAlive: false,
+    },
+  },
+  {
+    name: "Arts",
+    path: "/Art/:name/:tokenId?",
+    component: import("@/pages/Overview/Art.vue"),
     meta: {
       keepAlive: false,
     },

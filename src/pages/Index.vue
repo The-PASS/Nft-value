@@ -15,7 +15,7 @@
         <p>about your NFT assets.</p>
       </div>
       <Button type="main-weak" class="mt-16" @click="router.push('/list')"
-        >Explore Evalution</Button
+        >Explore Evaluation</Button
       >
     </div>
   </div>

@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { isAddress } from "ethers/lib/utils";
 import { passHttp } from "./request";
 
 export const searchProject = async (key: string, cancel = false) => {
@@ -170,4 +171,134 @@ export const getBoardTradeHistory = async (
   res.datas.shift();
 
   return res;
+};
+
+/* Art */
+export const getArtInfo = async (name: string) => {
+  const res = await passHttp.get("/artist/info", {
+    params: {
+      name,
+    },
+  });
+
+  const ethAddress: Array<string> = [];
+  const tezosAddress: Array<string> = [];
+
+  res.artistAddressList.forEach((addr: string) => {
+    if (isAddress(addr)) {
+      ethAddress.push(addr);
+    } else {
+      tezosAddress.push(addr);
+    }
+  });
+
+  return { ...res, ethAddress, tezosAddress };
+};
+
+export const getArtwork = (page: number, options: any, cancel = false) =>
+  passHttp.get(
+    "/artist/artwork",
+    {
+      params: {
+        pageSize: 24,
+        page,
+        ...options,
+      },
+    },
+    cancel
+  );
+
+export const getArtDount = async (name: string) => {
+  const res = await passHttp.get("/artist/nftDount", {
+    params: {
+      creatorName: name,
+    },
+  });
+
+  const sum = res.reduce((a: any, b: any) => a + b.number, 0);
+  res.forEach((x: any) => {
+    x.rate = ((x.number / sum) * 100).toFixed(2);
+    x.value = x.number;
+  });
+
+  return res;
+};
+
+export const getArtTransaction = async (name: string) => {
+  const res = await passHttp.get("/artist/nftTransaction", {
+    params: {
+      creatorName: name,
+    },
+  });
+
+  return res;
+};
+
+export const getArtTxRecord = async (
+  creatorName: string,
+  txType: number,
+  cancel: boolean
+) =>
+  passHttp.get(
+    "/artist/getColumnList",
+    {
+      params: {
+        creatorName,
+        txType,
+      },
+    },
+    cancel
+  );
+
+export const getArtTxRecordDetails = (
+  page: number,
+  creatorName: string,
+  txType: string,
+  valueType: string,
+  plat: string,
+  cancel: boolean
+) =>
+  passHttp.get(
+    "/artist/getTransaction",
+    {
+      params: {
+        page,
+        size: 20,
+        creatorName,
+        txType,
+        valueType,
+        plat,
+      },
+    },
+    cancel
+  );
+
+export const getArtScatter = async (creatorName: string, valueType: any) => {
+  const res = await Promise.all([
+    passHttp.get("/artist/transactionChart", {
+      params: {
+        creatorName,
+        txtype: 0,
+        valueType,
+      },
+    }),
+    passHttp.get("/artist/transactionChart", {
+      params: {
+        creatorName,
+        txtype: 1,
+        valueType,
+      },
+    }),
+  ]);
+
+  const [single, edition] = res;
+
+  const { cutPoint, pointList } = single;
+  const { cutPoint: xcutPoint, pointList: xpointList } = edition;
+
+  return {
+    single: pointList,
+    edition: xpointList,
+    cutPoint: cutPoint[0] || xcutPoint[0],
+  };
 };

@@ -22,6 +22,7 @@
     "copy-to-clipboard": "^3.3.1",
     "dayjs": "^1.11.3",
     "echarts": "^5.3.3",
+    "ethers": "^5.7.2",
     "lodash": "^4.17.21",
     "numeral": "^2.0.6",
     "overlayscrollbars": "^1.13.2",
@@ -30,7 +31,8 @@
     "vue-echarts": "^6.1.0",
     "vue-router": "4.0.15",
     "vue-skeletor": "^1.0.6",
-    "vue-tippy": "^6.0.0-alpha.57"
+    "vue-tippy": "^6.0.0-alpha.57",
+    "vue3-click-away": "^1.2.4"
   },
   "devDependencies": {
     "@pinia/testing": "0.0.12",

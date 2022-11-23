@@ -1,5 +1,7 @@
 import copy from "copy-to-clipboard";
 import BigNumber from "bignumber.js";
+import { utils } from "ethers";
+import dayjs from "dayjs";
 
 export const formatAddress = (address: string, bit = 8) => {
   return address.substring(0, bit + 2) + "..." + address.slice(42 - bit);
@@ -46,3 +48,10 @@ export const toExploreAddress = (
     "_blank"
   );
 };
+
+export const isAddress = (addr: string) => utils.isAddress(addr);
+
+export const getResourceUrl = (name: string) =>
+  new URL(name, import.meta.url).href;
+
+export const formatDate = (str: any, type: string) => dayjs(str).format(type);
