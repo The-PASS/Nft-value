@@ -296,9 +296,22 @@ export const getArtScatter = async (creatorName: string, valueType: any) => {
   const { cutPoint, pointList } = single;
   const { cutPoint: xcutPoint, pointList: xpointList } = edition;
 
+  let x1 = 0;
+  let x2 = 0;
+  if (pointList.length > 0) {
+    x1 = pointList[0].transactionTime;
+    x2 = pointList[pointList.length - 1].transactionTime;
+  }
+  if (pointList.length) {
+    x1 = Math.min(x1, xpointList[0].transactionTime);
+    x2 = Math.max(x2, xpointList[xpointList.length - 1].transactionTime);
+  }
+
   return {
     single: pointList,
     edition: xpointList,
     cutPoint: cutPoint[0] || xcutPoint[0],
+    minPoint: x1,
+    maxPoint: x2,
   };
 };

@@ -111,10 +111,8 @@ const option = computed(() => {
       axisLabel: {
         formatter: (value) => formatDate(value, "MMM DD"),
       },
-      //   min: store.dashboard.traitHistory.trades[
-      //     store.dashboard.traitHistory.trades.length - 1
-      //   ].tradeTime,
-      //   max: store.dashboard.traitHistory.trades[0].tradeTime,
+      min: state.source.minPoint,
+      max: state.source.maxPoint,
     },
     yAxis: {
       splitLine: {
@@ -201,7 +199,7 @@ const option = computed(() => {
             {
               name: "Cut Time",
               xAxis: 0,
-              // xAxis: store.dashboard.traitHistory.cutData.cutPoint,
+              xAxis: state.source.cutPoint,
             },
           ],
         },
