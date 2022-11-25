@@ -20,7 +20,7 @@ const routes = [
   {
     name: "List",
     path: "/list",
-    component: import("@/pages/Category/index.vue"),
+    component: () => import("@/pages/Category/index.vue"),
     redirect: "/list/Collectables",
     meta: {
       keepAlive: false,
@@ -30,12 +30,12 @@ const routes = [
       {
         name: "Collectables",
         path: "/list/Collectables",
-        component: import("@/pages/Category/Collectables.vue"),
+        component: () => import("@/pages/Category/Collectables.vue"),
       },
       {
         name: "Art",
         path: "/list/Art",
-        component: import("@/pages/Category/Art.vue"),
+        component: () => import("@/pages/Category/Art.vue"),
       },
     ],
   },
@@ -50,7 +50,7 @@ const routes = [
   {
     name: "Arts",
     path: "/Art/:name/:tokenId?",
-    component: import("@/pages/Overview/Art.vue"),
+    component: () => import("@/pages/Overview/Art.vue"),
     meta: {
       keepAlive: false,
     },
