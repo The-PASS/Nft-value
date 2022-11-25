@@ -234,21 +234,20 @@ export const getArtTransaction = async (name: string) => {
   return res;
 };
 
-export const getArtTxRecord = async (
-  creatorName: string,
-  txType: number,
-  cancel: boolean
-) =>
-  passHttp.get(
+export const getArtTxRecord = async (creatorName: string, cancel: boolean) => {
+  const res = await passHttp.get(
     "/artist/getColumnList",
     {
       params: {
         creatorName,
-        txType,
+        txType: 1,
       },
     },
     cancel
   );
+
+  return [[], res];
+};
 
 export const getArtTxRecordDetails = (
   page: number,

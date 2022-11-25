@@ -260,9 +260,7 @@
       <ScatterChart></ScatterChart>
     </div>
 
-    <div class="mt-8">
-      <TxRecord></TxRecord>
-    </div>
+    <TxRecord></TxRecord>
 
     <!-- section 4 -->
     <div class="mt-8 flex space-x-4" style="height: 420px">

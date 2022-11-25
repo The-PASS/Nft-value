@@ -1,37 +1,64 @@
 <template>
   <div
-    class="h-12 hover:bg-[#FFFFFF0D] flex font-bold text-xs cursor-pointer"
+    class="h-12 hover:bg-[#FFFFFF0D] font-bold text-xs cursor-pointer"
     :class="{
       'bg-[#FFFFFF0D]': isSelected,
     }"
     style="border-bottom: 1px solid rgba(255, 255, 255, 0.1)"
     @click="store.selectTx(info)"
   >
-    <div class="flex-1 flex justify-start items-center">
-      <div class="w-12 flex items-center justify-center">
-        <IconfontIcon
-          class="text-xl cursor-pointer"
-          :name="isSelected ? 'icon-jian2-63' : 'icon-chuangjian'"
-        ></IconfontIcon>
+    <div class="flex h-full" v-if="type == 'Single'">
+      <div class="flex-1 flex justify-start items-center">
+        <div class="w-12 flex items-center justify-center">
+          <IconfontIcon
+            class="text-xl cursor-pointer"
+            :name="isSelected ? 'icon-jian2-63' : 'icon-chuangjian'"
+          ></IconfontIcon>
+        </div>
+
+        <span v-if="!isSelected"> ALL </span>
+
+        <div v-else @click.stop="() => {}">
+          <UiDropdown
+            class="w-28"
+            v-model="state.dropdownValue"
+            :options="dropDownOption"
+          ></UiDropdown>
+        </div>
       </div>
-
-      <span v-if="!isSelected"> ALL </span>
-
-      <div v-else @click.stop="() => {}">
-        <UiDropdown
-          class="w-28"
-          v-model="state.dropdownValue"
-          :options="dropDownOption"
-        ></UiDropdown>
+      <div class="flex-1 flex items-center justify-center">
+        {{ info.valuation }} ETH
+      </div>
+      <div class="flex-1 flex items-center justify-end">
+        <span class="pr-12">
+          {{ formatDate(info.cutPoint, "YYYY-MM-DD HH:mm") }}
+        </span>
       </div>
     </div>
-    <div class="flex-1 flex items-center justify-center">
-      {{ info.valuation }}
-    </div>
-    <div class="flex-1 flex items-center justify-end">
-      <span class="pr-12">
-        {{ formatDate(info.cutPoint, "YYYY-MM-DD HH:mm") }}
-      </span>
+    <div class="flex h-full" v-else>
+      <div class="flex-1 flex justify-start items-center">
+        <div class="w-12 flex items-center justify-center">
+          <IconfontIcon
+            class="text-xl cursor-pointer"
+            :name="isSelected ? 'icon-jian2-63' : 'icon-chuangjian'"
+          ></IconfontIcon>
+        </div>
+
+        <span class="pl-12">{{ info.collectionName }}</span>
+      </div>
+      <div class="flex-1 flex items-center">
+        <div class="pl-12">{{ info.editionPoint }}</div>
+      </div>
+      <div class="flex-1 flex items-center">
+        <div class="pl-12">
+          {{ localeNumber(info.valuation, 2, false) }} ETH
+        </div>
+      </div>
+      <div class="flex-1 flex items-center justify-end">
+        <div class="pr-12">
+          {{ formatDate(info.cutPoint, "YYYY-MM-DD HH:mm") }}
+        </div>
+      </div>
     </div>
   </div>
   <div
@@ -78,8 +105,18 @@
 import { getArtTxRecordDetails } from "@/api";
 import { useReqPages } from "@/hooks";
 import { useArtStore } from "@/store/art";
-import { formatDate, formatAddress, toExploreAddress } from "@/utils";
+import {
+  formatDate,
+  formatAddress,
+  toExploreAddress,
+  localeNumber,
+} from "@/utils";
 import { withThrottling } from "@/with";
+
+const txTypeMap = {
+  Single: 0,
+  Edition: 1,
+};
 
 const $route = useRoute();
 const store = useArtStore();
@@ -94,6 +131,7 @@ const state = reactive({
 
 const props = defineProps({
   info: Object,
+  type: String,
 });
 
 const pState = inject("pState");
@@ -124,7 +162,7 @@ const { loadRest, loading, loadNext, results } = useReqPages((page, cancel) => {
   return getArtTxRecordDetails(
     page,
     $route.params.name,
-    pState.selected,
+    txTypeMap[props.type],
     store.selectedTx.valueType,
     state.dropdownValue.value,
     cancel

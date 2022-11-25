@@ -10,19 +10,41 @@ export const formatAddress = (address: string, bit = 8) => {
 export const copyTx = (text: string) => copy(text);
 
 export const localeNumber = (xnum: number, bit = 0, zero = true) => {
-  const num = Math.abs(xnum || 0);
-  const intNum = Math.floor(num);
-  const floatNum = num - intNum;
+  const num = Math.abs(xnum);
+  if (xnum >= 10 ** (-1 * bit)) {
+    const intNum = Math.floor(num);
+    const floatNum = num - intNum;
+    return (
+      (xnum < 0 ? "-" : "") +
+      (intNum.toLocaleString() +
+        (bit == 0
+          ? ""
+          : zero
+          ? floatNum.toFixed(bit).substring(1)
+          : new BigNumber(+floatNum.toFixed(bit)).toFixed().substring(1)))
+    );
+  }
 
-  return (
-    (xnum < 0 ? "-" : "") +
-    (intNum.toLocaleString() +
-      (bit == 0
-        ? ""
-        : zero
-        ? floatNum.toFixed(bit).substring(1)
-        : new BigNumber(+floatNum.toFixed(bit)).toFixed().substring(1)))
-  );
+  if (num == 0) {
+    return "0";
+  }
+
+  let weight = 0;
+  let value = num;
+
+  while (value < 1) {
+    value *= 10;
+    weight++;
+  }
+
+  return value < 0
+    ? "-"
+    : "" +
+        "0." +
+        Array(Math.max(0, weight - 1))
+          .fill(0)
+          .join("") +
+        (+value.toFixed(3)).toString().replace(".", "");
 };
 
 export const suffixNum = (num: number | string) => {
