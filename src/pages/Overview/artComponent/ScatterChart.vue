@@ -114,8 +114,8 @@ const { loadData, loading } = useReqByBool(async () => {
 });
 
 const option = computed(() => {
-  const maxPoint = 0;
-  const minPoint = 0;
+  let maxPoint = 0;
+  let minPoint = 0;
 
   const series = [];
   state.source.forEach((list) => {
