@@ -5,7 +5,7 @@
       'bg-[#FFFFFF0D]': isSelected,
     }"
     style="border-bottom: 1px solid rgba(255, 255, 255, 0.1)"
-    @click="store.selectTx(info)"
+    @click="selectTx(info)"
   >
     <div class="flex h-full" v-if="type == 'Single'">
       <div class="flex-1 flex justify-start items-center">
@@ -20,14 +20,21 @@
 
         <div v-else @click.stop="() => {}">
           <UiDropdown
-            class="w-28"
+            class="w-32"
             v-model="state.dropdownValue"
             :options="dropDownOption"
           ></UiDropdown>
         </div>
       </div>
-      <div class="flex-1 flex items-center justify-center">
-        {{ info.valuation }} ETH
+
+      <div class="flex-1 flex justify-start items-center">
+        <span class="pl-12">
+          {{ info.tag }}
+        </span>
+      </div>
+
+      <div class="flex-1 flex items-center">
+        <span class="pl-12"> {{ info.valuation }} ETH </span>
       </div>
       <div class="flex-1 flex items-center justify-end">
         <span class="pr-12">
@@ -47,7 +54,7 @@
         <span class="pl-12">{{ info.collectionName }}</span>
       </div>
       <div class="flex-1 flex items-center">
-        <div class="pl-12">{{ info.editionPoint }}</div>
+        <div class="pl-12">{{ info.editionCount }}</div>
       </div>
       <div class="flex-1 flex items-center">
         <div class="pl-12">
@@ -88,7 +95,7 @@
         <div class="cell-left" style="width: 19%">{{ item.tokenId }}</div>
         <div class="cell-right" style="width: 14.9%">{{ item.plat }}</div>
         <div class="cell-right" style="width: 20.7%">
-          {{ item.lastPrice }} ETH
+          {{ localeNumber(item.lastPrice, 2, false) }} ETH
         </div>
         <div class="cell-right" style="width: 16.5%">
           {{ formatDate(item.transactionTime, "YYYY-MM-DD HH:mm") }}
@@ -137,7 +144,11 @@ const props = defineProps({
 const pState = inject("pState");
 
 const isSelected = computed(() => {
-  return store.selectedTx.valueType == props.info.valueType;
+  return (
+    (store.evaTypes[store.selectedEvaType] == "Single"
+      ? store.singleValueType
+      : store.editionValueType) == props.info.valueType
+  );
 });
 
 const dropDownOption = computed(() => {
@@ -163,17 +174,25 @@ const { loadRest, loading, loadNext, results } = useReqPages((page, cancel) => {
     page,
     $route.params.name,
     txTypeMap[props.type],
-    store.selectedTx.valueType,
+    props.type == "Single" ? store.singleValueType : store.editionValueType,
     state.dropdownValue.value,
     cancel
   );
 });
 
 watch(
-  () => [isSelected.value, state.dropdownValue.value],
+  () => isSelected.value,
   (val) => {
-    const [flag] = val;
-    if (flag) {
+    if (val) {
+      loadRest(true);
+    }
+  }
+);
+
+watch(
+  () => state.dropdownValue.value,
+  (val) => {
+    if (isSelected.value) {
       loadRest(true);
     }
   }
@@ -182,6 +201,12 @@ watch(
 useInfiniteScroll(scrollEl, withThrottling(loadNext), {
   distance: 44,
 });
+
+const selectTx = (info) => {
+  if (!store.selectArtwork) {
+    store.selectTx(info);
+  }
+};
 
 onMounted(() => {
   if (isSelected.value) {

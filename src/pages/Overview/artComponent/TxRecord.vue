@@ -11,11 +11,11 @@
         <div
           class="txrecord-btn flex justify-center items-center"
           :class="{
-            'txrecord-btn-active': state.selected == i,
+            'txrecord-btn-active': store.selectedEvaType == i,
           }"
-          v-for="(text, i) in evaType"
+          v-for="(text, i) in store.evaTypes"
           :key="i"
-          @click="state.selected = i"
+          @click="store.selectedEvaType = i"
         >
           {{ text }}
         </div>
@@ -23,14 +23,21 @@
 
       <div>
         <div
-          v-if="evaType[state.selected] == 'Single'"
+          v-if="store.evaTypes[store.selectedEvaType] == 'Single'"
           class="w-full h-12 bg-[#2A2E33] text-[#FFFFFFB3] flex"
         >
-          <div class="flex-1 flex justify-start items-center pl-12">
-            Platform
+          <div class="flex-1 flex justify-start items-center">
+            <span class="pl-12"> Platform </span>
           </div>
-          <div class="flex-1 flex items-center justify-center">Valuation</div>
-          <div class="flex-1 flex items-center justify-end pr-12">Cut time</div>
+          <div class="flex-1 flex justify-start items-center">
+            <span class="pl-12"> Tag </span>
+          </div>
+          <div class="flex-1 flex items-center">
+            <span class="pl-12"> Valuation </span>
+          </div>
+          <div class="flex-1 flex items-center justify-end">
+            <span class="pr-12"> Cut time </span>
+          </div>
         </div>
 
         <div v-else class="w-full h-12 bg-[#2A2E33] text-[#FFFFFFB3] flex">
@@ -50,9 +57,9 @@
 
         <div class="max-h-72 overflow-y-scroll">
           <TxRecordCard
-            :type="evaType[state.selected]"
+            :type="store.evaTypes[store.selectedEvaType]"
             :info="item"
-            v-for="(item, i) in results"
+            v-for="(item, i) in store.evaList"
             :key="i"
           ></TxRecordCard>
         </div>
@@ -72,49 +79,14 @@ const $route = useRoute();
 
 const store = useArtStore();
 
-const state = reactive({
-  selected: 0,
-  Single: [],
-  Edtion: [],
-});
-
-const evaType = computed(() => {
-  const res = [];
-  if (state.Single.length > 0) {
-    res.push("Single");
-  }
-  if (state.Edtion.length > 0) {
-    res.push("Edition");
-  }
-
-  return res;
-});
-
-const results = computed(() => {
-  const type = evaType[state.selected];
-  if (type == "Single") return state.Single;
-  return state.Edtion;
-});
-
-provide("pState", state);
-
 const { loadData, loading } = useReqByBool(async () => {
-  const res = await getArtTxRecord($route.params.name, true);
-  state.Single = res[0];
-  state.Edtion = res[1];
+  await store.loadEvaList($route.params.name);
 });
 
 watch(
-  () => state.selected,
+  () => store.evaTypes,
   () => {
-    loadData();
-  }
-);
-
-watch(
-  () => store.selectedArtwork,
-  (val) => {
-    console.log(val.valueType);
+    store.selectedEvaType = 0;
   }
 );
 

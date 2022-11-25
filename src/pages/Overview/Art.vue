@@ -1,5 +1,5 @@
 <template>
-  <div v-if="store.infoLoading" class="h-full flex items-center justify-center">
+  <div v-if="loading" class="h-full flex items-center justify-center">
     <img class="w-16 h-16" src="@/assets/svgs/spin.svg" alt="" />
   </div>
   <div
@@ -286,6 +286,7 @@ import NftTransaction from "./artComponent/NftTransaction.vue";
 import NftValue from "./artComponent/NftValue.vue";
 import TxRecord from "./artComponent/TxRecord.vue";
 import ScatterChart from "./artComponent/ScatterChart.vue";
+import { useReqByBool } from "@/hooks";
 
 const route = useRoute();
 const store = useArtStore();
@@ -321,9 +322,9 @@ const basicData = computed(() => [
   },
 ]);
 
-const loadData = async () => {
+const { loadData, loading } = useReqByBool(async () => {
   await store.loadInfo(route.params.name);
-};
+});
 
 onBeforeMount(() => {
   store.resetDashboard();

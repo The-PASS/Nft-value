@@ -48,7 +48,7 @@ import {
 import VChart from "vue-echarts";
 import { formatDate } from "@/utils";
 import { useReqByBool } from "@/hooks";
-import { getArtScatter } from "@/api";
+import { getArtScatter, getArtScatterAll } from "@/api";
 import { useArtStore } from "@/store/art";
 
 const $route = useRoute();
@@ -56,7 +56,7 @@ const store = useArtStore();
 const color = ["#FF5166FF", "#9317B5FF"];
 
 const state = reactive({
-  source: {},
+  source: [],
 });
 
 use([
@@ -68,35 +68,72 @@ use([
   MarkLineComponent,
 ]);
 
+// TODO 选择对应的 artwork 的时候显示对应的值
 const flags = computed(() => {
-  const { single, edition } = state.source;
+  // const { single, edition } = state.source;
 
-  const flag = [];
-  if (single && single.length > 0) {
-    flag.push({ text: "Single" });
-  }
-  if (edition && edition.length > 0) {
-    flag.push({ text: "Edition" });
-  }
+  // const flag = [];
+  // if (single && single.length > 0) {
+  //   flag.push({ text: "Single" });
+  // }
+  // if (edition && edition.length > 0) {
+  //   flag.push({ text: "Edition" });
+  // }
 
-  flag.forEach((x, i) => {
-    x.color = color[i];
-  });
+  // flag.forEach((x, i) => {
+  //   x.color = color[i];
+  // });
 
-  return flag;
+  return [];
+
+  // return flag;
 });
 
 const { loadData, loading } = useReqByBool(async () => {
-  const res = await getArtScatter(
-    $route.params.name,
-    store.selectedTx ? store.selectedTx.valueType : ""
-  );
+  let list;
 
-  state.source = res;
+  if (store.selectedArtwork.valueType) {
+    list = [
+      await getArtScatter(
+        $route.params.name,
+        store.curEvaType,
+        store.selectedArtwork.valueType
+      ),
+    ];
+  } else if (!store.singleValueType && !store.editionValueType) {
+    list = await getArtScatterAll($route.params.name);
+  } else {
+    list = [
+      await getArtScatter($route.params.name, store.curEvaType, store.curType),
+    ];
+  }
+
+  state.source = list;
+
+  console.log(list);
 });
 
 const option = computed(() => {
-  const { single, edition } = state.source;
+  const maxPoint = 0;
+  const minPoint = 0;
+
+  const series = [];
+  state.source.forEach((list) => {
+    list.forEach((x) => {
+      if (minPoint == 0) {
+        minPoint = x.transactionTime;
+      } else {
+        maxPoint = Math.max(maxPoint, x.transactionTime);
+        minPoint = Math.min(minPoint, x.transactionTime);
+      }
+    });
+
+    series.push({
+      symbolSize: 20,
+      type: "scatter",
+      data: list.map((x) => [x.transactionTime, x.lastPrice]),
+    });
+  });
 
   return {
     grid: {
@@ -111,8 +148,8 @@ const option = computed(() => {
       axisLabel: {
         formatter: (value) => formatDate(value, "MMM DD"),
       },
-      min: state.source.minPoint,
-      max: state.source.maxPoint,
+      min: minPoint,
+      max: maxPoint,
     },
     yAxis: {
       splitLine: {
@@ -155,65 +192,16 @@ const option = computed(() => {
       },
     },
     color,
-    series: [
-      {
-        symbolSize: 20,
-        data: [
-          [10.0, 8.04],
-          [8.07, 6.95],
-          [13.0, 7.58],
-          [9.05, 8.81],
-          [11.0, 8.33],
-          [14.0, 7.66],
-          [13.4, 6.81],
-          [10.0, 6.33],
-          [14.0, 8.96],
-          [12.5, 6.82],
-          [9.15, 7.2],
-          [11.5, 7.2],
-          [3.03, 4.23],
-          [12.2, 7.83],
-          [2.02, 4.47],
-          [1.05, 3.33],
-          [4.05, 4.96],
-          [6.03, 7.24],
-          [12.0, 6.26],
-          [12.0, 8.84],
-          [7.08, 5.82],
-          [5.02, 5.68],
-        ],
-        type: "scatter",
-        markLine: {
-          silent: true,
-          symbol: "none",
-          label: {
-            color: "#fff",
-            position: "end",
-            formatter: "Cut Time",
-          },
-          lineStyle: {
-            type: "solid",
-            color: "#fff",
-          },
-          data: [
-            {
-              name: "Cut Time",
-              xAxis: 0,
-              xAxis: state.source.cutPoint,
-            },
-          ],
-        },
-      },
-    ],
+    series,
   };
 });
 
-watch(
-  () => store.selectedTx.valueType,
-  () => {
-    loadData();
-  }
-);
+// watch(
+//   () => store.selectedTx.valueType,
+//   () => {
+//     loadData();
+//   }
+// );
 
 onMounted(() => {
   loadData();
