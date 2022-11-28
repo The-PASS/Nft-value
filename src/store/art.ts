@@ -42,6 +42,8 @@ export const useArtStore = defineStore("Art", {
     selectToken(artwork: any) {
       if (artwork.tokenId == this.selectedArtwork.tokenId) {
         this.selectedArtwork = {};
+        this.singleValueType = "";
+        this.editionValueType = "";
       } else {
         this.selectedArtwork = artwork;
         this.singleValueType = artwork.valueType;

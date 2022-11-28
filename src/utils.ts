@@ -2,6 +2,8 @@ import copy from "copy-to-clipboard";
 import BigNumber from "bignumber.js";
 import { utils } from "ethers";
 import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 export const formatAddress = (address: string, bit = 8) => {
   return address.substring(0, bit + 2) + "..." + address.slice(42 - bit);
@@ -77,3 +79,10 @@ export const getResourceUrl = (name: string) =>
   new URL(name, import.meta.url).href;
 
 export const formatDate = (str: any, type: string) => dayjs(str).format(type);
+
+export const formatDateText = (ms: number) => {
+  const now = Date.now();
+  const prev = ms; /* + new Date().getTimezoneOffset() * 60000 */
+  const x = (now - prev) / 1000;
+  return (dayjs(prev) as any).fromNow();
+};

@@ -203,7 +203,7 @@ useInfiniteScroll(scrollEl, withThrottling(loadNext), {
 });
 
 const selectTx = (info) => {
-  if (!store.selectArtwork) {
+  if (!store.selectedArtwork.valueType) {
     store.selectTx(info);
   }
 };

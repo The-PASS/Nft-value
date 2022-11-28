@@ -290,7 +290,7 @@ export const getArtScatterAll = async (creatorName: string, valueType = "") => {
     getArtScatter(creatorName, 1, valueType),
   ]);
 
-  const [single, edition] = res;
+  // const [single, edition] = res;
 
   return res;
 };

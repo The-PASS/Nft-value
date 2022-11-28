@@ -23,7 +23,7 @@
       <VChart
         class="chart"
         :option="option"
-        v-else-if="state.source.cutPoint"
+        v-else-if="state.source.length > 0"
       ></VChart>
       <div
         v-else
@@ -93,24 +93,24 @@ const { loadData, loading } = useReqByBool(async () => {
   let list;
 
   if (store.selectedArtwork.valueType) {
-    list = [
-      await getArtScatter(
-        $route.params.name,
-        store.curEvaType,
-        store.selectedArtwork.valueType
-      ),
-    ];
+    const res = await getArtScatter(
+      $route.params.name,
+      store.curEvaType,
+      store.selectedArtwork.valueType
+    );
+    list = res.length > 0 ? [res] : res;
   } else if (!store.singleValueType && !store.editionValueType) {
     list = await getArtScatterAll($route.params.name);
   } else {
-    list = [
-      await getArtScatter($route.params.name, store.curEvaType, store.curType),
-    ];
+    const res = await getArtScatter(
+      $route.params.name,
+      store.curEvaType,
+      store.selectedArtwork.valueType
+    );
+    list = res.length > 0 ? [res] : res;
   }
 
   state.source = list;
-
-  console.log(list);
 });
 
 const option = computed(() => {
@@ -129,7 +129,7 @@ const option = computed(() => {
     });
 
     series.push({
-      symbolSize: 20,
+      symbolSize: 10,
       type: "scatter",
       data: list.map((x) => [x.transactionTime, x.lastPrice]),
     });
@@ -196,12 +196,12 @@ const option = computed(() => {
   };
 });
 
-// watch(
-//   () => store.selectedTx.valueType,
-//   () => {
-//     loadData();
-//   }
-// );
+watch(
+  () => store.singleValueType + "" + store.editionValueType,
+  () => {
+    loadData();
+  }
+);
 
 onMounted(() => {
   loadData();
