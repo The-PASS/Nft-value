@@ -86,13 +86,19 @@
       <div class="flex h-12 art-cell" v-for="(item, i) in results" :key="i">
         <div class="cell-left" style="width: 23.3%">{{ item.tokenName }}</div>
         <div
-          class="cell-left link-pointer"
+          class="cell-left hover:underline cursor-pointer"
           style="width: 20.6%"
           @click.stop="jumpAddress(item.tokenAddress)"
         >
           {{ formatAddress(item.tokenAddress, 4) }}
         </div>
-        <div class="cell-left" style="width: 19%">{{ item.tokenId }}</div>
+        <div
+          class="cell-left link-pointer"
+          style="width: 19%"
+          @click.stop="jumpTokenId(item.tokenId, item.chain, item.tokenAddress)"
+        >
+          {{ item.tokenId }}
+        </div>
         <div class="cell-right" style="width: 14.9%">{{ item.plat }}</div>
         <div class="cell-right" style="width: 20.7%">
           {{ localeNumber(item.lastPrice, 2, false) }} ETH
@@ -167,6 +173,15 @@ const dropDownOption = computed(() => {
 
 const jumpAddress = (address, network) => {
   window.open(toExploreAddress(address, network), "_blank");
+};
+
+const jumpTokenId = (tokenId, chain, address) => {
+  window.open(
+    chain == "tezos"
+      ? `https://objkt.com/asset/${address}/${tokenId}`
+      : `https://opensea.io/assets/${chain.toLowerCase()}/${address}/${tokenId}`,
+    "_blank"
+  );
 };
 
 const { loadRest, loading, loadNext, results } = useReqPages((page, cancel) => {

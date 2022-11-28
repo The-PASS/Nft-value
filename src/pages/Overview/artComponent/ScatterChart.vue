@@ -181,14 +181,14 @@ const option = computed(() => {
       textStyle: {
         color: "#fff",
       },
-      formatter: ({ componentType, data }) => {
+      formatter: ({ componentType, data, dataIndex, seriesIndex }) => {
+        console.log(seriesIndex, dataIndex);
         if (componentType == "markLine") {
           return "";
         }
-        return `${data[1]} ETH <br/> ${formatDate(
-          data[0],
-          "MMM DD YYYY  hh:mmA"
-        )} `;
+        return `${state.source[seriesIndex][dataIndex].tokenName}<br/>${
+          data[1]
+        } ETH <br/> ${formatDate(data[0], "MMM DD YYYY  hh:mmA")} `;
       },
     },
     color,
