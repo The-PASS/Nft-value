@@ -1,8 +1,7 @@
 <template>
   <div class="w-full">
     <div class="text-xl font-bold">Artwork Transaction history</div>
-    <div class="flex justify-between mb-2 mt-4 text-base">
-      <div>Valuation by history</div>
+    <!-- <div class="flex justify-between mb-2 mt-4 text-base">
       <div class="flex space-x-4">
         <div class="flex items-center" v-for="(flag, i) in flags" :key="i">
           <div
@@ -12,8 +11,9 @@
           {{ flag.text }}
         </div>
       </div>
-    </div>
-    <div class="w-full h-[362px]">
+    </div> -->
+    <div class="w-full h-[362px] relative">
+      <div class="absolute top-2">Valuation by history</div>
       <div
         v-if="loading"
         class="w-full h-full flex items-center justify-center"
@@ -92,22 +92,26 @@ const flags = computed(() => {
 const { loadData, loading } = useReqByBool(async () => {
   let list;
 
-  if (store.selectedArtwork.valueType) {
-    const res = await getArtScatter(
-      $route.params.name,
-      store.curEvaType,
-      store.selectedArtwork.valueType
-    );
-    list = res.length > 0 ? [res] : res;
-  } else if (!store.singleValueType && !store.editionValueType) {
-    list = await getArtScatterAll($route.params.name);
-  } else {
-    const res = await getArtScatter(
-      $route.params.name,
-      store.curEvaType,
-      store.selectedArtwork.valueType
-    );
-    list = res.length > 0 ? [res] : res;
+  try {
+    if (store.selectedArtwork.valueType) {
+      const res = await getArtScatter(
+        $route.params.name,
+        store.curEvaType,
+        store.selectedArtwork.valueType
+      );
+      list = res.length > 0 ? [res] : res;
+    } else if (!store.singleValueType && !store.editionValueType) {
+      list = await getArtScatterAll($route.params.name);
+    } else {
+      const res = await getArtScatter(
+        $route.params.name,
+        store.curEvaType,
+        store.selectedArtwork.valueType
+      );
+      list = res.length > 0 ? [res] : res;
+    }
+  } catch (error) {
+    list = [];
   }
 
   state.source = list;
@@ -118,7 +122,7 @@ const option = computed(() => {
   let minPoint = 0;
 
   const series = [];
-  state.source.forEach((list) => {
+  state.source.forEach((list, i) => {
     list.forEach((x) => {
       if (minPoint == 0) {
         minPoint = x.transactionTime;
@@ -129,6 +133,7 @@ const option = computed(() => {
     });
 
     series.push({
+      name: store.evaTypes[i],
       symbolSize: 10,
       type: "scatter",
       data: list.map((x) => [x.transactionTime, x.lastPrice]),
@@ -157,6 +162,14 @@ const option = computed(() => {
       },
       axisLine: {
         show: false,
+      },
+    },
+    legend: {
+      data: ["Single", "Edition"],
+      left: "right",
+      top: 10,
+      textStyle: {
+        color: "#fff",
       },
     },
     tooltip: {
