@@ -70,10 +70,12 @@
           >
             <ui-img
               class="w-8 h-8 rounded-full mr-4 overflow-hidden"
-              :src="item.logo"
+              :src="item.logo || item.image"
               alt=""
             />
-            <span class="font-bold"> {{ item.projectName }} </span>
+            <span class="font-bold">
+              {{ item.projectName || item.artistName }}
+            </span>
           </div>
         </div>
       </div>
@@ -88,10 +90,12 @@
         >
           <ui-img
             class="w-8 h-8 rounded-full mr-4 overflow-hidden"
-            :src="item.logo"
+            :src="item.logo || item.image"
             alt=""
           />
-          <span class="font-bold"> {{ item.projectName }} </span>
+          <span class="font-bold">
+            {{ item.projectName || item.artistName }}
+          </span>
         </div>
       </div>
     </div>
@@ -105,6 +109,7 @@ const box = ref(null);
 const floatBox = ref(null);
 const searchInput = ref(null);
 
+const $route = useRoute();
 const router = useRouter();
 
 const state = reactive({
@@ -134,10 +139,14 @@ const showSearch = () => {
 const loadData = async (key) => {
   try {
     if (!key) {
-      state.list = await searchProject();
+      state.list = await searchProject(
+        undefined,
+        $route.name.toUpperCase(),
+        true
+      );
     } else {
       state.loading++;
-      const list = await searchProject(key, true);
+      const list = await searchProject(key, $route.name.toUpperCase(), true);
       state.loading--;
       if (list) {
         state.searchList = list;
@@ -150,7 +159,9 @@ const loadData = async (key) => {
 
 const jump = (item) => {
   state.flag = false;
-  router.push(`/detail/${item.path}`);
+  router.push(
+    item.artWorkValue ? `/Art/${item.artistName}` : `/Collectables/${item.path}`
+  );
 };
 
 // TODO 热度列表元素只会在加载的时候进行请求，其他不进行更新

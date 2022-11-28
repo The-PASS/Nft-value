@@ -44,7 +44,7 @@
                 class="hover:bg-[#ffffff0d] h-14 cursor-pointer"
                 v-for="(item, i) in state.list"
                 :key="i"
-                @click="router.push(`/ART/${item.artistName}`)"
+                @click="router.push(`/Art/${item.artistName}`)"
               >
                 <td class="text-left">
                   <div class="flex items-center">

@@ -136,7 +136,7 @@ const loadData = async (key) => {
 
 const jump = (item) => {
   state.flag = false;
-  router.push(`/detail/${item.path}`);
+  router.push(`/Collectables/${item.path}`);
 };
 
 // TODO 热度列表元素只会在加载的时候进行请求，其他不进行更新

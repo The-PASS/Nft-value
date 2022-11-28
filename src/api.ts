@@ -2,12 +2,17 @@ import dayjs from "dayjs";
 import { isAddress } from "ethers/lib/utils";
 import { passHttp } from "./request";
 
-export const searchProject = async (key: string, cancel = false) => {
+export const searchProject = async (
+  key: string,
+  type = "Collectables",
+  cancel = false
+) => {
   let res = await passHttp.get(
     "/nftvalue/search",
     {
       params: {
         search: key,
+        type,
       },
     },
     cancel
@@ -290,7 +295,7 @@ export const getArtScatterAll = async (creatorName: string, valueType = "") => {
     getArtScatter(creatorName, 1, valueType),
   ]);
 
-  // const [single, edition] = res;
+  const [single, edition] = res;
 
   return res;
 };
