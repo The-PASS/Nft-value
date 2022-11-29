@@ -255,6 +255,9 @@ export const getArtTxRecord = async (creatorName: string, cancel: boolean) => {
     cancel
   );
 
+  res.singleArtColumn.forEach((x: any) => (x.isSingle = true));
+  res.editionArtColumn.forEach((x: any) => (x.isSingle = false));
+
   return [res.singleArtColumn, res.editionArtColumn];
 };
 

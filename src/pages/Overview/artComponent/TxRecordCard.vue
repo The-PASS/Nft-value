@@ -29,7 +29,7 @@
 
       <div class="flex-1 flex justify-start items-center">
         <span class="pl-12">
-          {{ info.tag }}
+          {{ info.tag || "--" }}
         </span>
       </div>
 
@@ -150,11 +150,7 @@ const props = defineProps({
 const pState = inject("pState");
 
 const isSelected = computed(() => {
-  return (
-    (store.evaTypes[store.selectedEvaType] == "Single"
-      ? store.singleValueType
-      : store.editionValueType) == props.info.valueType
-  );
+  return store.selectedTx.valueType == props.info.valueType;
 });
 
 const dropDownOption = computed(() => {
@@ -189,7 +185,7 @@ const { loadRest, loading, loadNext, results } = useReqPages((page, cancel) => {
     page,
     $route.params.name,
     txTypeMap[props.type],
-    props.type == "Single" ? store.singleValueType : store.editionValueType,
+    store.selectTx.valueType,
     state.dropdownValue.value,
     cancel
   );

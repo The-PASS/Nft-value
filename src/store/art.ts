@@ -20,11 +20,13 @@ const versionString =
 const defaultDashboard = (): any => ({
   baseInfo: {},
   selectedArtwork: {},
+  selectedTx: {},
   singleList: [],
   editionList: [],
   singleValueType: "",
   editionValueType: "",
   selectedEvaType: 0,
+  cutTime: null,
 });
 
 export const useArtStore = defineStore("Art", {
@@ -42,21 +44,29 @@ export const useArtStore = defineStore("Art", {
     selectToken(artwork: any) {
       if (artwork.tokenId == this.selectedArtwork.tokenId) {
         this.selectedArtwork = {};
-        this.singleValueType = "";
-        this.editionValueType = "";
+        this.selectedTx = {};
       } else {
         this.selectedArtwork = artwork;
-        this.singleValueType = artwork.valueType;
-        this.editionValueType = artwork.valueType;
+
+        if (this.selectedTx.valueType !== artwork.valueType) {
+          let index = this.singleList.findIndex(
+            (x: any) => x.valueType == artwork.valueType
+          );
+          if (index != -1) {
+            this.selectTx(this.singleList[index]);
+          }
+          index = this.editionList.findIndex(
+            (x: any) => x.valueType == artwork.valueType
+          );
+          if (index != -1) {
+            this.selectTx(this.editionList[index]);
+          }
+        }
       }
     },
     selectTx(tx: any) {
-      const isClose = tx.valueType == this.curType;
-      if (this.evaTypes[this.selectedEvaType] == "Single") {
-        this.singleValueType = isClose ? "" : tx.valueType;
-      } else {
-        this.editionValueType = isClose ? "" : tx.valueType;
-      }
+      const isClose = tx.valueType == this.selectedTx.valueType;
+      this.selectedTx = isClose ? {} : tx;
     },
     resetDashboard() {
       const fallback = defaultDashboard();
@@ -118,13 +128,7 @@ export const useArtStore = defineStore("Art", {
       return list;
     },
     curType(): any {
-      const type = this.evaTypes[this.selectedEvaType];
-      console.log(
-        type == "Single",
-        this.singleValueType,
-        this.editionValueType
-      );
-      return type == "Single" ? this.singleValueType : this.editionValueType;
+      return this.selectedTx.valueType;
     },
     curEvaType(): any {
       const type = this.evaTypes[this.selectedEvaType];

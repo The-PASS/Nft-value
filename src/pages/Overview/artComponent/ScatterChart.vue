@@ -13,7 +13,19 @@
       </div>
     </div> -->
     <div class="w-full h-[362px] relative">
-      <div class="absolute top-2">Valuation by history</div>
+      <div class="absolute top-2">
+        Valuation by history
+        <span v-if="store.selectedTx.valueType">
+          <span v-if="!store.selectedTx.isSingle"
+            >- {{ store.selectedTx.collectionName }}:
+            {{ store.selectedTx.editionCount }}
+          </span>
+          <span v-else
+            >- Single
+            {{ store.selectedTx.tag }}
+          </span>
+        </span>
+      </div>
       <div
         v-if="loading"
         class="w-full h-full flex items-center justify-center"
@@ -100,13 +112,13 @@ const { loadData, loading } = useReqByBool(async () => {
         store.selectedArtwork.valueType
       );
       list = res.length > 0 ? [res] : res;
-    } else if (!store.singleValueType && !store.editionValueType) {
+    } else if (!store.selectedTx.valueType) {
       list = await getArtScatterAll($route.params.name);
     } else {
       const res = await getArtScatter(
         $route.params.name,
         store.curEvaType,
-        store.selectedArtwork.valueType
+        store.selectedTx.valueType
       );
       list = res.length > 0 ? [res] : res;
     }
@@ -140,7 +152,29 @@ const option = computed(() => {
     });
   });
 
-  return {
+  if (series.length == 1 && store.selectedTx.cutPoint) {
+    series[0].markLine = {
+      silent: true,
+      symbol: "none",
+      label: {
+        color: "#fff",
+        position: "end",
+        formatter: "Cut Time",
+      },
+      lineStyle: {
+        type: "solid",
+        color: "#fff",
+      },
+      data: [
+        {
+          name: "Cut Time",
+          xAxis: new Date(store.selectedTx.cutPoint).getTime(),
+        },
+      ],
+    };
+  }
+
+  const res = {
     grid: {
       left: "40",
       right: "20",
@@ -204,13 +238,16 @@ const option = computed(() => {
         } ETH <br/> ${formatDate(data[0], "MMM DD YYYY  hh:mmA")} `;
       },
     },
+
     color,
     series,
   };
+
+  return res;
 });
 
 watch(
-  () => store.singleValueType + "" + store.editionValueType,
+  () => store.selectedTx.valueType,
   () => {
     loadData();
   }
