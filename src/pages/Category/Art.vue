@@ -4,15 +4,9 @@
       class="flex-1 h-full text-xs min-h-0 md:min-w-0 rounded-lg md:ml-6 bg-[#9797971a]"
     >
       <div
-        class="w-full h-full flex items-center justify-center"
-        v-if="state.loading"
-      >
-        <img class="w-16 h-16" src="@/assets/svgs/spin.svg" alt="" />
-      </div>
-
-      <UiScrollbars
-        class="w-full h-full"
-        v-if="isDesktop && !state.loading && state.list.length > 0"
+        ref="scroller"
+        class="w-full h-full overflow-y-scroll"
+        v-if="isDesktop && results.length > 0"
       >
         <div class="px-2 pb-2">
           <table class="w-full h-14 sticky top-0 bg-[#1f2123] z-20">
@@ -42,7 +36,7 @@
             <tbody>
               <tr
                 class="hover:bg-[#ffffff0d] h-14 cursor-pointer"
-                v-for="(item, i) in state.list"
+                v-for="(item, i) in results"
                 :key="i"
                 @click="router.push(`/Art/${item.artistName}`)"
               >
@@ -98,7 +92,11 @@
             </tbody>
           </table>
         </div>
-      </UiScrollbars>
+
+        <div class="flex items-center justify-center" v-if="loading">
+          <img class="w-4 h-4" src="@/assets/svgs/spin.svg" alt="" />
+        </div>
+      </div>
     </div>
 
     <!-- <div v-if="!isDesktop" class="w-full h-full overflow-y-scroll">
@@ -184,31 +182,26 @@
 
 <script setup>
 import { getVaultList } from "@/api";
-import { useDesktop } from "@/hooks";
+import { useDesktop, useReqPages } from "@/hooks";
 import { suffixNum, localeNumber, formatDateText } from "@/utils";
+import { withThrottling } from "@/with";
 import numeral from "numeral";
 
+const scroller = ref(null);
 const router = useRouter();
 
 const isDesktop = useDesktop();
 
-const state = reactive({
-  loading: 0,
-  list: [],
+const { loading, results, loadNext, loadRest } = useReqPages((page, cancel) =>
+  getVaultList(page, "ART", cancel)
+);
+
+useInfiniteScroll(scroller, withThrottling(loadNext), {
+  distance: 44,
 });
 
-const loadData = async (type) => {
-  state.loading++;
-  await new Promise((resolve) => {
-    setTimeout(resolve, 1000);
-  });
-  const x = await getVaultList("ART", true);
-  state.loading--;
-  state.list = x;
-};
-
 onMounted(async () => {
-  loadData();
+  loadRest();
 });
 </script>
 

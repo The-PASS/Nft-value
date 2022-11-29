@@ -60,17 +60,17 @@
             <div
               class="absolute left-2 top-2 p-2 w-40 token-list__idfloat flex"
             >
-              <div>ID:&nbsp;</div>
+              <!-- <div>ID:&nbsp;</div> -->
 
               <div
-                v-if="item.tokenId.length > 10"
+                v-if="item.tokenName.length > 10"
                 class="self-start text-[8px] mt-1"
                 style="word-break: break-word; line-height: 1.2"
               >
-                {{ item.tokenId }}
+                {{ item.tokenName }}
               </div>
               <div v-else>
-                {{ item.tokenId }}
+                {{ item.tokenName }}
               </div>
             </div>
 

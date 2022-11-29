@@ -80,7 +80,7 @@
         </div>
       </div>
 
-      <div v-if="state.searchList.length == 0">
+      <div v-if="state.searchList.length == 0 && state.list.length > 0">
         <div class="mb-2">Popular</div>
         <div
           class="flex h-12 items-center p-2 hover:bg-[#ffffff1a]"
@@ -187,6 +187,13 @@ watch(
     } else {
       state.searchList = [];
     }
+  }
+);
+
+watch(
+  () => $route.name,
+  (val) => {
+    loadData();
   }
 );
 

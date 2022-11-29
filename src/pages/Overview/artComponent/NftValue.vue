@@ -33,7 +33,7 @@
                 class="line-clamp-1"
                 style="width: 120px; word-break: break-all"
               >
-                {{ item.platform }}
+                {{ item.plat }}
               </div>
             </div>
             <div>{{ +item.rate == 0 ? "- -" : `${item.rate}%` }}</div>
@@ -93,7 +93,7 @@ const state = reactive({
 });
 
 const option = computed(() => {
-  const legendData = state.data.map((x) => x.platform);
+  const legendData = state.data.map((x) => x.plat);
 
   return {
     tooltip: {
@@ -149,11 +149,11 @@ const option = computed(() => {
                     data.logo || nftnologo
                   }" />
                   <div class="font-bold" style="width: 160px;word-break: break-word;white-space: normal;">
-                  ${data.platform}
+                  ${data.plat}
                   </div>
                 </div>
               ${'<i class="iconfont icon-ETH2-24 mr-1 text-sm"></i>'}${localeNumber(
-              data.number,
+              data.value,
               2
             )}`;
           },

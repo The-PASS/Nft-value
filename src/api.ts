@@ -28,20 +28,26 @@ enum VaultType {
   COLLECTABLES = "COLLECTABLES",
 }
 
-export const getVaultList = async (type: VaultType, cancel = false) => {
-  const res = (
-    await passHttp.get(
-      "/nftvalue/home",
-      {
-        params: {
-          type,
-        },
+export const getVaultList = async (
+  page = 1,
+  type: VaultType,
+  cancel = false
+) => {
+  const res = await passHttp.get(
+    "/nftvalue/home",
+    {
+      params: {
+        type,
+        page,
+        pageSize: 20,
       },
-      cancel
-    )
-  ).filter((x: any) => x != null);
+    },
+    cancel
+  );
 
-  res.forEach((el: any) => {
+  res.records = res.records.filter((x: any) => x != null);
+
+  res.records.forEach((el: any) => {
     el.volumeRate = (el.volumeRate * 100).toFixed(2);
     el.marketCap = (el.marketCap || 0).toFixed(2);
     el.volume = (el.volume || 0).toFixed(2);
@@ -220,10 +226,9 @@ export const getArtDount = async (name: string) => {
     },
   });
 
-  const sum = res.reduce((a: any, b: any) => a + b.number, 0);
+  const sum = res.reduce((a: any, b: any) => a + b.value, 0);
   res.forEach((x: any) => {
-    x.rate = ((x.number / sum) * 100).toFixed(2);
-    x.value = x.number;
+    x.rate = ((x.value / sum) * 100).toFixed(2);
   });
 
   return res;
