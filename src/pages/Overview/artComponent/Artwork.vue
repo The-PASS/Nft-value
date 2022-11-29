@@ -2,8 +2,8 @@
   <div class="w-full">
     <div class="flex justify-between mb-4">
       <div class="text-xl font-bold">ARTWORK</div>
-      <div class="flex" v-if="false">
-        <div
+      <div class="flex">
+        <!-- <div
           class="w-16 h-6 mr-6 rounded bg-[#FFFFFF1A] flex items-center justify-center cursor-pointer"
           @click="state.orderType = !state.orderType"
         >
@@ -15,7 +15,7 @@
             }"
             >▲</span
           >
-        </div>
+        </div> -->
         <div class="relative">
           <input
             class="w-[174px] h-6 rounded bg-[#FFFFFF1A] border-0 pl-3 pr-6 text-xs"
@@ -55,7 +55,7 @@
               'border-transparent':
                 store.selectedArtwork.tokenId != item.tokenId,
             }"
-            @click="store.selectToken(item)"
+            @click="selectArtwork(item)"
           >
             <div
               class="absolute left-2 top-2 p-2 w-40 token-list__idfloat flex"
@@ -93,7 +93,7 @@
           <div
             v-for="(_, i) in Array(12).fill(0)"
             :key="i"
-            class="w-44 p-2 bg-[#FFFFFF0D] rounded overflow-hidden relative cursor-pointer transition-all border-[1px] border-transparent hover:border-white"
+            class="w-44 p-2 bg-[#FFFFFF0D] rounded overflow-hidden relative cursor-pointer transition-all border-[1px] border-transparent"
           >
             <Skeletor class="w-40 h-40 rounded"></Skeletor>
 
@@ -145,7 +145,7 @@ const scrollEl = ref(null);
 
 const state = reactive({
   loadedId: null,
-  tokenId: "",
+  tokenId: $route.params.tokenId || "",
   orderType: true,
 });
 
@@ -164,7 +164,7 @@ const {
     i,
     {
       creatorName: $route.params.name,
-      // tokenId: state.tokenId,
+      tokenId: state.tokenId,
       // orderType: state.orderType ? "desc" : "asc",
     },
     cancel
@@ -175,6 +175,7 @@ const {
     res.records.length > 0 &&
     state.loadedId != $route.params.tokenId
   ) {
+    state.loadedId = $route.params.tokenId;
     store.selectToken(res.records[0]);
   }
 
@@ -185,6 +186,10 @@ useInfiniteScroll(scrollEl, withThrottling(loadNext));
 
 const onIns = (ins) => {
   scrollEl.value = ins.getElements("viewport");
+};
+
+const selectArtwork = (item) => {
+  store.selectToken(item);
 };
 
 watch(

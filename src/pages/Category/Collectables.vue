@@ -6,7 +6,7 @@
       <div
         ref="scroller"
         class="w-full h-full overflow-y-scroll"
-        v-if="isDesktop && results.length > 0"
+        v-if="isDesktop"
       >
         <div class="px-2 pb-2">
           <table class="w-full h-14 sticky top-0 bg-[#1f2123] z-20">
@@ -99,10 +99,10 @@
               </tr>
             </tbody>
           </table>
-        </div>
 
-        <div class="flex items-center justify-center" v-if="loading">
-          <img class="w-4 h-4" src="@/assets/svgs/spin.svg" alt="" />
+          <div class="flex items-center justify-center" v-if="loading">
+            <img class="w-4 h-4" src="@/assets/svgs/spin.svg" alt="" />
+          </div>
         </div>
       </div>
     </div>
