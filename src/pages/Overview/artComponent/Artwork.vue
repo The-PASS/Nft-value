@@ -79,7 +79,11 @@
               <div>Estimated Price</div>
               <div class="flex justify-between">
                 <div class="text-[#5E6873FF]">last price:</div>
-                <div>{{ item.lastPrice }} ETH</div>
+                <div>
+                  <EthText iconClass="text-xs">
+                    {{ item.lastPrice }}
+                  </EthText>
+                </div>
               </div>
               <!-- <div class="flex justify-between">
                 <div class="text-[#5E6873FF]">floor:</div>

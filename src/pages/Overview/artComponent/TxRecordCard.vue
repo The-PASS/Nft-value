@@ -34,7 +34,11 @@
       </div>
 
       <div class="flex-1 flex items-center">
-        <span class="pl-12"> {{ info.valuation }} ETH </span>
+        <span class="pl-12">
+          <EthText iconClass="text-xs">
+            {{ info.valuation }}
+          </EthText>
+        </span>
       </div>
       <div class="flex-1 flex items-center justify-end">
         <span class="pr-12">
@@ -58,7 +62,9 @@
       </div>
       <div class="flex-1 flex items-center">
         <div class="pl-12">
-          {{ localeNumber(info.valuation, 2, false) }} ETH
+          <EthText>
+            {{ localeNumber(info.valuation, 2, false) }}
+          </EthText>
         </div>
       </div>
       <div class="flex-1 flex items-center justify-end">
@@ -101,7 +107,9 @@
         </div>
         <div class="cell-right" style="width: 14.9%">{{ item.plat }}</div>
         <div class="cell-right" style="width: 20.7%">
-          {{ localeNumber(item.lastPrice, 2, false) }} ETH
+          <EthText iconClass="text-xs">
+            {{ localeNumber(item.lastPrice, 2, false) }}
+          </EthText>
         </div>
         <div
           class="cell-right link-pointer"
