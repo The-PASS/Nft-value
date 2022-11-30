@@ -340,12 +340,21 @@ const basicData = computed(() => [
     eth: true,
   },
   {
-    value: [
-      store.baseInfo.artworkValuationMin,
-      store.baseInfo.artworkValuationMax,
-    ],
+    value:
+      store.baseInfo.artworkValuationMin == store.baseInfo.artworkValuationMax
+        ? numeral(store.baseInfo.artworkValuationMax)
+            .format("0.00a")
+            .toUpperCase()
+        : [
+            store.baseInfo.artworkValuationMin,
+            store.baseInfo.artworkValuationMax,
+          ],
     name: "Artwork Valuation",
-    eth2: true,
+    eth2: !(
+      store.baseInfo.artworkValuationMin == store.baseInfo.artworkValuationMax
+    ),
+    eth:
+      store.baseInfo.artworkValuationMin == store.baseInfo.artworkValuationMax,
   },
   {
     value: localeNumber(store.baseInfo.countWork, 0),

@@ -183,7 +183,11 @@
           v-for="(item, i) in basicData"
           :key="i"
         >
-          <div class="text-xl font-bold">{{ item.value }}</div>
+          <div class="text-xl font-bold" v-if="item.eth">
+            <EthText iconClass="text-xl"> {{ item.value }}</EthText>
+          </div>
+
+          <div class="text-xl font-bold" v-else>{{ item.value }}</div>
           <div class="text-sm m-2 relative flex items-center">
             <span class="mr-2">
               {{ item.name }}
@@ -263,16 +267,17 @@ provide(
 const basicData = computed(() => [
   { value: localeNumber(store.dashboard.items, 0), name: "Items" },
   {
-    value:
-      numeral(store.dashboard.marketCap).format("0.00a").toUpperCase() + " ETH",
+    value: numeral(store.dashboard.marketCap).format("0.00a").toUpperCase(),
     name: "Market cap",
     tip: "Based on estimated price by history.",
+    eth: true,
   },
   {
     value: `${numeral(store.dashboard.totalVolume)
       .format("0.00a")
-      .toUpperCase()} ETH`,
+      .toUpperCase()}`,
     name: "Volume",
+    eth: true,
   },
   {
     value: localeNumber(store.dashboard.owners, 0),
@@ -280,9 +285,10 @@ const basicData = computed(() => [
     gains: suffixNum((store.dashboard.floorPriceRate * 100).toFixed(2)),
   },
   {
-    value: `${localeNumber(store.dashboard.floorPrice, 2)} ETH`,
+    value: `${localeNumber(store.dashboard.floorPrice, 2)}`,
     name: "Floor Price",
     gains: suffixNum((store.dashboard.ownersRate * 100).toFixed(2)),
+    eth: true,
   },
 ]);
 

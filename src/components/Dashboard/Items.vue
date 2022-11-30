@@ -78,11 +78,19 @@
               <div>Estimated Price</div>
               <div class="flex justify-between">
                 <div class="text-[#5E6873FF]">history:</div>
-                <div>{{ item.history }} ETH</div>
+                <div>
+                  <EthText iconClass="text-xs">
+                    {{ item.history }}
+                  </EthText>
+                </div>
               </div>
               <div class="flex justify-between">
                 <div class="text-[#5E6873FF]">floor:</div>
-                <div>{{ +item.floor ? item.floor : "--" }} ETH</div>
+                <div>
+                  <EthText iconClass="text-xs" :showUnit="+item.floor">
+                    {{ +item.floor ? item.floor : "--" }}
+                  </EthText>
+                </div>
               </div>
             </div>
           </div>

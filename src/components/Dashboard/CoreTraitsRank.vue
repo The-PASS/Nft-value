@@ -94,14 +94,16 @@
             <td>{{ item.k }}</td>
             <td>
               <div class="flex items-center">
-                <iconfont-icon name="icon-ETH" class="mr-2"></iconfont-icon>
-                {{ item.history }}
+                <EthText>
+                  {{ item.history }}
+                </EthText>
               </div>
             </td>
             <td>
               <div class="flex items-center">
-                <iconfont-icon name="icon-ETH" class="mr-2"></iconfont-icon>
-                {{ item.floor == undefined ? "—" : item.floor }}
+                <EthText :showUnit="!(item.floor == undefined)">
+                  {{ item.floor == undefined ? "—" : item.floor }}
+                </EthText>
               </div>
             </td>
           </tr>
