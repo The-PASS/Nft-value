@@ -221,7 +221,35 @@
           v-for="(item, i) in basicData"
           :key="i"
         >
-          <div class="text-xl font-bold">{{ item.value }}</div>
+          <div class="text-xl font-bold">
+            <EthText iconClass="text-xl" v-if="item.eth">
+              {{ item.value }}</EthText
+            >
+            <div v-else-if="item.eth2" class="flex">
+              <EthText iconClass="text-xl" v-if="!(+item.value[0] < 0.001)">
+                {{ numeral(item.value[0]).format("0.00a").toUpperCase() }}
+              </EthText>
+              <div v-else>
+                <ui-tippyer :content="localeNumber(item.value[0], 2)">
+                  <EthText class="cursor-pointer" iconClass="text-xl"
+                    >{{ `<0.0001` }}
+                  </EthText>
+                  <template #content>
+                    <EthText>{{ localeNumber(item.value[0], 2) }}</EthText>
+                  </template>
+                </ui-tippyer>
+              </div>
+
+              <span>&nbsp;~&nbsp;</span>
+              <EthText iconClass="text-xl">{{
+                numeral(item.value[1]).format("0.00a").toUpperCase()
+              }}</EthText>
+            </div>
+
+            <span v-else>
+              {{ item.value }}
+            </span>
+          </div>
           <div class="text-sm m-2 relative flex items-center">
             <span class="mr-2">
               {{ item.name }}
@@ -297,27 +325,27 @@ const state = reactive({
 
 const basicData = computed(() => [
   {
-    value:
-      numeral(store.baseInfo.historicalValue).format("0.00a").toUpperCase() +
-      " ETH",
+    value: numeral(store.baseInfo.historicalValue)
+      .format("0.00a")
+      .toUpperCase(),
     name: "Historical Value",
+    eth: true,
   },
   {
-    value:
-      numeral(store.baseInfo.artValueMarketCap).format("0.00a").toUpperCase() +
-      " ETH",
+    value: numeral(store.baseInfo.artValueMarketCap)
+      .format("0.00a")
+      .toUpperCase(),
     name: "Market cap",
     tip: "Valuation price * quantity",
+    eth: true,
   },
   {
-    value: `${localeNumber(
+    value: [
       store.baseInfo.artworkValuationMin,
-      2
-    )} ETH ~ ${numeral(store.baseInfo.artworkValuationMax)
-      .format("0.00a")
-      .toUpperCase()} ETH`,
+      store.baseInfo.artworkValuationMax,
+    ],
     name: "Artwork Valuation",
-    tip: "single edition",
+    eth2: true,
   },
   {
     value: localeNumber(store.baseInfo.countWork, 0),
@@ -331,11 +359,9 @@ const { loadData, loading } = useReqByBool(async () => {
 
 onBeforeMount(() => {
   store.resetDashboard();
-  console.log(store.selectedTx);
 });
 
 onMounted(async () => {
-  console.log(store.selectedTx);
   loadData();
 });
 

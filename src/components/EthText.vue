@@ -3,10 +3,13 @@
     <iconfont-icon
       v-if="showUnit"
       name="icon-ETH2-24"
+      :class="iconClass"
       class="ml-1"
     ></iconfont-icon
     >&nbsp;
-    <slot></slot>
+    <span>
+      <slot></slot>
+    </span>
   </div>
 </template>
 
@@ -16,6 +19,7 @@ defineProps({
     type: Boolean,
     default: true,
   },
+  iconClass: String,
 });
 </script>
 
