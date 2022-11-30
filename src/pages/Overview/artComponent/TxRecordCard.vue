@@ -103,7 +103,11 @@
         <div class="cell-right" style="width: 20.7%">
           {{ localeNumber(item.lastPrice, 2, false) }} ETH
         </div>
-        <div class="cell-right" style="width: 16.5%">
+        <div
+          class="cell-right link-pointer"
+          style="width: 16.5%"
+          @click="jumpHash(item.transactionHash, item.chain)"
+        >
           {{ formatDate(item.transactionTime, "YYYY-MM-DD HH:mm") }}
         </div>
       </div>
@@ -178,6 +182,10 @@ const jumpTokenId = (tokenId, chain, address) => {
       : `https://opensea.io/assets/${chain.toLowerCase()}/${address}/${tokenId}`,
     "_blank"
   );
+};
+
+const jumpHash = (hash, network) => {
+  window.open(toExploreAddress(hash, network, "tx"), "_blank");
 };
 
 const { loadRest, loading, loadNext, results } = useReqPages((page, cancel) => {
