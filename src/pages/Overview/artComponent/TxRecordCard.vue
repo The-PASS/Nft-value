@@ -88,7 +88,7 @@
         <div
           class="cell-left hover:underline cursor-pointer"
           style="width: 20.6%"
-          @click.stop="jumpAddress(item.tokenAddress)"
+          @click.stop="jumpAddress(item.tokenAddress, item.chain)"
         >
           {{ formatAddress(item.tokenAddress, 4) }}
         </div>
