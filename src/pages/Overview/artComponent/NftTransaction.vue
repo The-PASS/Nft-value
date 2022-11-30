@@ -162,7 +162,7 @@ const option = computed(() => {
                           }'></div>
                           <span class="mr-4 font-bold">${value.platform}</span>
                         </div>
-                        <div>$${localeNumber(value.sum)}</div>
+                        <div>${localeNumber(value.sum)}ETH</div>
                       </div>`;
             })
             .reverse()

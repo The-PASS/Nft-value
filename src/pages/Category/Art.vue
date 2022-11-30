@@ -54,7 +54,17 @@
                 <td class="text-right">
                   <div class="flex items-center">
                     {{
-                      numeral(item.artWorkValue).format("0.0a").toUpperCase()
+                      numeral(item.artworkValuationMin)
+                        .format("0.0a")
+                        .toUpperCase()
+                    }}<iconfont-icon
+                      name="icon-ETH"
+                      class="ml-1"
+                    ></iconfont-icon>
+                    &nbsp;~&nbsp;{{
+                      numeral(item.artworkValuationMax)
+                        .format("0.0a")
+                        .toUpperCase()
                     }}
                     <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
                   </div>
@@ -63,11 +73,11 @@
                 <td
                   class="text-right"
                   :class="{
-                    'text-[#5EFF6A]': item.volumeRate > 0,
-                    'text-[#FF5166]': item.volumeRate < 0,
+                    'text-[#5EFF6A]': item.evaRate > 0,
+                    'text-[#FF5166]': item.evaRate < 0,
                   }"
                 >
-                  {{ suffixNum(localeNumber(item.volumeRate, 2)) }}%
+                  {{ suffixNum(localeNumber(item.evaRate, 2)) }}%
                 </td>
                 <td>
                   <div class="flex items-center justify-end">

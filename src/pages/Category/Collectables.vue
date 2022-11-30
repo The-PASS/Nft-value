@@ -75,7 +75,7 @@
                   }"
                   style="width: 11%"
                 >
-                  {{ suffixNum(localeNumber(item.volumeRate, 2)) }}%
+                  {{ suffixNum(item.volumeRate) }}%
                 </td>
                 <td style="width: 11%">
                   <div class="flex items-center justify-end">
