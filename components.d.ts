@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     EthText: typeof import('./src/components/EthText.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
+    HoverCard: typeof import('./src/components/HoverCard.vue')['default']
     IconfontIcon: typeof import('./src/components/IconfontIcon.vue')['default']
     MbSideBar: typeof import('./src/components/MbSideBar.vue')['default']
     Page: typeof import('./src/components/Page.vue')['default']

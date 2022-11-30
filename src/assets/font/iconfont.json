@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "33154339",
+      "name": "标记",
+      "font_class": "biaoji",
+      "unicode": "e67c",
+      "unicode_decimal": 59004
+    },
+    {
+      "icon_id": "33154340",
+      "name": "价值",
+      "font_class": "jiazhi",
+      "unicode": "e67d",
+      "unicode_decimal": 59005
+    },
+    {
+      "icon_id": "33154341",
+      "name": "详情",
+      "font_class": "xiangqing",
+      "unicode": "e67e",
+      "unicode_decimal": 59006
+    },
+    {
       "icon_id": "33042190",
       "name": "减2-63",
       "font_class": "jian2-63",

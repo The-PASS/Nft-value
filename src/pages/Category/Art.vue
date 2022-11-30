@@ -11,11 +11,11 @@
         <div class="px-2 pb-2">
           <table class="w-full h-14 sticky top-0 bg-[#1f2123] z-20">
             <colgroup>
-              <col style="width: 20%" />
-              <col style="width: 20%" />
-              <col style="width: 20%" />
-              <col style="width: 20%" />
-              <col style="width: 20%" />
+              <col style="width: 28%" />
+              <col style="width: 18%" />
+              <col style="width: 18%" />
+              <col style="width: 18%" />
+              <col style="width: 18%" />
             </colgroup>
             <thead>
               <th class="text-left">Artist</th>
@@ -27,11 +27,11 @@
           </table>
           <table class="w-full">
             <colgroup>
-              <col style="width: 20%" />
-              <col style="width: 20%" />
-              <col style="width: 20%" />
-              <col style="width: 20%" />
-              <col style="width: 20%" />
+              <col style="width: 28%" />
+              <col style="width: 18%" />
+              <col style="width: 18%" />
+              <col style="width: 18%" />
+              <col style="width: 18%" />
             </colgroup>
             <tbody>
               <tr

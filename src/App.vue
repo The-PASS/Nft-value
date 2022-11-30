@@ -75,5 +75,6 @@ table td {
 .link-hover:hover {
   color: #26aaffff;
   text-decoration: underline;
+  cursor: pointer;
 }
 </style>

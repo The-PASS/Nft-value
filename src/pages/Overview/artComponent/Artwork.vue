@@ -46,51 +46,51 @@
         v-if="results.length > 0 || loading"
       >
         <div class="grid grid-cols-6 gap-4 pb-4">
-          <div
-            v-for="(item, i) in results"
-            :key="i"
-            class="w-44 p-2 rounded overflow-hidden relative cursor-pointer transition-all border-[1px] hover:border-white"
-            :class="{
-              'border-white': store.selectedArtwork.tokenId == item.tokenId,
-              'border-transparent':
-                store.selectedArtwork.tokenId != item.tokenId,
-            }"
-            @click="selectArtwork(item)"
-          >
+          <hover-card :info="item" v-for="(item, i) in results" :key="i">
             <div
-              class="absolute left-2 top-2 p-2 w-40 token-list__idfloat flex"
+              class="w-44 p-2 rounded overflow-hidden relative cursor-pointer transition-all border-[1px] hover:border-white"
+              :class="{
+                'border-white': store.selectedArtwork.tokenId == item.tokenId,
+                'border-transparent':
+                  store.selectedArtwork.tokenId != item.tokenId,
+              }"
+              @click="selectArtwork(item)"
             >
-              <!-- <div>ID:&nbsp;</div> -->
-
               <div
-                v-if="item.tokenName.length > 10"
-                class="self-start text-[8px] mt-1"
-                style="word-break: break-word; line-height: 1.2"
+                class="absolute left-2 top-2 p-2 w-40 token-list__idfloat flex"
               >
-                {{ item.tokenName }}
-              </div>
-              <div v-else>
-                {{ item.tokenName }}
-              </div>
-            </div>
+                <div>ID:&nbsp;</div>
 
-            <ui-img class="w-40 h-40 rounded" :src="item.logo"></ui-img>
-            <div class="mt-4 space-y-1 w-full">
-              <div>Estimated Price</div>
-              <div class="flex justify-between">
-                <div class="text-[#5E6873FF]">last price:</div>
-                <div>
-                  <EthText iconClass="text-xs">
-                    {{ item.lastPrice }}
-                  </EthText>
+                <div
+                  v-if="item.tokenId.length > 10"
+                  class="self-start text-[8px] mt-1"
+                  style="word-break: break-word; line-height: 1.2"
+                >
+                  {{ item.tokenId }}
+                </div>
+                <div v-else>
+                  {{ item.tokenId }}
                 </div>
               </div>
-              <!-- <div class="flex justify-between">
+
+              <ui-img class="w-40 h-40 rounded" :src="item.logo"></ui-img>
+              <div class="mt-4 space-y-1 w-full">
+                <div>Estimated Price</div>
+                <div class="flex justify-between">
+                  <div class="text-[#5E6873FF]">history price:</div>
+                  <div>
+                    <EthText iconClass="text-xs">
+                      {{ item.lastPrice }}
+                    </EthText>
+                  </div>
+                </div>
+                <!-- <div class="flex justify-between">
                 <div class="text-[#5E6873FF]">floor:</div>
                 <div>{{ +item.floor ? item.floor : "--" }} ETH</div>
               </div> -->
+              </div>
             </div>
-          </div>
+          </hover-card>
         </div>
 
         <div class="grid grid-cols-6 gap-4 pb-4" v-if="loading">

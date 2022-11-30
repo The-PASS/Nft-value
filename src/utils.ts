@@ -54,23 +54,42 @@ export const suffixNum = (num: number | string) => {
   return flag + num;
 };
 
+const ethMap = {
+  address: "address",
+  tx: "tx",
+  token: "token",
+};
+const flowMap: any = {
+  address: "account",
+  tx: "contract",
+  token: "contract",
+};
+
 export const toExploreAddress = (
   address: string,
   network: string,
   type = "address"
 ) => {
-  window.open(
-    `${
-      (
-        {
-          Ethereum: "https://etherscan.io",
-          Polygon: "https://polygonscan.com",
-          Ronin: "https://explorer.roninchain.com",
-        } as any
-      )[network]
-    }/${type}/${address}`,
-    "_blank"
-  );
+  if (network != "Tezos") {
+    window.open(
+      `${
+        (
+          {
+            Ethereum: "https://etherscan.io",
+            Polygon: "https://polygonscan.com",
+            Ronin: "https://explorer.roninchain.com",
+            Flow: "https://flowscan.org",
+            ETHEREUM: "https://etherscan.io",
+          } as any
+        )[network]
+      }/${(network == "Flow" ? flowMap : ethMap)[type]}/${address}`,
+      "_blank"
+    );
+  } else {
+    window.open(
+      `https://tzkt.io/${address}/${type == "address" ? "operations" : ""}`
+    );
+  }
 };
 
 export const isAddress = (addr: string) => utils.isAddress(addr);
@@ -85,4 +104,17 @@ export const formatDateText = (ms: number) => {
   const prev = ms; /* + new Date().getTimezoneOffset() * 60000 */
   const x = (now - prev) / 1000;
   return (dayjs(prev) as any).fromNow();
+};
+
+export const jumpTokenId = (
+  tokenId: string,
+  chain: string,
+  address: string
+) => {
+  window.open(
+    chain == "tezos"
+      ? `https://objkt.com/asset/${address}/${tokenId}`
+      : `https://opensea.io/assets/${chain.toLowerCase()}/${address}/${tokenId}`,
+    "_blank"
+  );
 };
