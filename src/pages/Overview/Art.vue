@@ -331,9 +331,11 @@ const { loadData, loading } = useReqByBool(async () => {
 
 onBeforeMount(() => {
   store.resetDashboard();
+  console.log(store.selectedTx);
 });
 
 onMounted(async () => {
+  console.log(store.selectedTx);
   loadData();
 });
 

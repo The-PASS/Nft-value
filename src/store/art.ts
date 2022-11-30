@@ -23,8 +23,6 @@ const defaultDashboard = (): any => ({
   selectedTx: {},
   singleList: [],
   editionList: [],
-  singleValueType: "",
-  editionValueType: "",
   selectedEvaType: 0,
   cutTime: null,
 });
@@ -69,11 +67,13 @@ export const useArtStore = defineStore("Art", {
       this.selectedTx = isClose ? {} : tx;
     },
     resetDashboard() {
-      const fallback = defaultDashboard();
-
-      Object.entries(fallback).forEach((xkey: any, xvalue: any) => {
-        (this as any)[xkey] = xvalue;
-      });
+      this.baseInfo = {};
+      this.selectedArtwork = {};
+      this.selectedTx = {};
+      this.singleList = [];
+      this.editionList = [];
+      this.selectedEvaType = 0;
+      this.cutTime = null;
     },
   },
 
