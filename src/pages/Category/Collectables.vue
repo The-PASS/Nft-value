@@ -56,15 +56,19 @@
 
                 <td class="text-left" style="width: 11%">
                   <div class="flex items-center">
-                    {{ numeral(item.totalVolume).format("0.0a").toUpperCase() }}
-                    <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
+                    <EthText>
+                      {{
+                        numeral(item.totalVolume).format("0.0a").toUpperCase()
+                      }}
+                    </EthText>
                   </div>
                 </td>
 
                 <td class="text-left" style="width: 11%">
                   <div class="flex items-center">
-                    {{ item.volume }}
-                    <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
+                    <EthText>
+                      {{ item.volume }}
+                    </EthText>
                   </div>
                 </td>
                 <td
@@ -79,21 +83,18 @@
                 </td>
                 <td style="width: 11%">
                   <div class="flex items-center justify-end">
-                    {{
-                      +item.floorPrice == 0
-                        ? "--"
-                        : localeNumber(item.floorPrice, 2)
-                    }}&nbsp;
-                    <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
+                    <EthText v-if="!+item.floorPrice == 0">
+                      {{ localeNumber(item.floorPrice, 2) }}
+                    </EthText>
+
+                    <span v-else>—</span>
                   </div>
                 </td>
                 <td style="width: 20%">
                   <div class="flex items-center justify-end">
-                    {{ localeNumber(item.marketCap, 2)
-                    }}<iconfont-icon
-                      name="icon-ETH"
-                      class="ml-1"
-                    ></iconfont-icon>
+                    <EthText>
+                      {{ localeNumber(item.marketCap, 2) }}
+                    </EthText>
                   </div>
                 </td>
               </tr>
@@ -134,14 +135,20 @@
                 <div>Volume:</div>
                 <div class="flex items-center">
                   {{ numeral(item.totalVolume).format("0.0a").toUpperCase() }}
-                  <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
+                  <iconfont-icon
+                    name="icon-ETH2-24"
+                    class="ml-1"
+                  ></iconfont-icon>
                 </div>
               </div>
               <div class="flex justify-between">
                 <div>Volume（24H）:</div>
                 <div class="flex items-center">
                   {{ item.volume }}
-                  <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
+                  <iconfont-icon
+                    name="icon-ETH2-24"
+                    class="ml-1"
+                  ></iconfont-icon>
                 </div>
               </div>
 
@@ -165,7 +172,10 @@
                       ? "--"
                       : localeNumber(item.floorPrice, 2)
                   }}&nbsp;
-                  <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
+                  <iconfont-icon
+                    name="icon-ETH2-24"
+                    class="ml-1"
+                  ></iconfont-icon>
                 </div>
               </div>
 
@@ -173,7 +183,10 @@
                 <div>Market Cap:</div>
                 <div class="flex items-center justify-end">
                   {{ localeNumber(item.marketCap, 2)
-                  }}<iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
+                  }}<iconfont-icon
+                    name="icon-ETH2-24"
+                    class="ml-1"
+                  ></iconfont-icon>
                 </div>
               </div>
             </div>

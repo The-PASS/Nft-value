@@ -53,20 +53,21 @@
 
                 <td class="text-right">
                   <div class="flex items-center">
-                    {{
-                      numeral(item.artworkValuationMin)
-                        .format("0.0a")
-                        .toUpperCase()
-                    }}<iconfont-icon
-                      name="icon-ETH"
-                      class="ml-1"
-                    ></iconfont-icon>
-                    &nbsp;~&nbsp;{{
-                      numeral(item.artworkValuationMax)
-                        .format("0.0a")
-                        .toUpperCase()
-                    }}
-                    <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
+                    <EthText>
+                      {{
+                        numeral(item.artworkValuationMin)
+                          .format("0.0a")
+                          .toUpperCase()
+                      }}
+                    </EthText>
+
+                    &nbsp;~&nbsp;<EthText>
+                      {{
+                        numeral(item.artworkValuationMax)
+                          .format("0.0a")
+                          .toUpperCase()
+                      }}
+                    </EthText>
                   </div>
                 </td>
 
@@ -81,12 +82,13 @@
                 </td>
                 <td>
                   <div class="flex items-center justify-end">
-                    {{
-                      +item.lastTxPrice == 0
-                        ? "--"
-                        : localeNumber(item.lastTxPrice, 2)
-                    }}&nbsp;
-                    <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
+                    <EthText>
+                      {{
+                        +item.lastTxPrice == 0
+                          ? "--"
+                          : localeNumber(item.lastTxPrice, 2)
+                      }}
+                    </EthText>
                   </div>
                 </td>
                 <td>

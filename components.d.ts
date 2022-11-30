@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
     DashboardTradeHistory: typeof import('./src/components/Dashboard/TradeHistory.vue')['default']
     DashboardTraitsHistory: typeof import('./src/components/Dashboard/TraitsHistory.vue')['default']
     DashboardWhales: typeof import('./src/components/Dashboard/Whales.vue')['default']
+    EthText: typeof import('./src/components/EthText.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     IconfontIcon: typeof import('./src/components/IconfontIcon.vue')['default']

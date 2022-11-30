@@ -138,6 +138,7 @@ const option = computed(() => {
     list.forEach((x) => {
       if (minPoint == 0) {
         minPoint = x.transactionTime;
+        maxPoint = x.transactionTime;
       } else {
         maxPoint = Math.max(maxPoint, x.transactionTime);
         minPoint = Math.min(minPoint, x.transactionTime);

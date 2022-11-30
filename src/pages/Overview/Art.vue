@@ -310,7 +310,10 @@ const basicData = computed(() => [
     tip: "Valuation price * quantity",
   },
   {
-    value: `${numeral(store.baseInfo.artValueArtworkValuation)
+    value: `${localeNumber(
+      store.baseInfo.artworkValuationMin,
+      2
+    )} ETH ~ ${numeral(store.baseInfo.artworkValuationMax)
       .format("0.00a")
       .toUpperCase()} ETH`,
     name: "Artwork Valuation",
