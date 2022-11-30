@@ -185,7 +185,7 @@ const { loadRest, loading, loadNext, results } = useReqPages((page, cancel) => {
     page,
     $route.params.name,
     txTypeMap[props.type],
-    store.selectTx.valueType,
+    store.selectedTx.valueType,
     state.dropdownValue.value,
     cancel
   );
