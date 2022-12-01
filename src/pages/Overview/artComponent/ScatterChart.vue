@@ -17,10 +17,14 @@
         Valuation by history
         <span v-if="store.selectedTx.valueType">
           <span v-if="!store.selectedTx.isSingle"
-            >- {{ store.selectedTx.collectionName }}+
+            >- {{ store.selectedTx.collectionName }}
+            <span v-if="store.selectedTx.editionCount">+</span>
             {{ store.selectedTx.editionCount }}
           </span>
-          <span v-else>- Single+{{ store.selectedTx.tag }} </span>
+          <span v-else
+            >- Single<span v-if="store.selectedTx.tag">+</span
+            >{{ store.selectedTx.tag }}
+          </span>
         </span>
       </div>
       <div
@@ -35,7 +39,7 @@
             <VChart class="chart" :option="option"></VChart>
           </div>
 
-          <ui-move-bar-x v-model="state.xPoint"></ui-move-bar-x>
+          <ui-move-bar-x v-model="state.xPoint" class="ml-10"></ui-move-bar-x>
         </div>
         <ui-move-bar-y
           v-model="state.yPoint"
@@ -185,7 +189,7 @@ const yAxis = computed(() => {
 
   return [
     Math.floor(Math.max(minPoint + detal * (1 - state.yPoint[1]), 0)),
-    Math.ceil(minPoint + detal * (1 - state.yPoint[0])),
+    Math.ceil((minPoint + detal * (1 - state.yPoint[0])) * 1.2),
   ];
 });
 
@@ -226,7 +230,7 @@ const option = computed(() => {
 
   const res = {
     grid: {
-      left: "40",
+      left: "80",
       right: "20",
       bottom: "40",
     },

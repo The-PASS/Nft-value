@@ -62,7 +62,7 @@
                 <div>ID:&nbsp;</div>
 
                 <div
-                  v-if="item.tokenId.length > 10"
+                  v-if="item.tokenId.length > 20"
                   class="self-start text-[8px] mt-1"
                   style="word-break: break-word; line-height: 1.2"
                 >

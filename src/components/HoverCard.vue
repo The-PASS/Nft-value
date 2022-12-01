@@ -59,7 +59,9 @@
           <div class="flex justify-between">
             <div class="text-[#FFFFFFB3]">Contract Address</div>
             <div
-              class="text-[#26AAFFFF] link-hover"
+              :class="{
+                'text-[#26AAFFFF] link-hover': info.tokenAddress,
+              }"
               @click="
                 toExploreAddress(info.tokenAddress, info.chain.toUpperCase())
               "
@@ -70,7 +72,9 @@
           <div class="flex justify-between">
             <div class="text-[#FFFFFFB3]">Token ID</div>
             <div
-              class="hover:underline cursor-pointer"
+              :class="{
+                'text-[#26AAFFFF] link-hover': info.tokenId,
+              }"
               @click="
                 jumpTokenId(
                   info.tokenId,
@@ -88,11 +92,16 @@
           </div>
           <div class="flex justify-between">
             <div class="text-[#FFFFFFB3]">Blockchain</div>
-            <div class="text-[#26AAFFFF]">{{ info.chain }}</div>
+            <div>{{ info.chain }}</div>
           </div>
           <div class="flex justify-between">
             <div class="text-[#FFFFFFB3]">Metadata</div>
-            <div class="text-[#26AAFFFF] link-hover" @click="jump(info)">
+            <div
+              :class="{
+                'text-[#26AAFFFF] link-hover': info.metadataUri,
+              }"
+              @click="jump(info)"
+            >
               metadata
             </div>
           </div>
