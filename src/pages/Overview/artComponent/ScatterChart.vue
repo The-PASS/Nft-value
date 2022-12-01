@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div class="w-full select-none">
     <div class="text-xl font-bold">Artwork Transaction history</div>
     <!-- <div class="flex justify-between mb-2 mt-4 text-base">
       <div class="flex space-x-4">

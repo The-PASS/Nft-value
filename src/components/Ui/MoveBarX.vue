@@ -11,14 +11,14 @@
       )}px`"
     ></div>
     <div
-      class="w-2 h-6 rounded border-[1px] cursor-pointer absolute top-[-1px]"
+      class="w-2 h-6 rounded border-[1px] cursor-col-resize absolute top-[-1px]"
       :style="`left:${state.x1}px`"
       @mousedown="onDown($event, true)"
       @mousemove="onMove($eventvent, true)"
       @mouseup="onUp($event, true)"
     ></div>
     <div
-      class="w-2 h-6 rounded border-[1px] cursor-pointer absolute top-[-1px]"
+      class="w-2 h-6 rounded border-[1px] cursor-col-resize absolute top-[-1px]"
       :style="`left:${state.x2}px`"
       @mousedown="onDown($event, false)"
       @mousemove="onMove($event, false)"

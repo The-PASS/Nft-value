@@ -11,12 +11,12 @@
       )}px`"
     ></div>
     <div
-      class="w-6 h-2 rounded border-[1px] cursor-pointer absolute top-[-1px]"
+      class="w-6 h-2 rounded border-[1px] cursor-row-resize absolute top-[-1px]"
       :style="`top:${state.y1}px`"
       @mousedown="onDown($event, true)"
     ></div>
     <div
-      class="w-6 h-2 rounded border-[1px] cursor-pointer absolute top-[-1px]"
+      class="w-6 h-2 rounded border-[1px] cursor-row-resize absolute top-[-1px]"
       :style="`top:${state.y2}px`"
       @mousedown="onDown($event, false)"
     ></div>
