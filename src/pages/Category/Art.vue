@@ -55,9 +55,11 @@
                   <div class="flex items-center">
                     <EthText>
                       {{
-                        numeral(item.artworkValuationMin)
-                          .format("0.0a")
-                          .toUpperCase()
+                        +item.artworkValuationMin < 0.001
+                          ? "<0.001"
+                          : numeral(item.artworkValuationMin)
+                              .format("0.0a")
+                              .toUpperCase()
                       }} </EthText
                     >&nbsp;&nbsp;~&nbsp;<EthText>
                       {{

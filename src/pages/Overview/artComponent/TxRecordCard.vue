@@ -193,7 +193,9 @@ const jumpTokenId = (tokenId, chain, address) => {
 };
 
 const jumpHash = (hash, network) => {
-  window.open(toExploreAddress(hash, network, "tx"), "_blank");
+  if (hash) {
+    window.open(toExploreAddress(hash, network, "tx"), "_blank");
+  }
 };
 
 const { loadRest, loading, loadNext, results } = useReqPages((page, cancel) => {

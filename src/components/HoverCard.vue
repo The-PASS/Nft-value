@@ -92,7 +92,9 @@
           </div>
           <div class="flex justify-between">
             <div class="text-[#FFFFFFB3]">Metadata</div>
-            <div class="text-[#26AAFFFF]">{{ info.metadataUri }}</div>
+            <div class="text-[#26AAFFFF] link-hover" @click="jump(info)">
+              metadata
+            </div>
           </div>
         </div>
       </div>
@@ -120,6 +122,10 @@ const enter = () => {
 
 const leave = () => {
   state.show = false;
+};
+
+const jump = (info) => {
+  if (info.metadataUri) window.open(info.metadataUri, "_blank");
 };
 
 onMounted(() => {});

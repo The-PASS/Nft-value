@@ -17,13 +17,10 @@
         Valuation by history
         <span v-if="store.selectedTx.valueType">
           <span v-if="!store.selectedTx.isSingle"
-            >- {{ store.selectedTx.collectionName }}:
+            >- {{ store.selectedTx.collectionName }}+
             {{ store.selectedTx.editionCount }}
           </span>
-          <span v-else
-            >- Single
-            {{ store.selectedTx.tag }}
-          </span>
+          <span v-else>- Single+{{ store.selectedTx.tag }} </span>
         </span>
       </div>
       <div
@@ -164,7 +161,7 @@ const xAxis = computed(() => {
 
   return [
     Math.floor(minPoint + detal * state.xPoint[0]),
-    Math.floor(minPoint + detal * state.xPoint[1]),
+    Math.ceil(minPoint + detal * state.xPoint[1]),
   ];
 });
 
@@ -188,7 +185,7 @@ const yAxis = computed(() => {
 
   return [
     Math.floor(Math.max(minPoint + detal * (1 - state.yPoint[1]), 0)),
-    Math.floor(minPoint + detal * (1 - state.yPoint[0])),
+    Math.ceil(minPoint + detal * (1 - state.yPoint[0])),
   ];
 });
 

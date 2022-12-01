@@ -232,7 +232,7 @@
               <div v-else>
                 <ui-tippyer :content="localeNumber(item.value[0], 2)">
                   <EthText class="cursor-pointer" iconClass="text-xl"
-                    >{{ `<0.0001` }}
+                    >{{ `<0.001` }}
                   </EthText>
                   <template #content>
                     <EthText>{{ localeNumber(item.value[0], 2) }}</EthText>
