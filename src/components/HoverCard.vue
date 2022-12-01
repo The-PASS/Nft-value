@@ -1,16 +1,17 @@
 <template>
-  <div ref="container" class="relative" @mouseenter="enter" @mouseleave="leave">
+  <ui-tippyer
+    :arrow="false"
+    interactive
+    trigger="click"
+    :maxWidth="600"
+    placement="right-start"
+    :popperOptions="{ escapeWithReference: false }"
+    theme="tomato"
+  >
     <slot></slot>
-    <transition name="fade">
-      <div
-        v-if="state.show"
-        class="absolute top-2 left-2 p-6 flex w-auto z-30"
-        style="
-          border-radius: 8px;
-          border: 1px solid rgba(255, 255, 255, 0.4);
-          backdrop-filter: blur(16px);
-        "
-      >
+
+    <template #content>
+      <div class="p-6 flex w-auto z-30">
         <ui-img
           class="w-64 h-64 rounded overflow-hidden mr-6 flex-shrink-0"
           :src="info.logo"
@@ -36,7 +37,16 @@
               <iconfont-icon name="icon-biaoji" class="text-xs mr-1" />
               Last price :
             </div>
-            <span class="text-[#26AAFFFF]">
+            <span
+              class="link-hover text-[#26AAFFFF]"
+              @click="
+                toExploreAddress(
+                  info.transactionHash,
+                  info.chain.toUpperCase(),
+                  'tx'
+                )
+              "
+            >
               <EthText>
                 {{ info.lastPrice }}
               </EthText>
@@ -51,7 +61,7 @@
             <div
               class="text-[#26AAFFFF] link-hover"
               @click="
-                toExploreAddress(info.tokenAddress, info.chain.toLowerCase())
+                toExploreAddress(info.tokenAddress, info.chain.toUpperCase())
               "
             >
               {{ formatAddress(info.tokenAddress, 4) }}
@@ -86,8 +96,8 @@
           </div>
         </div>
       </div>
-    </transition>
-  </div>
+    </template>
+  </ui-tippyer>
 </template>
 
 <script setup>
@@ -112,9 +122,7 @@ const leave = () => {
   state.show = false;
 };
 
-onMounted(() => {
-  console.log(container.value.getBoundingClientRect());
-});
+onMounted(() => {});
 </script>
 
 <style lang="scss" scoped></style>

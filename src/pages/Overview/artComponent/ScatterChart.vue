@@ -12,7 +12,7 @@
         </div>
       </div>
     </div> -->
-    <div class="w-full h-[362px] relative">
+    <div class="w-full h-[380px] relative">
       <div class="absolute top-2">
         Valuation by history
         <span v-if="store.selectedTx.valueType">
@@ -32,11 +32,21 @@
       >
         <img class="w-8 h-8" src="@/assets/svgs/spin.svg" alt="" />
       </div>
-      <VChart
-        class="chart"
-        :option="option"
-        v-else-if="state.source.length > 0"
-      ></VChart>
+      <div class="w-full h-full flex" v-else-if="state.source.length > 0">
+        <div class="flex-1 min-w-0 flex flex-col">
+          <div class="flex-1 min-h-0">
+            <VChart class="chart" :option="option"></VChart>
+          </div>
+
+          <ui-move-bar-x v-model="state.xPoint"></ui-move-bar-x>
+        </div>
+        <ui-move-bar-y
+          v-model="state.yPoint"
+          class="ml-4"
+          style="height: calc(100% - 40px)"
+        ></ui-move-bar-y>
+      </div>
+
       <div
         v-else
         class="w-full h-full flex justify-center items-center font-bold text-xl text-[#5E6873FF]"
@@ -69,6 +79,8 @@ const color = ["#FF5166FF", "#9317B5FF"];
 
 const state = reactive({
   source: [],
+  xPoint: [0, 0.5],
+  yPoint: [0, 0.8],
 });
 
 use([
@@ -122,6 +134,9 @@ const { loadData, loading } = useReqByBool(async () => {
       );
       list = res.length > 0 ? [res] : res;
     }
+
+    state.yPoint = [0, 1];
+    state.xPoint = [0, 1];
   } catch (error) {
     list = [];
   }
@@ -129,11 +144,10 @@ const { loadData, loading } = useReqByBool(async () => {
   state.source = list;
 });
 
-const option = computed(() => {
-  let maxPoint = 0;
+const xAxis = computed(() => {
   let minPoint = 0;
+  let maxPoint = 0;
 
-  const series = [];
   state.source.forEach((list, i) => {
     list.forEach((x) => {
       if (minPoint == 0) {
@@ -144,7 +158,45 @@ const option = computed(() => {
         minPoint = Math.min(minPoint, x.transactionTime);
       }
     });
+  });
 
+  const detal = maxPoint - minPoint;
+
+  return [
+    Math.floor(minPoint + detal * state.xPoint[0]),
+    Math.floor(minPoint + detal * state.xPoint[1]),
+  ];
+});
+
+const yAxis = computed(() => {
+  let minPoint = 0;
+  let maxPoint = 0;
+
+  state.source.forEach((list, i) => {
+    list.forEach((x) => {
+      if (minPoint == 0) {
+        minPoint = x.lastPrice;
+        maxPoint = x.lastPrice;
+      } else {
+        maxPoint = Math.max(maxPoint, x.lastPrice);
+        minPoint = Math.min(minPoint, x.lastPrice);
+      }
+    });
+  });
+
+  const detal = maxPoint - minPoint;
+
+  return [
+    Math.floor(Math.max(minPoint + detal * (1 - state.yPoint[1]), 0)),
+    Math.floor(minPoint + detal * (1 - state.yPoint[0])),
+  ];
+});
+
+const option = computed(() => {
+  console.log(yAxis.value);
+
+  const series = [];
+  state.source.forEach((list, i) => {
     series.push({
       name: store.evaTypes[i],
       symbolSize: 10,
@@ -179,6 +231,7 @@ const option = computed(() => {
     grid: {
       left: "40",
       right: "20",
+      bottom: "40",
     },
     xAxis: {
       // show: false,
@@ -188,8 +241,8 @@ const option = computed(() => {
       axisLabel: {
         formatter: (value) => formatDate(value, "MMM DD"),
       },
-      min: minPoint,
-      max: maxPoint,
+      min: xAxis.value[0],
+      max: xAxis.value[1],
     },
     yAxis: {
       splitLine: {
@@ -198,6 +251,8 @@ const option = computed(() => {
       axisLine: {
         show: false,
       },
+      min: yAxis.value[0],
+      max: yAxis.value[1],
     },
     legend: {
       data: ["Single", "Edition"],

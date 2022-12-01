@@ -58,10 +58,8 @@
                         numeral(item.artworkValuationMin)
                           .format("0.0a")
                           .toUpperCase()
-                      }}
-                    </EthText>
-
-                    &nbsp;~&nbsp;<EthText>
+                      }} </EthText
+                    >&nbsp;&nbsp;~&nbsp;<EthText>
                       {{
                         numeral(item.artworkValuationMax)
                           .format("0.0a")

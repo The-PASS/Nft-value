@@ -40,9 +40,9 @@
     </div>
 
     <div class="w-full h-[480px]">
-      <ui-scrollbars
-        :onIns="onIns"
-        class="w-full h-full"
+      <div
+        ref="scrollEl"
+        class="w-full h-full overflow-y-scroll"
         v-if="results.length > 0 || loading"
       >
         <div class="grid grid-cols-6 gap-4 pb-4">
@@ -114,7 +114,7 @@
             </div>
           </div>
         </div>
-      </ui-scrollbars>
+      </div>
       <div
         v-if="results.length == 0 && !loading"
         class="w-full h-full relative"
