@@ -80,7 +80,7 @@
                   <div class="text-[#5E6873FF]">history price:</div>
                   <div>
                     <EthText iconClass="text-xs">
-                      {{ item.lastPrice }}
+                      {{ item.valuation }}
                     </EthText>
                   </div>
                 </div>

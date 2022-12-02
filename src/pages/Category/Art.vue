@@ -52,7 +52,10 @@
                 </td>
 
                 <td class="text-right">
-                  <div class="flex items-center">
+                  <div
+                    class="flex items-center"
+                    v-if="item.artworkValuationMin != item.artworkValuationMax"
+                  >
                     <EthText>
                       {{
                         +item.artworkValuationMin < 0.001
@@ -68,6 +71,9 @@
                           .toUpperCase()
                       }}
                     </EthText>
+                  </div>
+                  <div v-else class="flex items-center">
+                    <EthText>{{ item.artworkValuationMax }}</EthText>
                   </div>
                 </td>
 

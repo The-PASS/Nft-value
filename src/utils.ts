@@ -118,3 +118,15 @@ export const jumpTokenId = (
     "_blank"
   );
 };
+
+export const jumpChainTokenId = (
+  tokenAddress: string,
+  tokenId: string,
+  network: string
+) => {
+  if (network.toLowerCase() == "ethereum")
+    window.open(
+      `https://etherscan.io/token/${tokenAddress}?a=${tokenId}`,
+      "_blank"
+    );
+};

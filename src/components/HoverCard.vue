@@ -19,7 +19,17 @@
         <div class="space-y-[10px] text-sm w-80">
           <div class="font-bold flex items-center">
             {{ info.tokenName }}
-            <img class="w-6 h-6 ml-2" :src="OpenSeaImg" />
+            <img
+              class="w-6 h-6 ml-2 cursor-pointer"
+              :src="OpenSeaImg"
+              @click="
+                jumpTokenId(
+                  info.tokenId,
+                  info.chain.toLowerCase(),
+                  info.tokenAddress
+                )
+              "
+            />
           </div>
           <div class="flex justify-between">
             <div class="font-bold">
@@ -76,11 +86,7 @@
                 'text-[#26AAFFFF] link-hover': info.tokenId,
               }"
               @click="
-                jumpTokenId(
-                  info.tokenId,
-                  info.chain.toLowerCase(),
-                  info.tokenAddress
-                )
+                jumpChainTokenId(info.tokenAddress, info.tokenId, info.chain)
               "
             >
               {{ info.tokenId }}
@@ -112,7 +118,12 @@
 </template>
 
 <script setup>
-import { formatAddress, toExploreAddress, jumpTokenId } from "@/utils";
+import {
+  formatAddress,
+  toExploreAddress,
+  jumpTokenId,
+  jumpChainTokenId,
+} from "@/utils";
 import OpenSeaImg from "@/assets/images/opensea.png";
 
 const container = ref(null);
