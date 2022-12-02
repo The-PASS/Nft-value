@@ -57,19 +57,9 @@
                     v-if="item.artworkValuationMin != item.artworkValuationMax"
                   >
                     <EthText>
-                      {{
-                        +item.artworkValuationMin < 0.001
-                          ? "<0.001"
-                          : numeral(item.artworkValuationMin)
-                              .format("0.0a")
-                              .toUpperCase()
-                      }} </EthText
+                      {{ formatVal(item.artworkValuationMin) }} </EthText
                     >&nbsp;&nbsp;~&nbsp;<EthText>
-                      {{
-                        numeral(item.artworkValuationMax)
-                          .format("0.0a")
-                          .toUpperCase()
-                      }}
+                      {{ formatVal(item.artworkValuationMax) }}
                     </EthText>
                   </div>
                   <div v-else class="flex items-center">
@@ -200,7 +190,7 @@
 <script setup>
 import { getVaultList } from "@/api";
 import { useDesktop, useReqPages } from "@/hooks";
-import { suffixNum, localeNumber, formatDateText } from "@/utils";
+import { suffixNum, localeNumber, formatDateText, formatVal } from "@/utils";
 import { withThrottling } from "@/with";
 import numeral from "numeral";
 

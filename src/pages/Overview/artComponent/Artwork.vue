@@ -39,9 +39,8 @@
       </div>
     </div>
 
-    <div class="w-full h-[480px]">
+    <div class="w-full max-h-[480px] overflow-y-scroll" ref="scrollEl">
       <div
-        ref="scrollEl"
         class="w-full h-full overflow-y-scroll"
         v-if="results.length > 0 || loading"
       >

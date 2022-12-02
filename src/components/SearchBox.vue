@@ -150,6 +150,7 @@ const loadData = async (key) => {
       state.loading--;
       if (list) {
         state.searchList = list;
+        console.log(list);
       }
     }
   } catch (error) {
@@ -160,7 +161,7 @@ const loadData = async (key) => {
 const jump = (item) => {
   state.flag = false;
   router.push(
-    item.artWorkValue ? `/Art/${item.artistName}` : `/Collectables/${item.path}`
+    item.artistName ? `/Art/${item.artistName}` : `/Collectables/${item.path}`
   );
 };
 

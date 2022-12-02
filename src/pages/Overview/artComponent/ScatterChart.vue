@@ -194,12 +194,14 @@ const yAxis = computed(() => {
 });
 
 const option = computed(() => {
-  console.log(yAxis.value);
-
   const series = [];
   state.source.forEach((list, i) => {
     series.push({
-      name: store.evaTypes[i],
+      name: store.selectedTx.valueType
+        ? store.selectedTx.isSingle
+          ? "Single"
+          : "Edition"
+        : store.evaTypes[i],
       symbolSize: 10,
       type: "scatter",
       data: list.map((x) => [x.transactionTime, x.lastPrice]),
@@ -236,23 +238,27 @@ const option = computed(() => {
     },
     xAxis: {
       // show: false,
+      splitNumber: xAxis.value[0] == xAxis.value[1] ? 1 : 0,
       splitLine: {
         show: false,
       },
       axisLabel: {
         formatter: (value) => formatDate(value, "MMM DD"),
       },
-      min: xAxis.value[0],
-      max: xAxis.value[1],
+      min:
+        xAxis.value[0] == xAxis.value[1] ? xAxis.value[0] - 1 : xAxis.value[0],
+      max:
+        xAxis.value[0] == xAxis.value[1] ? xAxis.value[1] + 1 : xAxis.value[1],
     },
     yAxis: {
+      type: "value",
       splitLine: {
         show: false,
       },
       axisLine: {
         show: false,
       },
-      min: yAxis.value[0],
+      min: 0,
       max: yAxis.value[1],
     },
     legend: {

@@ -2,6 +2,7 @@ import copy from "copy-to-clipboard";
 import BigNumber from "bignumber.js";
 import { utils } from "ethers";
 import dayjs from "dayjs";
+import numeral from "numeral";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
@@ -52,6 +53,15 @@ export const localeNumber = (xnum: number, bit = 0, zero = true) => {
 export const suffixNum = (num: number | string) => {
   const flag = +num > 0 ? "+" : "";
   return flag + num;
+};
+
+export const formatVal = (val: number) => {
+  if (val < 0.001) {
+    return "<0.001";
+  } else if (val > 1) {
+    return numeral(val).format("0.0a").toUpperCase();
+  }
+  return localeNumber(val, 3);
 };
 
 const ethMap = {
