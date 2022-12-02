@@ -141,7 +141,7 @@ const { loadData, loading } = useReqByBool(async () => {
     state.yPoint = [0, 1];
     state.xPoint = [0, 1];
   } catch (error) {
-    list = [];
+    // list = [];
   }
 
   state.source = list;

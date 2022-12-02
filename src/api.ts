@@ -288,7 +288,7 @@ export const getArtScatter = async (
   creatorName: string,
   txtype: number,
   valueType: any,
-  cancel: boolean
+  cancel = false
 ) =>
   passHttp.get(
     "/artist/transactionChart",
