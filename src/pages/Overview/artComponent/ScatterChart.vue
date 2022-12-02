@@ -122,7 +122,8 @@ const { loadData, loading } = useReqByBool(async () => {
       const res = await getArtScatter(
         $route.params.name,
         store.curEvaType,
-        store.selectedArtwork.valueType
+        store.selectedArtwork.valueType,
+        true
       );
       list = res.length > 0 ? [res] : res;
     } else if (!store.selectedTx.valueType) {
@@ -131,7 +132,8 @@ const { loadData, loading } = useReqByBool(async () => {
       const res = await getArtScatter(
         $route.params.name,
         store.curEvaType,
-        store.selectedTx.valueType
+        store.selectedTx.valueType,
+        true
       );
       list = res.length > 0 ? [res] : res;
     }

@@ -287,15 +287,20 @@ export const getArtTxRecordDetails = (
 export const getArtScatter = async (
   creatorName: string,
   txtype: number,
-  valueType: any
+  valueType: any,
+  cancel: boolean
 ) =>
-  passHttp.get("/artist/transactionChart", {
-    params: {
-      creatorName,
-      txtype,
-      valueType,
+  passHttp.get(
+    "/artist/transactionChart",
+    {
+      params: {
+        creatorName,
+        txtype,
+        valueType,
+      },
     },
-  });
+    cancel
+  );
 
 export const getArtScatterAll = async (creatorName: string, valueType = "") => {
   const res = await Promise.all([
