@@ -25,7 +25,6 @@ declare module '@vue/runtime-core' {
     ThirdLink: typeof import('./src/components/ThirdLink.vue')['default']
     UiDropdown: typeof import('./src/components/Ui/Dropdown.vue')['default']
     UiImg: typeof import('./src/components/Ui/Img.vue')['default']
-    UiMoveBar: typeof import('./src/components/Ui/MoveBar.vue')['default']
     UiMoveBarX: typeof import('./src/components/Ui/MoveBarX.vue')['default']
     UiMoveBarY: typeof import('./src/components/Ui/MoveBarY.vue')['default']
     UiScrollbars: typeof import('./src/components/Ui/Scrollbars.vue')['default']
