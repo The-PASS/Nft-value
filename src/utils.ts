@@ -56,6 +56,10 @@ export const suffixNum = (num: number | string) => {
 };
 
 export const formatVal = (val: number) => {
+  if (val == null) {
+    return "--";
+  }
+
   if (val < 0.001) {
     return "<0.001";
   } else if (val > 1) {

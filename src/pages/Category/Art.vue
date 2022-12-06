@@ -11,27 +11,49 @@
         <div class="px-2 pb-2">
           <table class="w-full h-14 sticky top-0 bg-[#1f2123] z-20">
             <colgroup>
-              <col style="width: 28%" />
-              <col style="width: 18%" />
-              <col style="width: 18%" />
-              <col style="width: 18%" />
-              <col style="width: 18%" />
+              <col style="width: 22%" />
+              <col style="width: 13%" />
+              <col style="width: 13%" />
+              <col style="width: 13%" />
+              <col style="width: 13%" />
+              <col style="width: 13%" />
+              <col style="width: 13%" />
             </colgroup>
             <thead>
               <th class="text-left">Artist</th>
+              <th class="text-left">
+                <UiSort v-model="state.sortValue" :index="0">Market cap</UiSort>
+              </th>
+              <th class="text-left">
+                <UiSort v-model="state.sortValue" :index="1">
+                  Historical Value
+                </UiSort>
+              </th>
               <th class="text-left">Artwork Evaluation</th>
-              <th class="text-right">Artwork Evaluation<br />(30days)</th>
-              <th class="text-right">Last Trade</th>
+              <th class="text-left">
+                <UiSort v-model="state.sortValue" :index="2">
+                  Expensivest Trade
+                </UiSort>
+              </th>
+              <th>
+                <div class="flex justify-end">
+                  <UiSort v-model="state.sortValue" :index="3">
+                    Last Trade
+                  </UiSort>
+                </div>
+              </th>
               <th class="text-right">Date</th>
             </thead>
           </table>
           <table class="w-full">
             <colgroup>
-              <col style="width: 28%" />
-              <col style="width: 18%" />
-              <col style="width: 18%" />
-              <col style="width: 18%" />
-              <col style="width: 18%" />
+              <col style="width: 22%" />
+              <col style="width: 13%" />
+              <col style="width: 13%" />
+              <col style="width: 13%" />
+              <col style="width: 13%" />
+              <col style="width: 13%" />
+              <col style="width: 13%" />
             </colgroup>
             <tbody>
               <tr
@@ -47,8 +69,19 @@
                       :src="item.image"
                       alt=""
                     />
-                    <div class="text-[#26AAFF]">{{ item.artistName }}</div>
+                    <div class="text-[#26AAFF]">{{ item.fullName }}</div>
                   </div>
+                </td>
+
+                <td>
+                  <EthText>
+                    {{ formatVal(item.marketCap) }}
+                  </EthText>
+                </td>
+                <td>
+                  <EthText>
+                    {{ formatVal(item.totalHistoryValue) }}
+                  </EthText>
                 </td>
 
                 <td class="text-right">
@@ -67,15 +100,12 @@
                   </div>
                 </td>
 
-                <td
-                  class="text-right"
-                  :class="{
-                    'text-[#5EFF6A]': item.evaRate > 0,
-                    'text-[#FF5166]': item.evaRate < 0,
-                  }"
-                >
-                  {{ suffixNum(localeNumber(item.evaRate, 2)) }}%
+                <td>
+                  <EthText>
+                    {{ formatVal(item.highestPrice) }}
+                  </EthText>
                 </td>
+
                 <td>
                   <div class="flex items-center justify-end">
                     <EthText>
@@ -105,85 +135,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <div v-if="!isDesktop" class="w-full h-full overflow-y-scroll">
-      <div v-if="!state.loading && state.list.length > 0">
-        <div
-          class="relative"
-          v-for="(item, i) in state.list"
-          :key="i"
-          @click="router.push(`/Collectables/${item.path}`)"
-        >
-          <div class="flex p-4">
-            <div class="flex flex-col justify-center mr-2">
-              <ui-img
-                class="w-14 h-14 rounded-full mr-2 overflow-hidden flex-shrink-0 bg-[#FFFFFF1A]"
-                :src="item.logo"
-                alt=""
-              />
-              <div class="text-center mt-2 font-bold text-base text-[#5e6873]">
-                {{ i + 1 }}
-              </div>
-            </div>
-            <div class="space-y-1 flex-1">
-              <div class="text-[#26AAFF] font-bold text-lg">
-                {{ item.projectName }}
-              </div>
-              <div class="flex justify-between">
-                <div>Volume:</div>
-                <div class="flex items-center">
-                  {{ numeral(item.totalVolume).format("0.0a").toUpperCase() }}
-                  <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
-                </div>
-              </div>
-              <div class="flex justify-between">
-                <div>Volume（24H）:</div>
-                <div class="flex items-center">
-                  {{ item.volume }}
-                  <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
-                </div>
-              </div>
-
-              <div class="flex justify-between">
-                <div>VolumeRate（24H）:</div>
-                <div
-                  :class="{
-                    'text-[#5EFF6A]': item.volumeRate > 0,
-                    'text-[#FF5166]': item.volumeRate < 0,
-                  }"
-                >
-                  {{ suffixNum(localeNumber(item.volumeRate, 2)) }}%
-                </div>
-              </div>
-
-              <div class="flex justify-between">
-                <div>Floor Price:</div>
-                <div class="flex items-center justify-end">
-                  {{
-                    +item.floorPrice == 0
-                      ? "--"
-                      : localeNumber(item.floorPrice, 2)
-                  }}&nbsp;
-                  <iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
-                </div>
-              </div>
-
-              <div class="flex justify-between">
-                <div>Market Cap:</div>
-                <div class="flex items-center justify-end">
-                  {{ localeNumber(item.marketCap, 2)
-                  }}<iconfont-icon name="icon-ETH" class="ml-1"></iconfont-icon>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="bg-[#FFFFFF1A] w-[88%] h-[1px] absolute bottom-0 left-1/2 transform -translate-x-1/2"
-          ></div>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -199,8 +150,38 @@ const router = useRouter();
 
 const isDesktop = useDesktop();
 
-const { loading, results, loadNext, loadRest } = useReqPages((page, cancel) =>
-  getVaultList(page, "ART", cancel)
+const state = reactive({
+  sortValue: [0, -1, -1, -1],
+});
+
+const sortKeys = [
+  "MARKET_CAP",
+  "TOTAL_HISTORY_VALUE",
+  "HIGHEST_PRICE",
+  "LAST_TX_PRICE",
+];
+
+const { loading, results, loadNext, loadRest } = useReqPages(
+  async (page, cancel) => {
+    const index = state.sortValue.findIndex((x) => x != -1);
+    const res = await getVaultList(
+      page,
+      "ART",
+      {
+        sort: state.sortValue[index] == 0 ? "DESC" : "ASC",
+        order: sortKeys[index],
+      },
+      cancel
+    );
+    return res;
+  }
+);
+
+watch(
+  () => JSON.stringify(state.sortValue),
+  () => {
+    loadRest(true);
+  }
 );
 
 useInfiniteScroll(scroller, withThrottling(loadNext), {

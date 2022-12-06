@@ -31,6 +31,7 @@ enum VaultType {
 export const getVaultList = async (
   page = 1,
   type: VaultType,
+  sortConfig = {},
   cancel = false
 ) => {
   const res = await passHttp.get(
@@ -40,6 +41,7 @@ export const getVaultList = async (
         type,
         page,
         pageSize: 20,
+        ...sortConfig,
       },
     },
     cancel

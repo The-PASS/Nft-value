@@ -28,6 +28,7 @@ declare module '@vue/runtime-core' {
     UiMoveBarX: typeof import('./src/components/Ui/MoveBarX.vue')['default']
     UiMoveBarY: typeof import('./src/components/Ui/MoveBarY.vue')['default']
     UiScrollbars: typeof import('./src/components/Ui/Scrollbars.vue')['default']
+    UiSort: typeof import('./src/components/Ui/Sort.vue')['default']
     UiTabs: typeof import('./src/components/Ui/Tabs.vue')['default']
     UiTippyer: typeof import('./src/components/Ui/Tippyer.vue')['default']
   }

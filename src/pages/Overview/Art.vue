@@ -210,9 +210,9 @@
     <!-- section 2 -->
     <div class="mt-16">
       <div class="text-xl font-bold mb-4">BASIC DATA</div>
-      <div class="flex space-x-4">
+      <div class="grid grid-cols-5 gap-4">
         <div
-          class="w-56 h-24 rounded basic-data-box flex flex-col items-center justify-center"
+          class="h-24 rounded basic-data-box flex flex-col items-center justify-center"
           :class="{
             'basic-data-box__red': +item.gains < 0,
             'basic-data-box__green': +item.gains > 0,
@@ -305,7 +305,13 @@
 
 <script setup>
 import { Skeletor } from "vue-skeletor";
-import { formatAddress, copyTx, localeNumber, suffixNum } from "@/utils";
+import {
+  formatAddress,
+  copyTx,
+  localeNumber,
+  suffixNum,
+  formatVal,
+} from "@/utils";
 import dayjs from "dayjs";
 import numeral from "numeral";
 import { useArtStore } from "@/store/art.ts";
@@ -325,20 +331,38 @@ const state = reactive({
 
 const basicData = computed(() => [
   {
-    value: numeral(store.baseInfo.historicalValue)
-      .format("0.00a")
-      .toUpperCase(),
-    name: "Historical Value",
+    value: formatVal(store.baseInfo.totalSales),
+    name: "Total Sales",
     eth: true,
   },
   {
-    value: numeral(store.baseInfo.artValueMarketCap)
-      .format("0.00a")
-      .toUpperCase(),
-    name: "Market cap",
-    tip: "Valuation price * quantity",
+    value: formatVal(store.baseInfo.highestPrice),
+    name: "Expensivest Sales",
     eth: true,
   },
+  {
+    value: formatVal(store.baseInfo.secondaryTotalSales),
+    name: "Secondary Market Sales",
+    eth: true,
+  },
+  {
+    value: formatVal(store.baseInfo.secondaryHighestPrice),
+    name: "Expensivest Secondary",
+    eth: true,
+  },
+  {
+    value: formatVal(store.baseInfo.lastTxPrice),
+    name: "Last Trade",
+    eth: true,
+  },
+  // {
+  //   value: numeral(store.baseInfo.historicalValue)
+  //     .format("0.00a")
+  //     .toUpperCase(),
+  //   name: "Historical Value",
+  //   eth: true,
+  // },
+
   {
     value:
       store.baseInfo.artworkValuationMin == store.baseInfo.artworkValuationMax
@@ -356,6 +380,16 @@ const basicData = computed(() => [
     eth:
       store.baseInfo.artworkValuationMin == store.baseInfo.artworkValuationMax,
   },
+
+  {
+    value: numeral(store.baseInfo.artValueMarketCap)
+      .format("0.00a")
+      .toUpperCase(),
+    name: "Market cap",
+    tip: "Valuation price * quantity",
+    eth: true,
+  },
+
   {
     value: localeNumber(store.baseInfo.countWork, 0),
     name: "Artwork",
