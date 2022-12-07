@@ -1,6 +1,23 @@
 <template>
   <div class="h-full rounded-lg p-6 bg-[#FFFFFF0D] flex flex-col">
-    <div class="font-bold text-xl">NFT Value</div>
+    <div class="flex justify-between">
+      <div class="font-bold text-xl">NFT Value</div>
+
+      <div class="flex space-x-4">
+        <div
+          class="bar-time-btn flex items-center justify-center"
+          :class="{
+            'bar-time-btn-active': state.selected == i,
+          }"
+          v-for="(text, i) in ['By value', 'By quantity']"
+          :key="i"
+          @click="state.selected = i"
+        >
+          {{ text }}
+        </div>
+      </div>
+    </div>
+
     <div class="mt-4 flex-1 min-h-0">
       <Skeletor class="w-full h-full rounded" v-if="loading"></Skeletor>
 
@@ -21,7 +38,7 @@
             :class="{
               'item-active': state.activeIndex == i,
             }"
-            v-for="(item, i) in state.data"
+            v-for="(item, i) in list"
             :key="i"
           >
             <div class="flex items-center">
@@ -88,9 +105,14 @@ const colors = [
 ];
 
 const state = reactive({
+  selected: 0,
   activeIndex: -1,
   data: [],
 });
+
+const list = computed(() =>
+  state.selected == 0 ? state.data[0] : state.data[1]
+);
 
 const option = computed(() => {
   const legendData = state.data.map((x) => x.plat);
@@ -111,7 +133,7 @@ const option = computed(() => {
         // bottom: 0,
         // left: 0,
         // right: 0,
-        data: state.data,
+        data: list.value,
         radius: ["50%", "84%"],
         emphasis: {
           label: {
@@ -152,10 +174,13 @@ const option = computed(() => {
                   ${data.plat}
                   </div>
                 </div>
-              ${'<i class="iconfont icon-ETH2-24 mr-1 text-sm"></i>'}${localeNumber(
-              data.value,
-              2
-            )}`;
+              ${
+                state.selected == 0
+                  ? 'Value: <i class="iconfont icon-ETH2-24 mr-1 text-sm"></i>'
+                  : "Quantity: "
+              }${
+              state.selected == 0 ? localeNumber(data.value, 2) : data.value
+            }`;
           },
         },
       },
@@ -208,5 +233,19 @@ onMounted(() => {
 .item-active {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 4px;
+}
+.bar-time-btn {
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 4px;
+  border: 1px solid #ffffff4d;
+  transition: all 0.3s;
+  font-weight: bold;
+  cursor: pointer;
+}
+.bar-time-btn-active {
+  background: #fff;
+  border: 1px solid #fff;
+  color: #121416ff;
 }
 </style>

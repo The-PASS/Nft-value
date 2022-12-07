@@ -228,12 +228,14 @@ export const getArtDount = async (name: string) => {
     },
   });
 
-  const sum = res.reduce((a: any, b: any) => a + b.value, 0);
-  res.forEach((x: any) => {
-    x.rate = ((x.value / sum) * 100).toFixed(2);
+  [res.value, res.quantity].forEach((list) => {
+    const sum = list.reduce((a: any, b: any) => a + b.value, 0);
+    list.forEach((x: any) => {
+      x.rate = ((x.value / sum) * 100).toFixed(2);
+    });
   });
 
-  return res;
+  return [res.value, res.quantity];
 };
 
 export const getArtTransaction = async (name: string) => {
@@ -241,6 +243,16 @@ export const getArtTransaction = async (name: string) => {
     params: {
       creatorName: name,
     },
+  });
+  res.forEach((x: any) => {
+    const artworkCount = x.platSum.reduce(
+      (a: number, b: any) => a + b.artworkCount,
+      0
+    );
+    const sum = x.platSum.reduce((a: number, b: any) => a + b.sum, 0);
+
+    x.totalArtworkCount = artworkCount;
+    x.totalSum = sum;
   });
 
   return res;

@@ -88,8 +88,12 @@ const isNull = computed(
 );
 
 const { loadData, loading } = useReqByBool(async () => {
-  const res = await getArtTransaction($route.params.name);
-  state.list = res;
+  try {
+    const res = await getArtTransaction($route.params.name);
+    state.list = res;
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 const showList = computed(() => {
@@ -153,7 +157,10 @@ const option = computed(() => {
           const str = `<div class="text-xs"><div>${
             originList[dataIndex].month
           }</div>
-          ${filterData
+          ${[
+            { platform: "Total", sum: originList[dataIndex].totalSum },
+            ...filterData,
+          ]
             .map((value, i) => {
               return `<div class='flex justify-between items-center w-full'>
                         <div class="flex items-center">

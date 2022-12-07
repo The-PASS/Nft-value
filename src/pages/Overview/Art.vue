@@ -278,23 +278,21 @@
       </div>
     </div>
 
-    <!-- section 3 -->
-    <div class="flex mt-8">
-      <Artwork></Artwork>
-      <!-- <dashboard-whales></dashboard-whales> -->
+    <div class="mt-8 flex space-x-4" style="height: 420px">
+      <NftValue class="w-2/5"></NftValue>
+      <NftTransaction class="w-3/5"></NftTransaction>
     </div>
 
     <div class="flex mt-8">
       <ScatterChart></ScatterChart>
     </div>
 
-    <TxRecord></TxRecord>
-
-    <!-- section 4 -->
-    <div class="mt-8 flex space-x-4" style="height: 420px">
-      <NftValue class="w-2/5"></NftValue>
-      <NftTransaction class="w-3/5"></NftTransaction>
+    <div class="flex mt-8">
+      <Artwork></Artwork>
+      <!-- <dashboard-whales></dashboard-whales> -->
     </div>
+
+    <!-- <TxRecord></TxRecord> -->
 
     <!-- section 5 -->
     <!-- <div class="mt-8 rounded w-full p-6" style="background: #1e1f21">
