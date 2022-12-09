@@ -89,4 +89,21 @@ table td {
   box-shadow: 0px 0px 16px 0px #898a8b;
   border-radius: 8px;
 }
+
+.bar-time-btn {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 4px;
+  border: 1px solid #ffffff4d;
+  transition: all 0.3s;
+  font-weight: bold;
+  cursor: pointer;
+}
+.bar-time-btn-active {
+  background: #fff;
+  border: 1px solid #fff;
+  color: #121416ff;
+}
 </style>

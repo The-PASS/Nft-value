@@ -3,8 +3,8 @@
     <div class="flex justify-between">
       <div class="font-bold text-xl">NFT Transaction</div>
 
-      <div>
-        <div class="flex space-x-4" v-if="showList.length > 12">
+      <div class="flex space-x-8">
+        <div class="flex space-x-2" v-if="showList.length > 12">
           <div
             class="bar-time-btn flex items-center justify-center"
             :class="{
@@ -18,7 +18,7 @@
           </div>
         </div>
 
-        <div class="flex space-x-4">
+        <div class="flex space-x-2">
           <div
             class="bar-time-btn flex items-center justify-center"
             :class="{

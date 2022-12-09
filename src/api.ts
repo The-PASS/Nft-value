@@ -340,3 +340,37 @@ export const getArtHolder = async (creatorName: string, order: string) =>
       order,
     },
   });
+
+export const getArtworkList = (
+  page: number,
+  creatorName: string,
+  text: string,
+  config: Object,
+  // txType: string,
+  // valueType: string,
+  // plat: string,
+  // orderItem: string,
+  // orderType: string,
+
+  cancel: boolean
+) =>
+  passHttp.get(
+    "/artist/getTransaction",
+    {
+      params: {
+        page,
+        pageSize: 12,
+        creatorName,
+        text,
+        ...config,
+      },
+    },
+    cancel
+  );
+
+export const getArtistPlats = (creatorName: string) =>
+  passHttp.get("/artist/platformList", {
+    params: {
+      creatorName,
+    },
+  });

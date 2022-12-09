@@ -4,7 +4,7 @@
   </div>
   <div
     v-else
-    class="text-whitebase text-xs pb-8 max-w-[1200px] min-w-[1200px] mx-auto"
+    class="text-whitebase text-xs max-w-[1200px] min-w-[1200px] mx-auto"
   >
     <div class="h-[280px] bg-red-400 absolute w-full left-0 top-0"></div>
 
@@ -220,6 +220,23 @@
           }}</EthText>
           <div class="text-[#FFFFFF66]">{{ item.name }}</div>
         </div>
+      </div>
+      <div class="flex space-x-4 mt-4">
+        <ui-tippyer
+          :content="item.name"
+          v-for="(item, i) in store.baseInfo.daoInfo"
+          :key="i"
+        >
+          <a
+            :href="`https://app.thepass.to/dao/${item.daoPath}`"
+            target="_blank"
+          >
+            <ui-img
+              class="w-12 h-12 rounded-full overflow-hidden"
+              :src="item.logo"
+            />
+          </a>
+        </ui-tippyer>
       </div>
     </div>
 

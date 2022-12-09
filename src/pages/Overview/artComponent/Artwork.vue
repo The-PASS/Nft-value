@@ -1,50 +1,140 @@
 <template>
-  <div class="w-full">
-    <div class="flex justify-between mb-4">
+  <div class="w-full min-h-[100vh]">
+    <!-- <div class="flex justify-between mb-4">
       <div class="text-xl font-bold">ARTWORK</div>
-      <div class="flex">
-        <!-- <div
-          class="w-16 h-6 mr-6 rounded bg-[#FFFFFF1A] flex items-center justify-center cursor-pointer"
-          @click="state.orderType = !state.orderType"
-        >
-          Price
-          <span
-            class="ml-2 text-[10px]"
-            :class="{
-              'transform rotate-180': state.orderType,
-            }"
-            >▲</span
-          >
-        </div> -->
-        <div class="relative">
-          <input
-            class="w-[174px] h-6 rounded bg-[#FFFFFF1A] border-0 pl-3 pr-6 text-xs"
-            type="text"
-            placeholder="tokenID"
-            v-model="state.tokenId"
-          />
-          <iconfont-icon
-            v-if="!state.tokenId"
-            name="icon-sousuo1"
-            class="absolute text-xs right-2 top-1/2 transform -translate-y-1/2"
-          ></iconfont-icon>
+    </div> -->
+    <div
+      class="flex text-base font-bold space-x-8 text-[#FFFFFFB3] border-b-[1px] border-b-[#FFFFFF1A]"
+    >
+      <div
+        v-for="(text, i) in ArtworkType"
+        :key="i"
+        class="transition-all flex items-center h-10 cursor-pointer relative"
+        :class="{
+          ' text-[#fff]': state.artworkType == i,
+        }"
+        @click="state.artworkType = i"
+      >
+        {{ text }}
+        <transition name="fade">
           <div
-            v-else
-            class="absolute text-xs right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
-            @click="state.tokenId = ''"
-          >
-            <iconfont-icon name="icon-guanbi" class="text-xs"></iconfont-icon>
+            v-if="state.artworkType == i"
+            class="absolute h-[4px] bg-[#fff] w-full bottom-0"
+          ></div>
+        </transition>
+      </div>
+    </div>
+
+    <div class="my-4" v-if="state.artworkType != 2">
+      <div class="flex space-x-4 pr-14">
+        <div class="flex-1 min-w-0">
+          <input
+            v-model="state.keyword"
+            type="text"
+            class="h-10 w-full bg-[#FFFFFF0D] rounded border-none"
+            placeholder="Name/tokenid"
+          />
+        </div>
+
+        <UiDropdown
+          class="w-40"
+          :options="state.plats"
+          v-model="state.selectedPlat"
+          v-if="state.plats.length > 1"
+          :key="state.plats"
+        ></UiDropdown>
+
+        <UiSort v-model="state.sortValue" :index="0">{{
+          state.artworkType == 0 ? "Time" : "Price"
+        }}</UiSort>
+      </div>
+    </div>
+
+    <div v-else-if="state.txList[0].length > 0 || state.txList[1].length > 0">
+      <div class="flex py-4 space-x-4 border-b-[1px] border-b-[#FFFFFF1A]">
+        <div
+          class="bar-time-btn text-base h-10 px-4"
+          :class="{
+            'bar-time-btn-active': state.selectTxType == i,
+          }"
+          v-for="(item, i) in ValuationTypes"
+          :key="i"
+          @click="state.selectTxType = i"
+        >
+          {{ item }}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-6 gap-4 mt-4">
+        <div
+          class="flex flex-col text-base py-2 bg-[#FFFFFF0D] min-h-10 items-center justify-center hover:bg-[#121416FF] border-[1px] border-[transparent] hover:border-[#fff] rounded transition-all cursor-pointer"
+          :class="{
+            'bg-[#121416FF] border-[#fff]':
+              ValuationList[state.selectedTx].valueType == item.valueType,
+          }"
+          v-for="(item, i) in ValuationList"
+          :key="i"
+          @click="state.selectedTx = i"
+        >
+          <div class="flex">
+            Valuation:&nbsp;&nbsp;
+            <EthText iconClass="text-base">{{
+              formatVal(item.valuation)
+            }}</EthText>
           </div>
+          <div v-if="!item.isSingle" class="text-[#FFFFFF66]">
+            Edition: {{ item.editionCount ? item.editionCount : "--" }}
+          </div>
+        </div>
+        <div
+          class="flex bg-[#FFFFFF0D] min-h-[40px] h-full text-base items-center justify-center hover:bg-[#121416FF] border-[1px] border-[transparent] hover:border-[#fff] rounded transition-all cursor-pointer"
+          @click="state.seeMoreTx = !state.seeMoreTx"
+        >
+          see more &nbsp;&nbsp;<i
+            v-if="!state.seeMoreTx"
+            class="iconfont icon-xia1"
+          ></i>
+          <i v-else class="iconfont icon-shang1"></i>
+        </div>
+      </div>
+
+      <div class="my-8 grid grid-cols-3 text-base">
+        <div class="flex flex-col items-center">
+          <div class="font-bold">
+            {{ ValuationList[state.selectedTx].txCount }}
+          </div>
+          <div class="mt-2 text-[#FFFFFF66]">Total Transactions</div>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="font-bold">
+            {{
+              (ValuationList[state.selectedTx].isSingle
+                ? ValuationList[state.selectedTx].tag
+                : ValuationList[state.selectedTx].collectionName) || "--"
+            }}
+          </div>
+          <div class="mt-2 text-[#FFFFFF66]">Key Trait</div>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="font-bold">
+            {{
+              formatDate(
+                ValuationList[state.selectedTx].cutPoint,
+                "YYYY-MM-DD HH:mm"
+              )
+            }}
+          </div>
+          <div class="mt-2 text-[#FFFFFF66]">Cut time</div>
         </div>
       </div>
     </div>
 
-    <div class="w-full max-h-[480px] overflow-y-scroll" ref="scrollEl">
+    <div class="w-full">
       <div
         class="w-full h-full overflow-y-scroll"
         v-if="results.length > 0 || loading"
       >
-        <div class="grid grid-cols-6 gap-4 pb-4">
+        <div class="grid grid-cols-2 gap-4 pb-4">
           <hover-card :info="item" v-for="(item, i) in results" :key="i">
             <div
               class="w-44 p-2 rounded overflow-hidden relative cursor-pointer transition-all border-[1px] hover:border-white"
@@ -83,35 +173,16 @@
                     </EthText>
                   </div>
                 </div>
-                <!-- <div class="flex justify-between">
-                <div class="text-[#5E6873FF]">floor:</div>
-                <div>{{ +item.floor ? item.floor : "--" }} ETH</div>
-              </div> -->
               </div>
             </div>
           </hover-card>
         </div>
 
-        <div class="grid grid-cols-6 gap-4 pb-4" v-if="loading">
-          <div
-            v-for="(_, i) in Array(12).fill(0)"
-            :key="i"
-            class="w-44 p-2 bg-[#FFFFFF0D] rounded overflow-hidden relative cursor-pointer transition-all border-[1px] border-transparent"
-          >
-            <Skeletor class="w-40 h-40 rounded"></Skeletor>
-
-            <div class="mt-4 space-y-1 w-full">
-              <Skeletor class="w-22 h-4 rounded"></Skeletor>
-              <div class="flex justify-between">
-                <Skeletor class="w-10 h-4 rounded"></Skeletor>
-                <Skeletor class="w-16 h-4 rounded"></Skeletor>
-              </div>
-              <!-- <div class="flex justify-between">
-                <Skeletor class="w-10 h-4 rounded"></Skeletor>
-                <Skeletor class="w-16 h-4 rounded"></Skeletor>
-              </div> -->
-            </div>
-          </div>
+        <div
+          v-if="loading"
+          class="w-full h-full flex items-center justify-center"
+        >
+          <img class="w-6 h-6" src="@/assets/svgs/spin.svg" alt="" />
         </div>
       </div>
       <div
@@ -135,21 +206,53 @@
 
 <script setup>
 import { Skeletor } from "vue-skeletor";
-import { formatAddress, copyTx } from "@/utils";
+import { formatAddress, copyTx, formatVal, formatDate } from "@/utils";
 import { useReqPages } from "@/hooks";
 import { withThrottling } from "@/with";
-import { getArtwork, getTokenList } from "@/api";
+import {
+  getArtistPlats,
+  getArtTxRecord,
+  getArtworkList,
+  getTokenList,
+} from "@/api";
 import { useArtStore } from "@/store/art";
 
 const $route = useRoute();
 const store = useArtStore();
 const pid = inject("pid");
-const scrollEl = ref(null);
+
+const ArtworkType = ["By Time", "By Price", "By Valuation"];
 
 const state = reactive({
   loadedId: null,
   tokenId: $route.params.tokenId || "",
   orderType: true,
+  artworkType: 0,
+  plats: [],
+  selectedPlat: {},
+  sortValue: [0],
+  keyword: "",
+  selectTxType: 0,
+  selectedTx: 0,
+  txList: [],
+  seeMoreTx: false,
+});
+
+const ValuationTypes = computed(() => {
+  const res = [];
+  if (state.txList[0].length > 0) {
+    res.push("Single");
+  }
+  if (state.txList[1].length > 0) {
+    res.push("Edition");
+  }
+  return res;
+});
+
+const ValuationList = computed(() => {
+  const type = ValuationTypes.value[state.selectTxType];
+  const res = state.txList[type == "Single" ? 0 : 1];
+  return state.seeMoreTx ? res : res.slice(0, 5);
 });
 
 const {
@@ -163,12 +266,28 @@ const {
   loadNext,
   loadRest,
 } = useReqPages(async (i, cancel) => {
-  const res = await getArtwork(
+  if (state.artworkType == 2 && !state.selectedTx) {
+    state.txList = await getArtTxRecord($route.params.name, cancel);
+    state.selectedTx = 0;
+  }
+
+  const res = await getArtworkList(
     i,
+    $route.params.name,
+    state.keyword,
     {
-      creatorName: $route.params.name,
-      tokenId: state.tokenId,
-      // orderType: state.orderType ? "desc" : "asc",
+      orderItem: ["time", "price", "value"][state.artworkType],
+      orderType:
+        state.artworkType == 2
+          ? "desc"
+          : state.sortValue[0] == 0
+          ? "desc"
+          : "asc",
+      plat: state.artworkType == 2 ? "" : state.selectedPlat.value,
+      valueType:
+        state.artworkType == 2
+          ? ValuationList.value[state.selectedTx].valueType
+          : "",
     },
     cancel
   );
@@ -185,18 +304,25 @@ const {
   return res;
 });
 
-useInfiniteScroll(scrollEl, withThrottling(loadNext));
-
-const onIns = (ins) => {
-  scrollEl.value = ins.getElements("viewport");
-};
+useInfiniteScroll(window, withThrottling(loadNext), {
+  distance: 44,
+});
 
 const selectArtwork = (item) => {
   store.selectToken(item);
 };
 
 watch(
-  () => [state.tokenId, state.orderType],
+  () => [
+    state.tokenId,
+    state.orderType,
+    state.keyword,
+    state.artworkType,
+    state.sortValue[0],
+    state.selectedPlat,
+    state.selectTxType,
+    state.selectedTx,
+  ],
   () => {
     loadRest(true);
   }
@@ -209,7 +335,13 @@ watch(
   }
 );
 
-onMounted(() => {
+onMounted(async () => {
+  const res = await getArtistPlats($route.params.name);
+  if (res.length > 1) {
+    state.plats = res.map((x) => ({ label: x, value: x }));
+    state.plats.unshift({ label: "Platform", value: "" });
+  }
+  state.selectedPlat = { label: "Platform", value: "" };
   loadRest();
 });
 </script>
