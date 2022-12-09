@@ -129,76 +129,93 @@
       </div>
     </div>
 
-    <div class="w-full">
-      <div
-        class="w-full h-full overflow-y-scroll"
-        v-if="results.length > 0 || loading"
-      >
-        <div class="grid grid-cols-2 gap-4 pb-4">
-          <hover-card :info="item" v-for="(item, i) in results" :key="i">
-            <div
-              class="w-44 p-2 rounded overflow-hidden relative cursor-pointer transition-all border-[1px] hover:border-white"
-              :class="{
-                'border-white': store.selectedArtwork.tokenId == item.tokenId,
-                'border-transparent':
-                  store.selectedArtwork.tokenId != item.tokenId,
-              }"
-              @click="selectArtwork(item)"
-            >
+    <div class="w-full relative">
+      <img
+        class="absolute right-0 top-40 z-40 w-16 cursor-pointer"
+        :src="state.isChart ? art2table : art2chart"
+        alt=""
+        v-if="state.artworkType == 2"
+        @click="state.isChart = !state.isChart"
+      />
+
+      <div v-if="!state.isChart">
+        <div
+          class="w-full h-full overflow-y-scroll"
+          v-if="results.length > 0 || loading"
+        >
+          <div class="grid grid-cols-2 gap-4 pb-4">
+            <hover-card :info="item" v-for="(item, i) in results" :key="i">
               <div
-                class="absolute left-2 top-2 p-2 w-40 token-list__idfloat flex"
+                class="w-44 p-2 rounded overflow-hidden relative cursor-pointer transition-all border-[1px] hover:border-white"
+                :class="{
+                  'border-white': store.selectedArtwork.tokenId == item.tokenId,
+                  'border-transparent':
+                    store.selectedArtwork.tokenId != item.tokenId,
+                }"
+                @click="selectArtwork(item)"
               >
-                <div>ID:&nbsp;</div>
-
                 <div
-                  v-if="item.tokenId.length > 20"
-                  class="self-start text-[8px] mt-1"
-                  style="word-break: break-word; line-height: 1.2"
+                  class="absolute left-2 top-2 p-2 w-40 token-list__idfloat flex"
                 >
-                  {{ item.tokenId }}
-                </div>
-                <div v-else>
-                  {{ item.tokenId }}
-                </div>
-              </div>
+                  <div>ID:&nbsp;</div>
 
-              <ui-img class="w-40 h-40 rounded" :src="item.logo"></ui-img>
-              <div class="mt-4 space-y-1 w-full">
-                <div>Estimated Price</div>
-                <div class="flex justify-between">
-                  <div class="text-[#5E6873FF]">history price:</div>
-                  <div>
-                    <EthText iconClass="text-xs">
-                      {{ item.valuation }}
-                    </EthText>
+                  <div
+                    v-if="item.tokenId.length > 20"
+                    class="self-start text-[8px] mt-1"
+                    style="word-break: break-word; line-height: 1.2"
+                  >
+                    {{ item.tokenId }}
+                  </div>
+                  <div v-else>
+                    {{ item.tokenId }}
+                  </div>
+                </div>
+
+                <ui-img class="w-40 h-40 rounded" :src="item.logo"></ui-img>
+                <div class="mt-4 space-y-1 w-full">
+                  <div>Estimated Price</div>
+                  <div class="flex justify-between">
+                    <div class="text-[#5E6873FF]">history price:</div>
+                    <div>
+                      <EthText iconClass="text-xs">
+                        {{ item.valuation }}
+                      </EthText>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </hover-card>
-        </div>
+            </hover-card>
+          </div>
 
+          <div
+            v-if="loading"
+            class="w-full h-full flex items-center justify-center"
+          >
+            <img class="w-6 h-6" src="@/assets/svgs/spin.svg" alt="" />
+          </div>
+        </div>
         <div
-          v-if="loading"
-          class="w-full h-full flex items-center justify-center"
+          v-if="results.length == 0 && !loading"
+          class="w-full h-full relative"
         >
-          <img class="w-6 h-6" src="@/assets/svgs/spin.svg" alt="" />
+          <img
+            class="w-full h-full"
+            src="@/assets/images/no-tokenlist.png"
+            alt=""
+          />
+          <div class="absolute right-28 bottom-36 space-y-2">
+            <p class="text-sm">NFT asset fetch fails or no asset exists.</p>
+            <p class="text-[#ffffff4d]">· Please refresh your</p>
+            <p class="text-[#ffffff4d]">· connection Check your network</p>
+          </div>
         </div>
       </div>
-      <div
-        v-if="results.length == 0 && !loading"
-        class="w-full h-full relative"
-      >
-        <img
-          class="w-full h-full"
-          src="@/assets/images/no-tokenlist.png"
-          alt=""
-        />
-        <div class="absolute right-28 bottom-36 space-y-2">
-          <p class="text-sm">NFT asset fetch fails or no asset exists.</p>
-          <p class="text-[#ffffff4d]">· Please refresh your</p>
-          <p class="text-[#ffffff4d]">· connection Check your network</p>
-        </div>
+      <div v-else>
+        <ScatterChart
+          :valueType="ValuationList[state.selectedTx].valueType"
+          :cutTime="ValuationList[state.selectedTx].cutPoint"
+          class="w-[92%]"
+        ></ScatterChart>
       </div>
     </div>
   </div>
@@ -216,6 +233,9 @@ import {
   getTokenList,
 } from "@/api";
 import { useArtStore } from "@/store/art";
+import art2chart from "@/assets/images/art2chart.png";
+import art2table from "@/assets/images/art2table.png";
+import ScatterChart from "./ScatterChart.vue";
 
 const $route = useRoute();
 const store = useArtStore();
@@ -236,6 +256,7 @@ const state = reactive({
   selectedTx: 0,
   txList: [],
   seeMoreTx: false,
+  isChart: false,
 });
 
 const ValuationTypes = computed(() => {

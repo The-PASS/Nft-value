@@ -78,6 +78,13 @@ const $route = useRoute();
 const store = useArtStore();
 const color = ["#FF5166FF", "#9317B5FF"];
 
+const props = defineProps({
+  valueType: {
+    type: [Number, String],
+  },
+  cutTime: Number,
+});
+
 const state = reactive({
   source: [],
   xPoint: [0, 0.5],
@@ -118,24 +125,15 @@ const { loadData, loading } = useReqByBool(async () => {
   let list;
 
   try {
-    if (store.selectedArtwork.valueType) {
+    if (props.valueType) {
       const res = await getArtScatter(
         $route.params.name,
-        store.curEvaType,
-        store.selectedArtwork.valueType,
+        props.valueType,
         true
       );
       list = res.length > 0 ? [res] : res;
-    } else if (!store.selectedTx.valueType) {
-      list = await getArtScatterAll($route.params.name);
     } else {
-      const res = await getArtScatter(
-        $route.params.name,
-        store.curEvaType,
-        store.selectedTx.valueType,
-        true
-      );
-      list = res.length > 0 ? [res] : res;
+      list = await getArtScatterAll($route.params.name);
     }
 
     state.yPoint = [0, 1];
@@ -210,7 +208,7 @@ const option = computed(() => {
     });
   });
 
-  if (series.length == 1 && store.selectedTx.cutPoint) {
+  if (series.length == 1 && props.cutTime) {
     series[0].markLine = {
       silent: true,
       symbol: "none",
@@ -226,7 +224,7 @@ const option = computed(() => {
       data: [
         {
           name: "Cut Time",
-          xAxis: new Date(store.selectedTx.cutPoint).getTime(),
+          xAxis: new Date(props.cutTime).getTime(),
         },
       ],
     };
@@ -312,7 +310,7 @@ const option = computed(() => {
 });
 
 watch(
-  () => store.selectedTx.valueType,
+  () => props.valueType,
   () => {
     loadData();
   }
