@@ -187,6 +187,13 @@ export const getBoardTradeHistory = async (
 };
 
 /* Art */
+export const getArtistDao = async (creatorName: string) =>
+  passHttp.get("/artist/collectedDao", {
+    params: {
+      creatorName,
+    },
+  });
+
 export const getArtInfo = async (name: string) => {
   const res = await passHttp.get("/artist/info", {
     params: {
@@ -205,7 +212,9 @@ export const getArtInfo = async (name: string) => {
     }
   });
 
-  return { ...res, ethAddress, tezosAddress };
+  const daoInfo = await getArtistDao(name);
+
+  return { ...res, ethAddress, tezosAddress, ...daoInfo };
 };
 
 export const getArtwork = (page: number, options: any, cancel = false) =>
@@ -244,18 +253,15 @@ export const getArtTransaction = async (name: string) => {
       creatorName: name,
     },
   });
-  res.forEach((x: any) => {
-    const artworkCount = x.platSum.reduce(
-      (a: number, b: any) => a + b.artworkCount,
-      0
-    );
-    const sum = x.platSum.reduce((a: number, b: any) => a + b.sum, 0);
 
-    x.totalArtworkCount = artworkCount;
-    x.totalSum = sum;
+  [res.value, res.quantity].forEach((list) => {
+    list.forEach((x: any) => {
+      const sum = x.platSum.reduce((a: number, b: any) => a + b.sum, 0);
+      x.totalSum = sum;
+    });
   });
 
-  return res;
+  return [res.value, res.quantity];
 };
 
 export const getArtTxRecord = async (creatorName: string, cancel: boolean) => {
@@ -326,3 +332,11 @@ export const getArtScatterAll = async (creatorName: string, valueType = "") => {
 
   return res;
 };
+
+export const getArtHolder = async (creatorName: string, order: string) =>
+  passHttp.get("/artist/topHolders", {
+    params: {
+      creatorName,
+      order,
+    },
+  });

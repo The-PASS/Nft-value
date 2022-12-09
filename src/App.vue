@@ -1,6 +1,7 @@
 <template>
   <div class="w-full h-full flex flex-col">
     <Header :search="$route.meta.search" v-if="!$route.meta.noHeader"></Header>
+
     <div
       class="flex-1 min-h-0"
       :class="{ 'px-[16px] md:px-[125px]': !$route.meta.nopadding }"
@@ -19,7 +20,7 @@ const $route = useRoute();
 @import url("@/assets/font/iconfont.css");
 @import url("tippy.js/dist/tippy.css");
 @import url("vue-skeletor/dist/vue-skeletor.css");
-
+@import url("gitart-vue-dialog/dist/style.css");
 html {
   background: rgba(18, 20, 22, 1);
   font-family: Helvetica !important;
@@ -76,5 +77,16 @@ table td {
   color: #26aaffff;
   text-decoration: underline;
   cursor: pointer;
+}
+
+.g-dialog-content {
+  --content-bg: var(--g-dialog-content-bg, #121416);
+}
+.g-dialog-content:not(.g-dialog-content--fullscreen) {
+  max-width: 1200px;
+  min-width: 1200px;
+  height: auto;
+  box-shadow: 0px 0px 16px 0px #898a8b;
+  border-radius: 8px;
 }
 </style>

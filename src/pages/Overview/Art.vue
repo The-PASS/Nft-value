@@ -4,26 +4,180 @@
   </div>
   <div
     v-else
-    class="text-whitebase mt-16 text-xs pb-8 max-w-[1200px] min-w-[1200px] mx-auto"
+    class="text-whitebase text-xs pb-8 max-w-[1200px] min-w-[1200px] mx-auto"
   >
-    <!-- section 1 -->
-    <div class="flex justify-between w-full items-start">
-      <!-- <div v-if="store.infoLoading" class="flex w-full">
-        <Skeletor class="w-20 h-20 mr-6"></Skeletor>
-        <div class="mt-4 w-2/3 space-y-1">
-          <Skeletor class="h-5 rounded"></Skeletor>
-          <Skeletor class="rounded h-10"></Skeletor>
-        </div>
-      </div> -->
+    <div class="h-[280px] bg-red-400 absolute w-full left-0 top-0"></div>
 
-      <div class="flex" style="width: fit-content">
+    <div class="mt-[280px]"></div>
+
+    <!-- section 1 -->
+    <div class="w-full items-start">
+      <div class="h-6 relative">
         <ui-img
-          class="w-20 h-20 rounded-full overflow-hidden mr-6 flex-shrink-0"
+          class="absolute bottom-0 w-28 h-28 rounded-full overflow-hidden"
           :src="store.baseInfo.artistImage"
           :key="store.baseInfo.artistImage"
         />
-        <div class="mt-4 w-2/3">
-          <p class="font-bold text-xl">{{ store.baseInfo.artistName }}</p>
+      </div>
+
+      <div class="flex justify-between mt-4">
+        <p class="font-bold text-4xl">{{ store.baseInfo.artistName }}</p>
+        <div class="flex">
+          <!-- <div class="text-2xl" @click="state.show = true">Holder do it.</div> -->
+
+          <ui-tippyer content="OPENSEA" class="flex-shrink-0">
+            <a
+              class="block flex-shrink-0"
+              :href="`https://opensea.io/collection/${store.baseInfo.openseaSlug}`"
+              target="_blank"
+              v-if="store.baseInfo.openseaSlug"
+            >
+              <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
+                <img
+                  class="w-5 h-5 cursor-pointer"
+                  src="@/assets/images/i-opensea.png"
+                  alt=""
+                />
+              </div>
+            </a>
+          </ui-tippyer>
+
+          <ui-tippyer
+            class="flex-shrink-0"
+            :interactive="true"
+            :popperOptions="{ escapeWithReference: false }"
+            placement="bottom"
+          >
+            <div
+              class="p-2 flex-shrink-0 hover:bg-[#FFFFFF1A] rounded"
+              v-if="store.baseInfo.tezosAddress.length > 0"
+            >
+              <img
+                class="w-5 h-5 cursor-pointer"
+                src="@/assets/images/tezos.png"
+                alt=""
+              />
+            </div>
+            <template #content>
+              <a
+                class="link-hover block py-1"
+                :href="`https://tzkt.io/${address}/operations`"
+                target="_blank"
+                v-for="(address, i) in store.baseInfo.tezosAddress"
+                :key="i"
+              >
+                {{ address }}
+              </a>
+            </template>
+          </ui-tippyer>
+          <ui-tippyer
+            class="flex-shrink-0"
+            interactive
+            :trigger="isLargeScreen ? undefined : 'click'"
+            :popperOptions="{ escapeWithReference: false }"
+            placement="bottom"
+          >
+            <div
+              class="p-2 flex-shrink-0 hover:bg-[#FFFFFF1A] rounded"
+              v-if="store.baseInfo.ethAddress.length > 0"
+            >
+              <img
+                class="w-5 h-5 cursor-pointer"
+                src="@/assets/images/etherscan.png"
+                alt=""
+              />
+            </div>
+            <template #content>
+              <a
+                class="link-hover block py-1"
+                :href="`https://etherscan.io/address/${address}`"
+                target="_blank"
+                v-for="(address, i) in store.baseInfo.ethAddress"
+                :key="i"
+              >
+                {{ address }}
+              </a>
+            </template>
+          </ui-tippyer>
+
+          <ui-tippyer content="POLYGON" class="flex-shrink-0">
+            <a
+              class="block flex-shrink-0"
+              :href="`https://polygonscan.com/token/${store.baseInfo.contractAdd}`"
+              v-if="
+                store.baseInfo.chain == 'POLYGON' &&
+                store.baseInfo.officialWebsite
+              "
+              target="_blank"
+            >
+              <div class="p-2 flex-shrink-0 hover:bg-[#FFFFFF1A] rounded">
+                <img
+                  class="w-5 h-5 cursor-pointer"
+                  src="@/assets/images/polygon.png"
+                  alt=""
+                />
+              </div>
+            </a>
+          </ui-tippyer>
+
+          <ui-tippyer content="RONIN" class="flex-shrink-0">
+            <a
+              class="block flex-shrink-0"
+              :href="`https://explorer.roninchain.com/token/${store.baseInfo.contractAdd}`"
+              v-if="
+                store.baseInfo.chain == 'RONIN' &&
+                store.baseInfo.officialWebsite
+              "
+              target="_blank"
+            >
+              <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
+                <img
+                  class="w-5 h-5 cursor-pointer"
+                  src="@/assets/images/ronin.png"
+                  alt=""
+                />
+              </div>
+            </a>
+          </ui-tippyer>
+
+          <ui-tippyer content="WEBSITE" class="flex-shrink-0">
+            <a
+              class="block flex-shrink-0"
+              :href="store.baseInfo.officialWebsite"
+              v-if="store.baseInfo.officialWebsite"
+              target="_blank"
+            >
+              <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
+                <img
+                  class="w-5 h-5 cursor-pointer"
+                  src="@/assets/images/website.png"
+                  alt=""
+                />
+              </div>
+            </a>
+          </ui-tippyer>
+
+          <ui-tippyer content="TWITTER" class="flex-shrink-0">
+            <a
+              class="block flex-shrink-0"
+              :href="store.baseInfo.artistTwitterName"
+              target="_blank"
+              v-if="store.baseInfo.artistTwitterName"
+            >
+              <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
+                <img
+                  class="w-5 h-5 cursor-pointer"
+                  src="@/assets/images/twitter.png"
+                  alt=""
+                />
+              </div>
+            </a>
+          </ui-tippyer>
+        </div>
+      </div>
+
+      <div class="flex mt-2 w-2/3" style="width: fit-content">
+        <div class="">
           <!-- <p class="text-[#5E6873FF] mb-2">
             Created Time:
             {{ dayjs(store.baseInfo.createdDate).format("YYYY/MM/DD") }}
@@ -55,155 +209,17 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="flex">
-        <ui-tippyer content="OPENSEA" class="flex-shrink-0">
-          <a
-            class="block flex-shrink-0"
-            :href="`https://opensea.io/collection/${store.baseInfo.openseaSlug}`"
-            target="_blank"
-            v-if="store.baseInfo.openseaSlug"
-          >
-            <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
-              <img
-                class="w-5 h-5 cursor-pointer"
-                src="@/assets/images/i-opensea.png"
-                alt=""
-              />
-            </div>
-          </a>
-        </ui-tippyer>
-
-        <ui-tippyer
-          class="flex-shrink-0"
-          :interactive="true"
-          :popperOptions="{ escapeWithReference: false }"
-          placement="bottom"
-        >
-          <div
-            class="p-2 flex-shrink-0 hover:bg-[#FFFFFF1A] rounded"
-            v-if="store.baseInfo.tezosAddress.length > 0"
-          >
-            <img
-              class="w-5 h-5 cursor-pointer"
-              src="@/assets/images/tezos.png"
-              alt=""
-            />
-          </div>
-          <template #content>
-            <a
-              class="link-hover block py-1"
-              :href="`https://tzkt.io/${address}/operations`"
-              target="_blank"
-              v-for="(address, i) in store.baseInfo.tezosAddress"
-              :key="i"
-            >
-              {{ address }}
-            </a>
-          </template>
-        </ui-tippyer>
-        <ui-tippyer
-          class="flex-shrink-0"
-          interactive
-          :trigger="isLargeScreen ? undefined : 'click'"
-          :popperOptions="{ escapeWithReference: false }"
-          placement="bottom"
-        >
-          <div
-            class="p-2 flex-shrink-0 hover:bg-[#FFFFFF1A] rounded"
-            v-if="store.baseInfo.ethAddress.length > 0"
-          >
-            <img
-              class="w-5 h-5 cursor-pointer"
-              src="@/assets/images/etherscan.png"
-              alt=""
-            />
-          </div>
-          <template #content>
-            <a
-              class="link-hover block py-1"
-              :href="`https://etherscan.io/address/${address}`"
-              target="_blank"
-              v-for="(address, i) in store.baseInfo.ethAddress"
-              :key="i"
-            >
-              {{ address }}
-            </a>
-          </template>
-        </ui-tippyer>
-
-        <ui-tippyer content="POLYGON" class="flex-shrink-0">
-          <a
-            class="block flex-shrink-0"
-            :href="`https://polygonscan.com/token/${store.baseInfo.contractAdd}`"
-            v-if="
-              store.baseInfo.chain == 'POLYGON' &&
-              store.baseInfo.officialWebsite
-            "
-            target="_blank"
-          >
-            <div class="p-2 flex-shrink-0 hover:bg-[#FFFFFF1A] rounded">
-              <img
-                class="w-5 h-5 cursor-pointer"
-                src="@/assets/images/polygon.png"
-                alt=""
-              />
-            </div>
-          </a>
-        </ui-tippyer>
-
-        <ui-tippyer content="RONIN" class="flex-shrink-0">
-          <a
-            class="block flex-shrink-0"
-            :href="`https://explorer.roninchain.com/token/${store.baseInfo.contractAdd}`"
-            v-if="
-              store.baseInfo.chain == 'RONIN' && store.baseInfo.officialWebsite
-            "
-            target="_blank"
-          >
-            <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
-              <img
-                class="w-5 h-5 cursor-pointer"
-                src="@/assets/images/ronin.png"
-                alt=""
-              />
-            </div>
-          </a>
-        </ui-tippyer>
-
-        <ui-tippyer content="WEBSITE" class="flex-shrink-0">
-          <a
-            class="block flex-shrink-0"
-            :href="store.baseInfo.officialWebsite"
-            v-if="store.baseInfo.officialWebsite"
-            target="_blank"
-          >
-            <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
-              <img
-                class="w-5 h-5 cursor-pointer"
-                src="@/assets/images/website.png"
-                alt=""
-              />
-            </div>
-          </a>
-        </ui-tippyer>
-
-        <ui-tippyer content="TWITTER" class="flex-shrink-0">
-          <a
-            class="block flex-shrink-0"
-            :href="store.baseInfo.artistTwitterName"
-            target="_blank"
-            v-if="store.baseInfo.artistTwitterName"
-          >
-            <div class="p-2 hover:bg-[#FFFFFF1A] rounded">
-              <img
-                class="w-5 h-5 cursor-pointer"
-                src="@/assets/images/twitter.png"
-                alt=""
-              />
-            </div>
-          </a>
-        </ui-tippyer>
+    <div class="mt-6">
+      <div class="flex space-x-8">
+        <div v-for="(item, i) in daoInfo" :key="i">
+          <div class="text-xl font-bold" v-if="!item.eth">{{ item.value }}</div>
+          <EthText class="font-bold text-xl" v-else>{{
+            formatVal(item.value)
+          }}</EthText>
+          <div class="text-[#FFFFFF66]">{{ item.name }}</div>
+        </div>
       </div>
     </div>
 
@@ -212,7 +228,7 @@
       <div class="text-xl font-bold mb-4">BASIC DATA</div>
       <div class="grid grid-cols-5 gap-4">
         <div
-          class="h-24 rounded basic-data-box flex flex-col items-center justify-center"
+          class="h-24 rounded-lg basic-data-box flex flex-col justify-center pl-4"
           :class="{
             'basic-data-box__red': +item.gains < 0,
             'basic-data-box__green': +item.gains > 0,
@@ -221,7 +237,7 @@
           v-for="(item, i) in basicData"
           :key="i"
         >
-          <div class="text-xl font-bold">
+          <div class="text-xl">
             <EthText iconClass="text-xl" v-if="item.eth">
               {{ item.value }}</EthText
             >
@@ -250,7 +266,7 @@
               {{ item.value }}
             </span>
           </div>
-          <div class="text-sm m-2 relative flex items-center">
+          <div class="text-sm relative flex items-center text-[#FFFFFF66] mt-2">
             <span class="mr-2">
               {{ item.name }}
             </span>
@@ -259,7 +275,7 @@
               :content="item.tip"
               :arrow="false"
               placement="bottom"
-              ><i class="iconfont icon-tishi cursor-pointer ml-2"></i
+              ><i class="iconfont icon-tishi cursor-pointer text-[#fff]"></i
             ></tippy>
             <div v-if="item.gains">
               <span
@@ -299,6 +315,10 @@
         <dashboard-trade-history></dashboard-trade-history>
       </div> -->
   </div>
+
+  <GDialog v-model="state.show" no-click-animation>
+    <HolderView></HolderView>
+  </GDialog>
 </template>
 
 <script setup>
@@ -319,13 +339,32 @@ import NftValue from "./artComponent/NftValue.vue";
 import TxRecord from "./artComponent/TxRecord.vue";
 import ScatterChart from "./artComponent/ScatterChart.vue";
 import { useReqByBool } from "@/hooks";
+import { GDialog } from "gitart-vue-dialog";
+import HolderView from "./artComponent/HolderView.vue";
 
 const route = useRoute();
 const store = useArtStore();
 
 const state = reactive({
   more: false,
+  show: false,
 });
+
+const daoInfo = computed(() => [
+  {
+    value: store.baseInfo.daosCount,
+    name: "Collected DAOs",
+  },
+  {
+    value: store.baseInfo.artworksCount,
+    name: "Collected Artworks",
+  },
+  {
+    value: store.baseInfo.totalValue,
+    name: "Collected Value",
+    eth: true,
+  },
+]);
 
 const basicData = computed(() => [
   {
@@ -353,14 +392,6 @@ const basicData = computed(() => [
     name: "Last Trade",
     eth: true,
   },
-  // {
-  //   value: numeral(store.baseInfo.historicalValue)
-  //     .format("0.00a")
-  //     .toUpperCase(),
-  //   name: "Historical Value",
-  //   eth: true,
-  // },
-
   {
     value:
       store.baseInfo.artworkValuationMin == store.baseInfo.artworkValuationMax

@@ -3,17 +3,33 @@
     <div class="flex justify-between">
       <div class="font-bold text-xl">NFT Transaction</div>
 
-      <div class="flex space-x-4" v-if="state.list.length > 12">
-        <div
-          class="bar-time-btn flex items-center justify-center"
-          :class="{
-            'bar-time-btn-active': state.selected == i,
-          }"
-          v-for="(text, i) in ['1Y', 'ALL']"
-          :key="i"
-          @click="state.selected = i"
-        >
-          {{ text }}
+      <div>
+        <div class="flex space-x-4" v-if="showList.length > 12">
+          <div
+            class="bar-time-btn flex items-center justify-center"
+            :class="{
+              'bar-time-btn-active': state.selected == i,
+            }"
+            v-for="(text, i) in ['1Y', 'ALL']"
+            :key="i"
+            @click="state.selected = i"
+          >
+            {{ text }}
+          </div>
+        </div>
+
+        <div class="flex space-x-4">
+          <div
+            class="bar-time-btn flex items-center justify-center"
+            :class="{
+              'bar-time-btn-active': state.selectedType == i,
+            }"
+            v-for="(text, i) in ['By value', 'By quantity']"
+            :key="i"
+            @click="state.selectedType = i"
+          >
+            {{ text }}
+          </div>
         </div>
       </div>
     </div>
@@ -79,26 +95,26 @@ use([
 const $route = useRoute();
 
 const state = reactive({
-  list: [],
+  source: [],
   selected: 0,
+  selectedType: 0,
 });
 
-const isNull = computed(
-  () => state.list.filter((x) => x.platSum.length > 0).length == 0
-);
-
 const { loadData, loading } = useReqByBool(async () => {
-  try {
-    const res = await getArtTransaction($route.params.name);
-    state.list = res;
-  } catch (error) {
-    console.log(error);
-  }
+  const res = await getArtTransaction($route.params.name);
+  state.source = res;
 });
 
 const showList = computed(() => {
-  return state.selected == 0 ? state.list.slice(0, 12) : state.list;
+  const list =
+    (state.selectedType == 0 ? state.source[0] : state.source[1]) || [];
+
+  return state.selected == 0 ? list.slice(0, 12) : list;
 });
+
+const isNull = computed(
+  () => showList.value.filter((x) => x.platSum.length > 0).length == 0
+);
 
 const option = computed(() => {
   const originList = showList.value;
@@ -169,9 +185,11 @@ const option = computed(() => {
                           }'></div>
                           <span class="mr-4 font-bold">${value.platform}</span>
                         </div>
-                        <div><i class="iconfont icon-ETH2-24 mr-1 text-xs"></i>${localeNumber(
-                          value.sum
-                        )}</div>
+                        <div>${
+                          state.selectedType == 0
+                            ? '<i class="iconfont icon-ETH2-24 mr-1 text-xs"></i>'
+                            : ""
+                        }${localeNumber(value.sum)}</div>
                       </div>`;
             })
             .reverse()
@@ -222,7 +240,8 @@ onMounted(() => {
 
 <style scoped>
 .bar-time-btn {
-  width: 60px;
+  min-width: 60px;
+  padding: 0 8px;
   height: 32px;
   border-radius: 4px;
   border: 1px solid #ffffff4d;

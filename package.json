@@ -15,6 +15,7 @@
     "test:ci-ct": "playwright test -c playwright-ct.config.ts"
   },
   "dependencies": {
+    "@multiavatar/multiavatar": "^1.0.7",
     "@tweenjs/tween.js": "^18.6.4",
     "@vueuse/core": "^8.7.3",
     "@vueuse/head": "0.7.6",
@@ -24,6 +25,7 @@
     "dayjs": "^1.11.3",
     "echarts": "^5.3.3",
     "ethers": "^5.7.2",
+    "gitart-vue-dialog": "^2.4.1",
     "lodash": "^4.17.21",
     "numeral": "^2.0.6",
     "overlayscrollbars": "^1.13.2",

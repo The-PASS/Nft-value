@@ -60,6 +60,10 @@ export const formatVal = (val: number) => {
     return "--";
   }
 
+  if (val == 0) {
+    return "0";
+  }
+
   if (val < 0.001) {
     return "<0.001";
   } else if (val > 1) {
