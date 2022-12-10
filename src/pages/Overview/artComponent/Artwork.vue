@@ -201,7 +201,13 @@
 
 <script setup>
 import { Skeletor } from "vue-skeletor";
-import { formatAddress, copyTx, formatVal, formatDate } from "@/utils";
+import {
+  formatAddress,
+  copyTx,
+  formatVal,
+  formatDate,
+  delayTime,
+} from "@/utils";
 import { useReqPages } from "@/hooks";
 import { withThrottling } from "@/with";
 import {
@@ -267,9 +273,15 @@ const {
   loadRest,
 } = useReqPages(async (i, cancel) => {
   if (state.artworkType == 2 && !state.selectedTx) {
-    state.txList = await getArtTxRecord($route.params.name, cancel);
+    state.txList = await getArtTxRecord(
+      $route.params.name,
+      $route.params.chain,
+      cancel
+    );
     state.selectedTx = 0;
   }
+
+  await delayTime(1000);
 
   const res = await getArtworkList(
     i,
@@ -288,6 +300,7 @@ const {
         state.artworkType == 2
           ? ValuationList.value[state.selectedTx].valueType
           : "",
+      chain: $route.params.chain,
     },
     cancel
   );
@@ -330,10 +343,11 @@ watch(
 watch(
   () => state.artworkType,
   () => {
+    state.isChart = false;
     loadRest(true);
     setTimeout(() => {
       window.scrollTo(0, container.value.offsetTop - 0.001);
-    }, 60);
+    }, 100);
   }
 );
 
@@ -352,7 +366,7 @@ watch(
 );
 
 onMounted(async () => {
-  const res = await getArtistPlats($route.params.name);
+  const res = await getArtistPlats($route.params.name, $route.params.chain);
   if (res.length > 1) {
     state.plats = res.map((x) => ({ label: x, value: x }));
     state.plats.unshift({ label: "Platform", value: "" });

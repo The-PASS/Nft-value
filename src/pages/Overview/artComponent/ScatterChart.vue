@@ -1,11 +1,12 @@
 <template>
   <div class="w-full select-none">
-    <div class="text-xl font-bold">Artwork Transaction History</div>
     <div class="flex justify-between mb-2 mt-4 text-base">
-      <div class="flex space-x-4">
+      <div class="text-xl font-bold">Artwork Transaction History</div>
+
+      <div class="flex space-x-4" v-if="flags.length > 1">
         <div class="flex items-center" v-for="(flag, i) in flags" :key="i">
           <div
-            class="w-4 h-4 rounded-full mr-2"
+            class="w-2 h-2 rounded-full mr-2"
             :style="`background:${flag.color}`"
           ></div>
           {{ flag.text }}
@@ -104,7 +105,7 @@ use([
 const flags = computed(() => {
   console.log(state.source);
 
-  const { single, edition } = state.source;
+  const [single, edition] = state.source;
 
   const flag = [];
   if (single && single.length > 0) {
@@ -131,11 +132,12 @@ const { loadData, loading } = useReqByBool(async () => {
       const res = await getArtScatter(
         $route.params.name,
         props.valueType,
+        $route.params.chain,
         true
       );
       list = res.length > 0 ? [res] : res;
     } else {
-      list = await getArtScatterAll($route.params.name);
+      list = await getArtScatterAll($route.params.name, $route.params.chain);
     }
 
     state.yPoint = [0, 1];

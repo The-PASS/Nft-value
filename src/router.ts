@@ -49,7 +49,7 @@ const routes = [
   },
   {
     name: "Arts",
-    path: "/Art/:name/:tokenId?",
+    path: "/Art/:name/:chain/:tokenId?",
     component: () => import("@/pages/Overview/Art.vue"),
     meta: {
       keepAlive: false,

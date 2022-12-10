@@ -161,7 +161,9 @@ const loadData = async (key) => {
 const jump = (item) => {
   state.flag = false;
   router.push(
-    item.artistName ? `/Art/${item.artistName}` : `/Collectables/${item.path}`
+    item.artistName
+      ? `/Art/${item.artistName}/${item.chain}`
+      : `/Collectables/${item.path}`
   );
 };
 

@@ -194,10 +194,11 @@ export const getArtistDao = async (creatorName: string) =>
     },
   });
 
-export const getArtInfo = async (name: string) => {
+export const getArtInfo = async (name: string, chain: string) => {
   const res = await passHttp.get("/artist/info", {
     params: {
       name,
+      chain,
     },
   });
 
@@ -230,10 +231,11 @@ export const getArtwork = (page: number, options: any, cancel = false) =>
     cancel
   );
 
-export const getArtDount = async (name: string) => {
+export const getArtDount = async (name: string, chain: string) => {
   const res = await passHttp.get("/artist/nftDount", {
     params: {
       creatorName: name,
+      chain,
     },
   });
 
@@ -247,10 +249,11 @@ export const getArtDount = async (name: string) => {
   return [res.value, res.quantity];
 };
 
-export const getArtTransaction = async (name: string) => {
+export const getArtTransaction = async (name: string, chain: string) => {
   const res = await passHttp.get("/artist/nftTransaction", {
     params: {
       creatorName: name,
+      chain,
     },
   });
 
@@ -264,12 +267,17 @@ export const getArtTransaction = async (name: string) => {
   return [res.value, res.quantity];
 };
 
-export const getArtTxRecord = async (creatorName: string, cancel: boolean) => {
+export const getArtTxRecord = async (
+  creatorName: string,
+  chain: string,
+  cancel: boolean
+) => {
   const res = await passHttp.get(
     "/artist/getColumnList",
     {
       params: {
         creatorName,
+        chain,
       },
     },
     cancel
@@ -307,6 +315,7 @@ export const getArtTxRecordDetails = (
 export const getArtScatter = async (
   creatorName: string,
   valueType: any,
+  chain: string,
   cancel = false
 ) =>
   passHttp.get(
@@ -315,23 +324,26 @@ export const getArtScatter = async (
       params: {
         creatorName,
         valueType,
+        chain,
       },
     },
     cancel
   );
 
-export const getArtScatterAll = async (creatorName: string, valueType = "") => {
+export const getArtScatterAll = async (creatorName: string, chain: string) => {
   const res = await Promise.all([
     passHttp.get("/artist/transactionChart", {
       params: {
         creatorName,
-        txtype: 0,
+        txType: 0,
+        chain,
       },
     }),
     passHttp.get("/artist/transactionChart", {
       params: {
         creatorName,
-        txtype: 1,
+        txType: 1,
+        chain,
       },
     }),
   ]);
@@ -376,9 +388,10 @@ export const getArtworkList = (
     cancel
   );
 
-export const getArtistPlats = (creatorName: string) =>
+export const getArtistPlats = (creatorName: string, chain: string) =>
   passHttp.get("/artist/platformList", {
     params: {
       creatorName,
+      chain,
     },
   });

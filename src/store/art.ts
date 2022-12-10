@@ -30,8 +30,8 @@ const defaultDashboard = (): any => ({
 export const useArtStore = defineStore("Art", {
   state: () => defaultDashboard(),
   actions: {
-    async loadInfo(name: string) {
-      const res = await getArtInfo(name);
+    async loadInfo(name: string, chain: string) {
+      const res = await getArtInfo(name, chain);
       this.baseInfo = { ...this.baseInfo, ...res };
     },
     async loadEvaList(name: string) {

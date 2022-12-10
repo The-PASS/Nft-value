@@ -101,7 +101,7 @@ const state = reactive({
 });
 
 const { loadData, loading } = useReqByBool(async () => {
-  const res = await getArtTransaction($route.params.name);
+  const res = await getArtTransaction($route.params.name, $route.params.chain);
   state.source = res;
 });
 

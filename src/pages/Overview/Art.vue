@@ -445,7 +445,7 @@ const basicData = computed(() => [
 ]);
 
 const { loadData, loading } = useReqByBool(async () => {
-  await store.loadInfo(route.params.name);
+  await store.loadInfo(route.params.name, route.params.chain);
 });
 
 onBeforeMount(() => {

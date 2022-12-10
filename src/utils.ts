@@ -6,6 +6,11 @@ import numeral from "numeral";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
+export const delayTime = (time = 1000): Promise<any> =>
+  new Promise((resolve) => {
+    setTimeout(resolve, time);
+  });
+
 export const formatAddress = (address: string, bit = 8) => {
   return address.substring(0, bit + 2) + "..." + address.slice(42 - bit);
 };
@@ -88,7 +93,7 @@ export const toExploreAddress = (
   network: string,
   type = "address"
 ) => {
-  if (network != "Tezos") {
+  if (network != "TEZOS") {
     window.open(
       `${
         (
@@ -147,4 +152,11 @@ export const jumpChainTokenId = (
       `https://etherscan.io/token/${tokenAddress}?a=${tokenId}`,
       "_blank"
     );
+
+  if (network.toLowerCase() == "tezos") {
+    window.open(
+      `https://tzkt.io/${tokenAddress}/tokens/${tokenId}/transfers`,
+      "_blank"
+    );
+  }
 };

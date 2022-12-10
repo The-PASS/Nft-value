@@ -221,7 +221,7 @@ const onItemLeave = (index) => {
 };
 
 const { loadData, loading } = useReqByBool(async () => {
-  state.data = await getArtDount($route.params.name);
+  state.data = await getArtDount($route.params.name, $route.params.chain);
 });
 
 onMounted(() => {

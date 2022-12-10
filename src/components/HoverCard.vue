@@ -9,7 +9,7 @@
         {{ info.tokenName }}
         <img
           class="w-5 h-5 ml-2 cursor-pointer"
-          :src="OpenSeaImg"
+          :src="$route.params.chain == 'tezos' ? TezosImg : OpenSeaImg"
           @click="
             jumpTokenId(
               info.tokenId,
@@ -52,7 +52,13 @@
           :class="{
             'text-[#26AAFFFF] link-hover': info.tokenId,
           }"
-          @click="jumpChainTokenId(info.tokenAddress, info.tokenId, info.chain)"
+          @click="
+            jumpChainTokenId(
+              info.tokenAddress,
+              info.tokenId,
+              info.chain.toLowerCase()
+            )
+          "
         >
           #{{ info.tokenId }}
         </div>
@@ -131,6 +137,7 @@ import {
 } from "@/utils";
 import OpenSeaImg from "@/assets/images/opensea.png";
 import dpng from "@/assets/images/nftnologo.png";
+import TezosImg from "@/assets/images/objkt.png";
 
 const container = ref(null);
 
