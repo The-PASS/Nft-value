@@ -1,7 +1,7 @@
 <template>
   <div class="h-full rounded-lg p-6 bg-[#FFFFFF0D] flex flex-col">
     <div class="flex justify-between">
-      <div class="font-bold text-xl">Mint Platform</div>
+      <div class="font-bold text-xl">Minting Platform</div>
 
       <div class="flex space-x-2">
         <div

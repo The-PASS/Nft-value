@@ -1,137 +1,155 @@
 <template>
-  <div class="w-full min-h-[100vh]">
+  <div class="w-full min-h-[100vh]" ref="container">
     <!-- <div class="flex justify-between mb-4">
       <div class="text-xl font-bold">ARTWORK</div>
     </div> -->
-    <div
-      class="flex text-base font-bold space-x-8 text-[#FFFFFFB3] border-b-[1px] border-b-[#FFFFFF1A]"
-    >
+
+    <div class="sticky top-0 bg-[#121416FF] z-40">
       <div
-        v-for="(text, i) in ArtworkType"
-        :key="i"
-        class="transition-all flex items-center h-10 cursor-pointer relative"
-        :class="{
-          ' text-[#fff]': state.artworkType == i,
-        }"
-        @click="state.artworkType = i"
+        class="flex text-base font-bold space-x-8 text-[#FFFFFFB3] border-b-[1px] border-b-[#FFFFFF1A]"
       >
-        {{ text }}
-        <transition name="fade">
+        <div
+          v-for="(text, i) in ArtworkType"
+          :key="i"
+          class="transition-all flex items-center h-10 cursor-pointer relative"
+          :class="{
+            ' text-[#fff]': state.artworkType == i,
+          }"
+          @click="state.artworkType = i"
+        >
+          {{ text }}
+          <transition name="fade">
+            <div
+              v-if="state.artworkType == i"
+              class="absolute h-[4px] bg-[#fff] w-full bottom-0"
+            ></div>
+          </transition>
+        </div>
+      </div>
+
+      <div class="py-4" v-if="state.artworkType != 2">
+        <div class="flex space-x-4 pr-14">
+          <div class="flex-1 min-w-0">
+            <input
+              v-model="state.keyword"
+              type="text"
+              class="h-10 w-full bg-[#FFFFFF0D] rounded border-none"
+              placeholder="Name/contract/tokenid"
+            />
+          </div>
+
+          <UiDropdown
+            class="w-40"
+            :options="state.plats"
+            v-model="state.selectedPlat"
+            v-if="state.plats.length > 1"
+            :key="state.plats"
+          ></UiDropdown>
+
+          <UiSort v-model="state.sortValue" :index="0">{{
+            state.artworkType == 0 ? "Time" : "Price"
+          }}</UiSort>
+        </div>
+      </div>
+
+      <div
+        v-else-if="state.txList[0].length > 0 || state.txList[1].length > 0"
+        class="pb-8"
+      >
+        <div class="flex py-4 space-x-4 border-b-[1px] border-b-[#FFFFFF1A]">
           <div
-            v-if="state.artworkType == i"
-            class="absolute h-[4px] bg-[#fff] w-full bottom-0"
-          ></div>
-        </transition>
-      </div>
-    </div>
-
-    <div class="my-4" v-if="state.artworkType != 2">
-      <div class="flex space-x-4 pr-14">
-        <div class="flex-1 min-w-0">
-          <input
-            v-model="state.keyword"
-            type="text"
-            class="h-10 w-full bg-[#FFFFFF0D] rounded border-none"
-            placeholder="Name/tokenid"
-          />
-        </div>
-
-        <UiDropdown
-          class="w-40"
-          :options="state.plats"
-          v-model="state.selectedPlat"
-          v-if="state.plats.length > 1"
-          :key="state.plats"
-        ></UiDropdown>
-
-        <UiSort v-model="state.sortValue" :index="0">{{
-          state.artworkType == 0 ? "Time" : "Price"
-        }}</UiSort>
-      </div>
-    </div>
-
-    <div v-else-if="state.txList[0].length > 0 || state.txList[1].length > 0">
-      <div class="flex py-4 space-x-4 border-b-[1px] border-b-[#FFFFFF1A]">
-        <div
-          class="bar-time-btn text-base h-10 px-4"
-          :class="{
-            'bar-time-btn-active': state.selectTxType == i,
-          }"
-          v-for="(item, i) in ValuationTypes"
-          :key="i"
-          @click="state.selectTxType = i"
-        >
-          {{ item }}
-        </div>
-      </div>
-
-      <div class="grid grid-cols-6 gap-4 mt-4">
-        <div
-          class="flex flex-col text-base py-2 bg-[#FFFFFF0D] min-h-10 items-center justify-center hover:bg-[#121416FF] border-[1px] border-[transparent] hover:border-[#fff] rounded transition-all cursor-pointer"
-          :class="{
-            'bg-[#121416FF] border-[#fff]':
-              ValuationList[state.selectedTx].valueType == item.valueType,
-          }"
-          v-for="(item, i) in ValuationList"
-          :key="i"
-          @click="state.selectedTx = i"
-        >
-          <div class="flex">
-            Valuation:&nbsp;&nbsp;
-            <EthText iconClass="text-base">{{
-              formatVal(item.valuation)
-            }}</EthText>
-          </div>
-          <div v-if="!item.isSingle" class="text-[#FFFFFF66]">
-            Edition: {{ item.editionCount ? item.editionCount : "--" }}
+            class="bar-time-btn text-base h-10 px-4"
+            :class="{
+              'bar-time-btn-active': state.selectTxType == i,
+            }"
+            v-for="(item, i) in ValuationTypes"
+            :key="i"
+            @click="state.selectTxType = i"
+          >
+            {{ item }}
           </div>
         </div>
-        <div
-          class="flex bg-[#FFFFFF0D] min-h-[40px] h-full text-base items-center justify-center hover:bg-[#121416FF] border-[1px] border-[transparent] hover:border-[#fff] rounded transition-all cursor-pointer"
-          @click="state.seeMoreTx = !state.seeMoreTx"
-        >
-          see more &nbsp;&nbsp;<i
-            v-if="!state.seeMoreTx"
-            class="iconfont icon-xia1"
-          ></i>
-          <i v-else class="iconfont icon-shang1"></i>
-        </div>
-      </div>
 
-      <div class="my-8 grid grid-cols-3 text-base">
-        <div class="flex flex-col items-center">
-          <div class="font-bold">
-            {{ ValuationList[state.selectedTx].txCount }}
+        <div class="grid grid-cols-6 gap-4 mt-4">
+          <div
+            class="flex flex-col text-base py-2 bg-[#FFFFFF0D] min-h-10 items-center justify-center hover:bg-[#121416FF] border-[1px] border-[transparent] hover:border-[#fff] rounded transition-all cursor-pointer"
+            :class="{
+              'bg-[#121416FF] border-[#fff]':
+                ValuationList[state.selectedTx].valueType == item.valueType,
+            }"
+            v-for="(item, i) in state.seeMoreTx
+              ? ValuationList
+              : ValuationList.slice(0, 5)"
+            :key="i"
+            @click="state.selectedTx = i"
+          >
+            <div class="flex">
+              Evaluation:&nbsp;&nbsp;
+              <EthText iconClass="text-base">{{
+                formatVal(item.valuation)
+              }}</EthText>
+            </div>
+            <div v-if="!item.isSingle" class="text-[#FFFFFF66]">
+              Edition: {{ item.editionCount ? item.editionCount : "--" }}
+            </div>
           </div>
-          <div class="mt-2 text-[#FFFFFF66]">Total Transactions</div>
+          <div
+            v-if="ValuationList.length > 6"
+            class="flex bg-[#FFFFFF0D] min-h-[40px] h-full text-base items-center justify-center hover:bg-[#121416FF] border-[1px] border-[transparent] hover:border-[#fff] rounded transition-all cursor-pointer"
+            :class="{
+              'bg-[#121416FF] border-[#fff]':
+                state.selectedTx > 6 && !state.seeMoreTx,
+            }"
+            @click="state.seeMoreTx = !state.seeMoreTx"
+          >
+            see {{ state.seeMoreTx ? "less" : "more" }} &nbsp;&nbsp;<i
+              v-if="!state.seeMoreTx"
+              class="iconfont icon-xia1"
+            ></i>
+            <i v-else class="iconfont icon-shang1"></i>
+          </div>
         </div>
-        <div class="flex flex-col items-center">
-          <div class="font-bold">
-            {{
-              (ValuationList[state.selectedTx].isSingle
-                ? ValuationList[state.selectedTx].tag
-                : ValuationList[state.selectedTx].collectionName) || "--"
-            }}
+
+        <div class="mt-8 py-4 grid grid-cols-3 text-base bg-[#FFFFFF0D]">
+          <div class="flex flex-col items-center">
+            <div class="font-bold">
+              {{ ValuationList[state.selectedTx].txCount }}
+            </div>
+            <div class="mt-2 text-[#FFFFFF66]">Total Transactions</div>
           </div>
-          <div class="mt-2 text-[#FFFFFF66]">Key Trait</div>
-        </div>
-        <div class="flex flex-col items-center">
-          <div class="font-bold">
-            {{
-              formatDate(
-                ValuationList[state.selectedTx].cutPoint,
-                "YYYY-MM-DD HH:mm"
-              )
-            }}
+          <div class="flex flex-col items-center">
+            <div class="font-bold">
+              {{
+                (ValuationList[state.selectedTx].isSingle
+                  ? ValuationList[state.selectedTx].tag
+                  : ValuationList[state.selectedTx].collectionName) || "--"
+              }}
+              <span v-if="!ValuationList[state.selectedTx].isSingle"
+                >,Edition:{{
+                  ValuationList[state.selectedTx].editionCount
+                }}</span
+              >
+            </div>
+            <div class="mt-2 text-[#FFFFFF66]">Key Trait</div>
           </div>
-          <div class="mt-2 text-[#FFFFFF66]">Cut time</div>
+          <div class="flex flex-col items-center">
+            <div class="font-bold">
+              {{
+                formatDate(
+                  ValuationList[state.selectedTx].cutPoint,
+                  "YYYY-MM-DD HH:mm"
+                )
+              }}
+            </div>
+            <div class="mt-2 text-[#FFFFFF66]">Cut time</div>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="w-full relative">
       <img
-        class="absolute right-0 top-40 z-40 w-16 cursor-pointer"
+        class="absolute right-0 top-40 z-[36] w-16 cursor-pointer"
         :src="state.isChart ? art2table : art2chart"
         alt=""
         v-if="state.artworkType == 2"
@@ -144,47 +162,7 @@
           v-if="results.length > 0 || loading"
         >
           <div class="grid grid-cols-2 gap-4 pb-4">
-            <hover-card :info="item" v-for="(item, i) in results" :key="i">
-              <div
-                class="w-44 p-2 rounded overflow-hidden relative cursor-pointer transition-all border-[1px] hover:border-white"
-                :class="{
-                  'border-white': store.selectedArtwork.tokenId == item.tokenId,
-                  'border-transparent':
-                    store.selectedArtwork.tokenId != item.tokenId,
-                }"
-                @click="selectArtwork(item)"
-              >
-                <div
-                  class="absolute left-2 top-2 p-2 w-40 token-list__idfloat flex"
-                >
-                  <div>ID:&nbsp;</div>
-
-                  <div
-                    v-if="item.tokenId.length > 20"
-                    class="self-start text-[8px] mt-1"
-                    style="word-break: break-word; line-height: 1.2"
-                  >
-                    {{ item.tokenId }}
-                  </div>
-                  <div v-else>
-                    {{ item.tokenId }}
-                  </div>
-                </div>
-
-                <ui-img class="w-40 h-40 rounded" :src="item.logo"></ui-img>
-                <div class="mt-4 space-y-1 w-full">
-                  <div>Estimated Price</div>
-                  <div class="flex justify-between">
-                    <div class="text-[#5E6873FF]">history price:</div>
-                    <div>
-                      <EthText iconClass="text-xs">
-                        {{ item.valuation }}
-                      </EthText>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </hover-card>
+            <hover-card :info="item" v-for="(item, i) in results" :key="i" />
           </div>
 
           <div
@@ -240,8 +218,9 @@ import ScatterChart from "./ScatterChart.vue";
 const $route = useRoute();
 const store = useArtStore();
 const pid = inject("pid");
+const container = ref(null);
 
-const ArtworkType = ["By Time", "By Price", "By Valuation"];
+const ArtworkType = ["By Time", "By Price", "By Evaluation"];
 
 const state = reactive({
   loadedId: null,
@@ -273,7 +252,7 @@ const ValuationTypes = computed(() => {
 const ValuationList = computed(() => {
   const type = ValuationTypes.value[state.selectTxType];
   const res = state.txList[type == "Single" ? 0 : 1];
-  return state.seeMoreTx ? res : res.slice(0, 5);
+  return res;
 });
 
 const {
@@ -341,11 +320,20 @@ watch(
     state.artworkType,
     state.sortValue[0],
     state.selectedPlat,
-    state.selectTxType,
     state.selectedTx,
   ],
   () => {
     loadRest(true);
+    setTimeout(() => {
+      window.scrollTo(0, container.value.offsetTop - 0.001);
+    }, 300);
+  }
+);
+
+watch(
+  () => state.selectTxType,
+  () => {
+    state.selectedTx = 0;
   }
 );
 

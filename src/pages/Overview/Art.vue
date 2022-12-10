@@ -6,19 +6,19 @@
     v-else
     class="text-whitebase text-xs max-w-[1200px] min-w-[1200px] mx-auto"
   >
-    <div class="h-[280px] bg-red-400 absolute w-full left-0 top-0"></div>
+    <!-- <div class="h-[280px] bg-red-400 absolute w-full left-0 top-0"></div>
 
-    <div class="mt-[280px]"></div>
+    <div class="mt-[280px]"></div> -->
 
     <!-- section 1 -->
-    <div class="w-full items-start">
-      <div class="h-6 relative">
-        <ui-img
-          class="absolute bottom-0 w-28 h-28 rounded-full overflow-hidden"
-          :src="store.baseInfo.artistImage"
-          :key="store.baseInfo.artistImage"
-        />
-      </div>
+    <div class="w-full items-start mt-20">
+      <!-- <div class="h-6 relative"> -->
+      <ui-img
+        class="w-28 h-28 rounded-full overflow-hidden"
+        :src="store.baseInfo.artistImage"
+        :key="store.baseInfo.artistImage"
+      />
+      <!-- </div> -->
 
       <div class="flex justify-between mt-4">
         <p class="font-bold text-4xl">{{ store.baseInfo.artistName }}</p>
@@ -214,14 +214,16 @@
     <div class="mt-6">
       <div class="flex space-x-8">
         <div v-for="(item, i) in daoInfo" :key="i">
-          <div class="text-xl font-bold" v-if="!item.eth">{{ item.value }}</div>
+          <div class="text-xl font-bold" v-if="!item.eth">
+            {{ item.value ? item.value : "--" }}
+          </div>
           <EthText class="font-bold text-xl" v-else>{{
-            formatVal(item.value)
+            item.value ? formatVal(item.value) : "--"
           }}</EthText>
           <div class="text-[#FFFFFF66]">{{ item.name }}</div>
         </div>
       </div>
-      <div class="flex space-x-4 mt-4">
+      <div class="flex space-x-4 mt-4" v-if="store.baseInfo.daoInfo.length > 0">
         <ui-tippyer
           :content="item.name"
           v-for="(item, i) in store.baseInfo.daoInfo"
@@ -386,12 +388,12 @@ const daoInfo = computed(() => [
 const basicData = computed(() => [
   {
     value: formatVal(store.baseInfo.totalSales),
-    name: "Total Sales",
+    name: "Volume",
     eth: true,
   },
   {
     value: formatVal(store.baseInfo.highestPrice),
-    name: "Expensivest Sales",
+    name: "Highest Price",
     eth: true,
   },
   {
@@ -401,12 +403,12 @@ const basicData = computed(() => [
   },
   {
     value: formatVal(store.baseInfo.secondaryHighestPrice),
-    name: "Expensivest Secondary",
+    name: "Highest in Secondary",
     eth: true,
   },
   {
     value: formatVal(store.baseInfo.lastTxPrice),
-    name: "Last Trade",
+    name: "Last Price",
     eth: true,
   },
   {
@@ -419,7 +421,7 @@ const basicData = computed(() => [
             store.baseInfo.artworkValuationMin,
             store.baseInfo.artworkValuationMax,
           ],
-    name: "Artwork Valuation",
+    name: "Artwork Evaluation",
     eth2: !(
       store.baseInfo.artworkValuationMin == store.baseInfo.artworkValuationMax
     ),
@@ -431,7 +433,7 @@ const basicData = computed(() => [
     value: numeral(store.baseInfo.artValueMarketCap)
       .format("0.00a")
       .toUpperCase(),
-    name: "Market cap",
+    name: "Market Cap",
     tip: "Valuation price * quantity",
     eth: true,
   },

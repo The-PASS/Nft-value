@@ -53,7 +53,7 @@ const routes = [
     component: () => import("@/pages/Overview/Art.vue"),
     meta: {
       keepAlive: false,
-      noHeader: true,
+      // noHeader: true,
     },
   },
   {

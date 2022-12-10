@@ -4,7 +4,7 @@
       <div class="font-bold text-xl">NFT Transaction</div>
 
       <div class="flex space-x-8">
-        <div class="flex space-x-2" v-if="showList.length > 12">
+        <div class="flex space-x-2" v-if="originList.length > 12">
           <div
             class="bar-time-btn flex items-center justify-center"
             :class="{
@@ -105,11 +105,17 @@ const { loadData, loading } = useReqByBool(async () => {
   state.source = res;
 });
 
-const showList = computed(() => {
-  const list =
-    (state.selectedType == 0 ? state.source[0] : state.source[1]) || [];
+const originList = computed(() => {
+  return (state.selectedType == 0 ? state.source[0] : state.source[1]) || [];
+});
 
-  return state.selected == 0 ? list.slice(0, 12) : list;
+const showList = computed(() => {
+  return state.selected == 0
+    ? originList.value.slice(
+        originList.value.length - 12,
+        originList.value.length
+      )
+    : originList.value;
 });
 
 const isNull = computed(

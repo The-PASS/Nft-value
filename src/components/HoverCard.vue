@@ -2,7 +2,7 @@
   <div class="p-4 flex w-auto z-30 bg-[#FFFFFF0D]">
     <ui-img
       class="w-48 h-48 rounded overflow-hidden mr-6 flex-shrink-0"
-      :src="info.image"
+      :src="info.image || dpng"
     ></ui-img>
     <div class="text-xs flex-1 min-w-0">
       <div class="font-bold text-sm flex items-center mb-2">
@@ -102,7 +102,7 @@
 
       <div class="flex justify-between">
         <div class="font-bold">
-          <span class="pr-2 text-[#FFFFFF66]">|</span> Valuation:
+          <span class="pr-2 text-[#FFFFFF66]">|</span> Evaluation:
         </div>
         <span>
           <EthText iconClass="text-xs">
@@ -130,6 +130,7 @@ import {
   formatDate,
 } from "@/utils";
 import OpenSeaImg from "@/assets/images/opensea.png";
+import dpng from "@/assets/images/nftnologo.png";
 
 const container = ref(null);
 

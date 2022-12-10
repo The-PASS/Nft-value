@@ -22,7 +22,7 @@
             <thead>
               <th class="text-left">Artist</th>
               <th class="text-left">
-                <UiSort v-model="state.sortValue" :index="0">Market cap</UiSort>
+                <UiSort v-model="state.sortValue" :index="0">Market Cap</UiSort>
               </th>
               <th class="text-left">
                 <UiSort v-model="state.sortValue" :index="1">
@@ -32,13 +32,13 @@
               <th class="text-left">Artwork Evaluation</th>
               <th class="text-left">
                 <UiSort v-model="state.sortValue" :index="2">
-                  Expensivest Trade
+                  Highest Price
                 </UiSort>
               </th>
               <th>
                 <div class="flex justify-end">
                   <UiSort v-model="state.sortValue" :index="3">
-                    Last Trade
+                    Last Price
                   </UiSort>
                 </div>
               </th>

@@ -1,7 +1,7 @@
 <template>
   <div class="w-full select-none">
-    <div class="text-xl font-bold">Artwork Transaction history</div>
-    <!-- <div class="flex justify-between mb-2 mt-4 text-base">
+    <div class="text-xl font-bold">Artwork Transaction History</div>
+    <div class="flex justify-between mb-2 mt-4 text-base">
       <div class="flex space-x-4">
         <div class="flex items-center" v-for="(flag, i) in flags" :key="i">
           <div
@@ -11,10 +11,10 @@
           {{ flag.text }}
         </div>
       </div>
-    </div> -->
+    </div>
     <div class="w-full h-[380px] relative">
       <div class="absolute top-2">
-        Valuation by history
+        Evaluation by history
         <span v-if="store.selectedTx.valueType">
           <span v-if="!store.selectedTx.isSingle"
             >- {{ store.selectedTx.collectionName }}
@@ -102,23 +102,25 @@ use([
 
 // TODO 选择对应的 artwork 的时候显示对应的值
 const flags = computed(() => {
-  // const { single, edition } = state.source;
+  console.log(state.source);
 
-  // const flag = [];
-  // if (single && single.length > 0) {
-  //   flag.push({ text: "Single" });
-  // }
-  // if (edition && edition.length > 0) {
-  //   flag.push({ text: "Edition" });
-  // }
+  const { single, edition } = state.source;
 
-  // flag.forEach((x, i) => {
-  //   x.color = color[i];
-  // });
+  const flag = [];
+  if (single && single.length > 0) {
+    flag.push({ text: "Single" });
+  }
+  if (edition && edition.length > 0) {
+    flag.push({ text: "Edition" });
+  }
 
-  return [];
+  flag.forEach((x, i) => {
+    x.color = color[i];
+  });
 
-  // return flag;
+  console.log(flag);
+
+  return flag;
 });
 
 const { loadData, loading } = useReqByBool(async () => {
@@ -243,7 +245,7 @@ const option = computed(() => {
         show: false,
       },
       axisLabel: {
-        formatter: (value) => formatDate(value, "MMM DD"),
+        formatter: (value) => formatDate(value, "YYYY MMM DD"),
       },
       min:
         xAxis.value[0] == xAxis.value[1] ? xAxis.value[0] - 1 : xAxis.value[0],
