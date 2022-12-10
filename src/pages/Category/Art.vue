@@ -1,5 +1,22 @@
 <template>
-  <div class="w-full h-full flex flex-col md:flex-row">
+  <div class="w-full h-full">
+    <div class="h-12 flex justify-end">
+      <div class="flex space-x-8">
+        <div class="flex space-x-2">
+          <div
+            class="bar-time-btn flex items-center justify-center w-24"
+            :class="{
+              'bar-time-btn-active': state.selected == i,
+            }"
+            v-for="(text, i) in ['Ethereum', 'Tezos']"
+            :key="i"
+            @click="state.selected = i"
+          >
+            {{ text }}
+          </div>
+        </div>
+      </div>
+    </div>
     <div
       class="flex-1 h-full text-xs min-h-0 md:min-w-0 rounded-lg md:ml-6 bg-[#9797971a]"
     >
@@ -66,20 +83,22 @@
                   <div class="flex items-center">
                     <ui-img
                       class="w-8 h-8 rounded-full mr-2 overflow-hidden flex-shrink-0"
-                      :src="item.image"
+                      :src="item.image || nftpng"
                       alt=""
                     />
-                    <div class="text-[#26AAFF]">{{ item.fullName }}</div>
+                    <div class="text-[#26AAFF] line-clamp-1 w-[140px]">
+                      {{ item.fullName }}
+                    </div>
                   </div>
                 </td>
 
                 <td>
-                  <EthText>
+                  <EthText :tezos="isTezos">
                     {{ formatVal(item.marketCap) }}
                   </EthText>
                 </td>
                 <td>
-                  <EthText>
+                  <EthText :tezos="isTezos">
                     {{ formatVal(item.totalHistoryValue) }}
                   </EthText>
                 </td>
@@ -89,26 +108,28 @@
                     class="flex items-center"
                     v-if="item.artworkValuationMin != item.artworkValuationMax"
                   >
-                    <EthText>
+                    <EthText :tezos="isTezos">
                       {{ formatVal(item.artworkValuationMin) }} </EthText
-                    >&nbsp;&nbsp;~&nbsp;<EthText>
+                    >&nbsp;&nbsp;~&nbsp;<EthText :tezos="isTezos">
                       {{ formatVal(item.artworkValuationMax) }}
                     </EthText>
                   </div>
                   <div v-else class="flex items-center">
-                    <EthText>{{ item.artworkValuationMax }}</EthText>
+                    <EthText :tezos="isTezos">{{
+                      item.artworkValuationMax
+                    }}</EthText>
                   </div>
                 </td>
 
                 <td>
-                  <EthText>
+                  <EthText :tezos="isTezos">
                     {{ formatVal(item.highestPrice) }}
                   </EthText>
                 </td>
 
                 <td>
                   <div class="flex items-center justify-end">
-                    <EthText>
+                    <EthText :tezos="isTezos">
                       {{
                         +item.lastTxPrice == 0
                           ? "--"
@@ -144,14 +165,18 @@ import { useDesktop, useReqPages } from "@/hooks";
 import { suffixNum, localeNumber, formatDateText, formatVal } from "@/utils";
 import { withThrottling } from "@/with";
 import numeral from "numeral";
+import nftpng from "@/assets/images/nftnologo.png";
 
 const scroller = ref(null);
 const router = useRouter();
 
 const isDesktop = useDesktop();
 
+const isTezos = computed(() => state.selected == 1);
+
 const state = reactive({
   sortValue: [0, -1, -1, -1],
+  selected: 0,
 });
 
 const sortKeys = [
@@ -170,6 +195,7 @@ const { loading, results, loadNext, loadRest } = useReqPages(
       {
         sort: state.sortValue[index] == 0 ? "DESC" : "ASC",
         order: sortKeys[index],
+        chain: state.selected == 0 ? "ethereum" : "tezos",
       },
       cancel
     );
@@ -178,7 +204,7 @@ const { loading, results, loadNext, loadRest } = useReqPages(
 );
 
 watch(
-  () => JSON.stringify(state.sortValue),
+  () => [JSON.stringify(state.sortValue), state.selected],
   () => {
     loadRest(true);
   }

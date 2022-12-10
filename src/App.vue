@@ -44,6 +44,10 @@ input {
   box-shadow: none !important;
 }
 
+.line-clamp-1 {
+  word-break: break-all;
+}
+
 .vue-skeletor {
   background: rgba(42, 46, 51, 1);
   -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);

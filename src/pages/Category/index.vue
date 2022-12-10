@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full h-full flex flex-row pb-16 pt-12" v-if="isDesktop">
+  <div class="w-full h-full flex flex-row pb-16" v-if="isDesktop">
     <div
-      class="w-44 flex flex-col justify-between border-r-[1px] border-[#9797971a]"
+      class="w-44 mt-12 flex flex-col justify-between border-r-[1px] border-[#9797971a]"
     >
       <side-bar v-model="state.tabIndex" :tabs="tabs"></side-bar>
       <third-link v-if="isDesktop"></third-link>

@@ -1,11 +1,15 @@
 <template>
   <div class="flex items-center">
-    <iconfont-icon
-      v-if="showUnit"
-      name="icon-ETH2-24"
-      :class="iconClass"
-    ></iconfont-icon
-    >&nbsp;
+    <span v-if="showUnit">
+      <iconfont-icon
+        v-if="!tezos"
+        name="icon-ETH2-24"
+        class="mr-1"
+        :class="iconClass"
+      ></iconfont-icon>
+      <span v-if="tezos">ꜩ&nbsp;</span>
+    </span>
+
     <span>
       <slot></slot>
     </span>
@@ -17,6 +21,10 @@ defineProps({
   showUnit: {
     type: Boolean,
     default: true,
+  },
+  tezos: {
+    type: Boolean,
+    default: false,
   },
   iconClass: String,
 });

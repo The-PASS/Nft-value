@@ -324,9 +324,16 @@ watch(
   ],
   () => {
     loadRest(true);
+  }
+);
+
+watch(
+  () => state.artworkType,
+  () => {
+    loadRest(true);
     setTimeout(() => {
       window.scrollTo(0, container.value.offsetTop - 0.001);
-    }, 300);
+    }, 60);
   }
 );
 
