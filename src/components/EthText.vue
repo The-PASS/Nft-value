@@ -7,12 +7,13 @@
         class="mr-1"
         :class="iconClass"
       ></iconfont-icon>
-      <span v-if="tezos">ꜩ&nbsp;</span>
     </span>
 
     <span>
       <slot></slot>
     </span>
+
+    <span v-if="tezos && showUnit">&nbsp;ꜩ</span>
   </div>
 </template>
 

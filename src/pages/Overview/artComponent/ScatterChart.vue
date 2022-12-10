@@ -78,6 +78,7 @@ import { useArtStore } from "@/store/art";
 const $route = useRoute();
 const store = useArtStore();
 const color = ["#FF5166FF", "#9317B5FF"];
+const isTezos = inject("isTezos");
 
 const props = defineProps({
   valueType: {
@@ -302,7 +303,10 @@ const option = computed(() => {
         }
         return `${state.source[seriesIndex][dataIndex].tokenName}<br/>${
           data[1]
-        } ETH <br/> ${formatDate(data[0], "MMM DD YYYY  hh:mmA")} `;
+        } ${isTezos ? "ꜩ" : "ETH"} <br/> ${formatDate(
+          data[0],
+          "MMM DD YYYY  hh:mmA"
+        )} `;
       },
     },
 

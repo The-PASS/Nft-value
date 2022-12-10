@@ -78,6 +78,7 @@ import { useReqByBool, useReqPages } from "@/hooks";
 import { getArtDount } from "@/api";
 import nftnologo from "@/assets/images/nftnologo.png";
 
+const isTezos = inject("isTezos");
 const $route = useRoute();
 
 const echartsIns = ref(null);
@@ -176,11 +177,15 @@ const option = computed(() => {
                 </div>
               ${
                 state.selected == 0
-                  ? 'Value: <i class="iconfont icon-ETH2-24 mr-1 text-sm"></i>'
+                  ? `Value: ${
+                      !isTezos
+                        ? '<i class="iconfont icon-ETH2-24 mr-1 text-sm"></i>'
+                        : ""
+                    }`
                   : "Quantity: "
               }${
               state.selected == 0 ? localeNumber(data.value, 2) : data.value
-            }`;
+            } ${isTezos && state.selected == 0 ? " ꜩ" : ""}`;
           },
         },
       },

@@ -46,20 +46,23 @@
                   Historical Value
                 </UiSort>
               </th>
+              <th class="text-right">
+                <UiSort v-model="state.sortValue" :index="2"> Volume </UiSort>
+              </th>
+
               <th class="text-left">Artwork Evaluation</th>
               <th class="text-left">
-                <UiSort v-model="state.sortValue" :index="2">
+                <UiSort v-model="state.sortValue" :index="3">
                   Highest Price
                 </UiSort>
               </th>
               <th>
                 <div class="flex justify-end">
-                  <UiSort v-model="state.sortValue" :index="3">
+                  <UiSort v-model="state.sortValue" :index="4">
                     Last Price
                   </UiSort>
                 </div>
               </th>
-              <th class="text-right">Date</th>
             </thead>
           </table>
           <table class="w-full">
@@ -109,6 +112,14 @@
                   </EthText>
                 </td>
 
+                <td>
+                  <div class="flex items-center">
+                    <EthText :tezos="isTezos">
+                      {{ item.totalSales ? formatVal(item.totalSales) : "--" }}
+                    </EthText>
+                  </div>
+                </td>
+
                 <td class="text-right">
                   <div
                     class="flex items-center"
@@ -144,15 +155,6 @@
                     </EthText>
                   </div>
                 </td>
-                <td>
-                  <div class="flex items-center justify-end">
-                    {{
-                      item.lastTxTime
-                        ? formatDateText(new Date(item.lastTxTime).getTime())
-                        : "--"
-                    }}
-                  </div>
-                </td>
               </tr>
             </tbody>
           </table>
@@ -181,13 +183,14 @@ const isDesktop = useDesktop();
 const isTezos = computed(() => state.selected == 1);
 
 const state = reactive({
-  sortValue: [0, -1, -1, -1],
+  sortValue: [0, -1, -1, -1, -1],
   selected: 0,
 });
 
 const sortKeys = [
   "MARKET_CAP",
   "TOTAL_HISTORY_VALUE",
+  "TOTAL_SALES",
   "HIGHEST_PRICE",
   "LAST_TX_PRICE",
 ];

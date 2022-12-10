@@ -92,6 +92,7 @@ use([
   GraphicComponent,
 ]);
 
+const isTezos = inject("isTezos");
 const $route = useRoute();
 
 const state = reactive({
@@ -192,10 +193,12 @@ const option = computed(() => {
                           <span class="mr-4 font-bold">${value.platform}</span>
                         </div>
                         <div>${
-                          state.selectedType == 0
+                          state.selectedType == 0 && !isTezos
                             ? '<i class="iconfont icon-ETH2-24 mr-1 text-xs"></i>'
                             : ""
-                        }${localeNumber(value.sum)}</div>
+                        }${localeNumber(value.sum)} ${
+                isTezos && state.selectedType == 0 ? " ꜩ" : ""
+              }</div>
                       </div>`;
             })
             .reverse()

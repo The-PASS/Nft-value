@@ -217,7 +217,7 @@
           <div class="text-xl font-bold" v-if="!item.eth">
             {{ item.value ? item.value : "--" }}
           </div>
-          <EthText class="font-bold text-xl" v-else>{{
+          <EthText :tezos="isTezos" class="font-bold text-xl" v-else>{{
             item.value ? formatVal(item.value) : "--"
           }}</EthText>
           <div class="text-[#FFFFFF66]">{{ item.name }}</div>
@@ -257,26 +257,35 @@
           :key="i"
         >
           <div class="text-xl">
-            <EthText iconClass="text-xl" v-if="item.eth">
+            <EthText :tezos="isTezos" iconClass="text-xl" v-if="item.eth">
               {{ item.value }}</EthText
             >
             <div v-else-if="item.eth2" class="flex">
-              <EthText iconClass="text-xl" v-if="!(+item.value[0] < 0.001)">
+              <EthText
+                :tezos="isTezos"
+                iconClass="text-xl"
+                v-if="!(+item.value[0] < 0.001)"
+              >
                 {{ numeral(item.value[0]).format("0.00a").toUpperCase() }}
               </EthText>
               <div v-else>
                 <ui-tippyer :content="localeNumber(item.value[0], 2)">
-                  <EthText class="cursor-pointer" iconClass="text-xl"
+                  <EthText
+                    :tezos="isTezos"
+                    class="cursor-pointer"
+                    iconClass="text-xl"
                     >{{ `<0.001` }}
                   </EthText>
                   <template #content>
-                    <EthText>{{ localeNumber(item.value[0], 2) }}</EthText>
+                    <EthText :tezos="isTezos">{{
+                      localeNumber(item.value[0], 2)
+                    }}</EthText>
                   </template>
                 </ui-tippyer>
               </div>
 
               <span>&nbsp;~&nbsp;</span>
-              <EthText iconClass="text-xl">{{
+              <EthText :tezos="isTezos" iconClass="text-xl">{{
                 numeral(item.value[1]).format("0.00a").toUpperCase()
               }}</EthText>
             </div>
@@ -443,6 +452,9 @@ const basicData = computed(() => [
     name: "Artwork",
   },
 ]);
+
+const isTezos = computed(() => route.params.chain == "tezos");
+provide("isTezos", isTezos);
 
 const { loadData, loading } = useReqByBool(async () => {
   await store.loadInfo(route.params.name, route.params.chain);

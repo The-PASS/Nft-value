@@ -100,7 +100,7 @@
             )
           "
         >
-          <EthText iconClass="text-xs">
+          <EthText :tezos="isTezos" iconClass="text-xs">
             {{ info.lastPrice }}
           </EthText>
         </span>
@@ -111,7 +111,7 @@
           <span class="pr-2 text-[#FFFFFF66]">|</span> Evaluation:
         </div>
         <span>
-          <EthText iconClass="text-xs">
+          <EthText :tezos="isTezos" iconClass="text-xs">
             {{ info.valuation }}
           </EthText>
         </span>
@@ -139,6 +139,7 @@ import OpenSeaImg from "@/assets/images/opensea.png";
 import dpng from "@/assets/images/nftnologo.png";
 import TezosImg from "@/assets/images/objkt.png";
 
+const isTezos = inject("isTezos");
 const container = ref(null);
 
 const state = reactive({

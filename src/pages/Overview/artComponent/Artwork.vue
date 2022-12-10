@@ -52,10 +52,7 @@
         </div>
       </div>
 
-      <div
-        v-else-if="state.txList[0].length > 0 || state.txList[1].length > 0"
-        class="pb-8"
-      >
+      <div v-else-if="state.txList[0].length > 0 || state.txList[1].length > 0">
         <div class="flex py-4 space-x-4 border-b-[1px] border-b-[#FFFFFF1A]">
           <div
             class="bar-time-btn text-base h-10 px-4"
@@ -69,80 +66,80 @@
             {{ item }}
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="grid grid-cols-6 gap-4 mt-4">
-          <div
-            class="flex flex-col text-base py-2 bg-[#FFFFFF0D] min-h-10 items-center justify-center hover:bg-[#121416FF] border-[1px] border-[transparent] hover:border-[#fff] rounded transition-all cursor-pointer"
-            :class="{
-              'bg-[#121416FF] border-[#fff]':
-                ValuationList[state.selectedTx].valueType == item.valueType,
-            }"
-            v-for="(item, i) in state.seeMoreTx
-              ? ValuationList
-              : ValuationList.slice(0, 5)"
-            :key="i"
-            @click="state.selectedTx = i"
-          >
-            <div class="flex">
-              Evaluation:&nbsp;&nbsp;
-              <EthText iconClass="text-base">{{
-                formatVal(item.valuation)
-              }}</EthText>
-            </div>
-            <div v-if="!item.isSingle" class="text-[#FFFFFF66]">
-              Edition: {{ item.editionCount ? item.editionCount : "--" }}
-            </div>
+    <div v-if="state.artworkType == 2" class="mb-8">
+      <div class="grid grid-cols-6 gap-4 mt-4">
+        <div
+          class="flex flex-col text-base py-2 bg-[#FFFFFF0D] min-h-10 items-center justify-center hover:bg-[#121416FF] border-[1px] border-[transparent] hover:border-[#fff] rounded transition-all cursor-pointer"
+          :class="{
+            'bg-[#121416FF] border-[#fff]':
+              ValuationList[state.selectedTx].valueType == item.valueType,
+          }"
+          v-for="(item, i) in state.seeMoreTx
+            ? ValuationList
+            : ValuationList.slice(0, 5)"
+          :key="i"
+          @click="state.selectedTx = i"
+        >
+          <div class="flex">
+            Evaluation:&nbsp;&nbsp;
+            <EthText :tezos="isTezos" iconClass="text-base">{{
+              formatVal(item.valuation)
+            }}</EthText>
           </div>
-          <div
-            v-if="ValuationList.length > 6"
-            class="flex bg-[#FFFFFF0D] min-h-[40px] h-full text-base items-center justify-center hover:bg-[#121416FF] border-[1px] border-[transparent] hover:border-[#fff] rounded transition-all cursor-pointer"
-            :class="{
-              'bg-[#121416FF] border-[#fff]':
-                state.selectedTx > 6 && !state.seeMoreTx,
-            }"
-            @click="state.seeMoreTx = !state.seeMoreTx"
-          >
-            see {{ state.seeMoreTx ? "less" : "more" }} &nbsp;&nbsp;<i
-              v-if="!state.seeMoreTx"
-              class="iconfont icon-xia1"
-            ></i>
-            <i v-else class="iconfont icon-shang1"></i>
+          <div v-if="!item.isSingle" class="text-[#FFFFFF66]">
+            Edition: {{ item.editionCount ? item.editionCount : "--" }}
           </div>
         </div>
+        <div
+          v-if="ValuationList.length > 6"
+          class="flex bg-[#FFFFFF0D] min-h-[40px] h-full text-base items-center justify-center hover:bg-[#121416FF] border-[1px] border-[transparent] hover:border-[#fff] rounded transition-all cursor-pointer"
+          :class="{
+            'bg-[#121416FF] border-[#fff]':
+              state.selectedTx > 6 && !state.seeMoreTx,
+          }"
+          @click="state.seeMoreTx = !state.seeMoreTx"
+        >
+          see {{ state.seeMoreTx ? "less" : "more" }} &nbsp;&nbsp;<i
+            v-if="!state.seeMoreTx"
+            class="iconfont icon-xia1"
+          ></i>
+          <i v-else class="iconfont icon-shang1"></i>
+        </div>
+      </div>
 
-        <div class="mt-8 py-4 grid grid-cols-3 text-base bg-[#FFFFFF0D]">
-          <div class="flex flex-col items-center">
-            <div class="font-bold">
-              {{ ValuationList[state.selectedTx].txCount }}
-            </div>
-            <div class="mt-2 text-[#FFFFFF66]">Total Transactions</div>
+      <div class="mt-8 py-4 grid grid-cols-3 text-base bg-[#FFFFFF0D]">
+        <div class="flex flex-col items-center">
+          <div class="font-bold">
+            {{ ValuationList[state.selectedTx].txCount }}
           </div>
-          <div class="flex flex-col items-center">
-            <div class="font-bold">
-              {{
-                (ValuationList[state.selectedTx].isSingle
-                  ? ValuationList[state.selectedTx].tag
-                  : ValuationList[state.selectedTx].collectionName) || "--"
-              }}
-              <span v-if="!ValuationList[state.selectedTx].isSingle"
-                >,Edition:{{
-                  ValuationList[state.selectedTx].editionCount
-                }}</span
-              >
-            </div>
-            <div class="mt-2 text-[#FFFFFF66]">Key Trait</div>
+          <div class="mt-2 text-[#FFFFFF66]">Total Transactions</div>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="font-bold">
+            {{
+              (ValuationList[state.selectedTx].isSingle
+                ? ValuationList[state.selectedTx].tag
+                : ValuationList[state.selectedTx].collectionName) || "--"
+            }}
+            <span v-if="!ValuationList[state.selectedTx].isSingle"
+              >,Edition:{{ ValuationList[state.selectedTx].editionCount }}</span
+            >
           </div>
-          <div class="flex flex-col items-center">
-            <div class="font-bold">
-              {{
-                formatDate(
-                  ValuationList[state.selectedTx].cutPoint,
-                  "YYYY-MM-DD HH:mm"
-                )
-              }}
-            </div>
-            <div class="mt-2 text-[#FFFFFF66]">Cut time</div>
+          <div class="mt-2 text-[#FFFFFF66]">Key Trait</div>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="font-bold">
+            {{
+              formatDate(
+                ValuationList[state.selectedTx].cutPoint,
+                "YYYY-MM-DD HH:mm"
+              )
+            }}
           </div>
+          <div class="mt-2 text-[#FFFFFF66]">Cut time</div>
         </div>
       </div>
     </div>
@@ -225,6 +222,7 @@ const $route = useRoute();
 const store = useArtStore();
 const pid = inject("pid");
 const container = ref(null);
+const isTezos = inject("isTezos");
 
 const ArtworkType = ["By Time", "By Price", "By Evaluation"];
 

@@ -187,10 +187,11 @@ export const getBoardTradeHistory = async (
 };
 
 /* Art */
-export const getArtistDao = async (creatorName: string) =>
+export const getArtistDao = async (creatorName: string, chain: string) =>
   passHttp.get("/artist/collectedDao", {
     params: {
       creatorName,
+      chain,
     },
   });
 
@@ -213,7 +214,7 @@ export const getArtInfo = async (name: string, chain: string) => {
     }
   });
 
-  const daoInfo = await getArtistDao(name);
+  const daoInfo = await getArtistDao(name, chain);
 
   return { ...res, ethAddress, tezosAddress, ...daoInfo };
 };
