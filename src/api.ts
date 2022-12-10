@@ -5,6 +5,7 @@ import { passHttp } from "./request";
 export const searchProject = async (
   key: string,
   type = "Collectables",
+  chain: string,
   cancel = false
 ) => {
   let res = await passHttp.get(
@@ -13,6 +14,7 @@ export const searchProject = async (
       params: {
         search: key,
         type,
+        chain,
       },
     },
     cancel

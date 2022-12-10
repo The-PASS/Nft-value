@@ -174,9 +174,11 @@ import { suffixNum, localeNumber, formatDateText, formatVal } from "@/utils";
 import { withThrottling } from "@/with";
 import numeral from "numeral";
 import nftpng from "@/assets/images/nftnologo.png";
+import { useCommonStore } from "@/store/common.ts";
 
 const scroller = ref(null);
 const router = useRouter();
+const store = useCommonStore();
 
 const isDesktop = useDesktop();
 
@@ -213,9 +215,17 @@ const { loading, results, loadNext, loadRest } = useReqPages(
 );
 
 watch(
-  () => [JSON.stringify(state.sortValue), state.selected],
+  () => [JSON.stringify(state.sortValue)],
   () => {
     loadRest(true);
+  }
+);
+
+watch(
+  () => state.selected,
+  (val) => {
+    loadRest(true);
+    store.setChain(state.selected == 0 ? "ethereum" : "tezos");
   }
 );
 

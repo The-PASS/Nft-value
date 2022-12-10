@@ -104,7 +104,9 @@
 
 <script setup>
 import { searchProject } from "@/api";
+import { useCommonStore } from "@/store/common.ts";
 
+const store = useCommonStore();
 const box = ref(null);
 const floatBox = ref(null);
 const searchInput = ref(null);
@@ -124,6 +126,8 @@ const state = reactive({
 
 onClickOutside(floatBox, (event) => (state.flag = false));
 
+const isArt = computed(() => $route.path.indexOf("Art") != -1);
+
 const showSearch = () => {
   state.flag = true;
   const { top, right } = box.value.getBoundingClientRect();
@@ -142,11 +146,17 @@ const loadData = async (key) => {
       state.list = await searchProject(
         undefined,
         $route.name.toUpperCase(),
+        isArt ? store.chain : "",
         true
       );
     } else {
       state.loading++;
-      const list = await searchProject(key, $route.name.toUpperCase(), true);
+      const list = await searchProject(
+        key,
+        $route.name.toUpperCase(),
+        isArt ? store.chain : "",
+        true
+      );
       state.loading--;
       if (list) {
         state.searchList = list;
@@ -194,7 +204,7 @@ watch(
 );
 
 watch(
-  () => $route.name,
+  () => [$route.name, store.chain],
   (val) => {
     loadData();
   }
