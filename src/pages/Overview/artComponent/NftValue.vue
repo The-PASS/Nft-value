@@ -178,14 +178,14 @@ const option = computed(() => {
               ${
                 state.selected == 0
                   ? `Value: ${
-                      !isTezos
+                      !isTezos.value
                         ? '<i class="iconfont icon-ETH2-24 mr-1 text-sm"></i>'
                         : ""
                     }`
                   : "Quantity: "
               }${
               state.selected == 0 ? localeNumber(data.value, 2) : data.value
-            } ${isTezos && state.selected == 0 ? " ꜩ" : ""}`;
+            } ${isTezos.value && state.selected == 0 ? " ꜩ" : ""}`;
           },
         },
       },

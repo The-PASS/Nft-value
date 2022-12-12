@@ -68,10 +68,10 @@
         <div class="text-[#FFFFFF66]">Metadata</div>
         <div
           :class="{
-            'text-[#26AAFFFF] link-hover': info.metadataUri,
+            'text-[#26AAFFFF] link-hover': info.metadata,
           }"
           @click="jump(info)"
-          v-if="info.metadataUri"
+          v-if="info.metadata"
         >
           metadata
         </div>
@@ -159,7 +159,7 @@ const leave = () => {
 };
 
 const jump = (info) => {
-  if (info.metadataUri) window.open(info.metadataUri, "_blank");
+  if (info.metadata) window.open(info.metadata, "_blank");
 };
 
 onMounted(() => {});

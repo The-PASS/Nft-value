@@ -12,29 +12,29 @@
           <table class="w-full h-14 sticky top-0 bg-[#1f2123] z-20">
             <colgroup>
               <col style="width: 32%" />
-              <col style="width: 11%" />
-              <col style="width: 11%" />
-              <col style="width: 11%" />
-              <col style="width: 11%" />
-              <col style="width: 20%" />
+              <col style="width: 14%" />
+              <col style="width: 14%" />
+              <col style="width: 14%" />
+              <col style="width: 14%" />
+              <col style="width: 12%" />
             </colgroup>
             <thead>
-              <th class="text-left" style="width: 32%">Collection</th>
-              <th class="text-left" style="width: 11%">Volume</th>
-              <th class="text-left" style="width: 11%">Volume(24H)</th>
-              <th class="text-right" style="width: 11%">▲ Volume(24H)</th>
-              <th class="text-right" style="width: 11%">Floor Price</th>
-              <th class="text-right" style="width: 20%">Market Cap</th>
+              <th class="text-left">Collection</th>
+              <th class="text-left">Volume</th>
+              <th class="text-left">Volume(24H)</th>
+              <th class="text-left">▲ Volume(24H)</th>
+              <th class="text-left">Floor Price</th>
+              <th class="text-left">Market Cap</th>
             </thead>
           </table>
           <table class="w-full">
             <colgroup>
               <col style="width: 32%" />
-              <col style="width: 11%" />
-              <col style="width: 11%" />
-              <col style="width: 11%" />
-              <col style="width: 11%" />
-              <col style="width: 20%" />
+              <col style="width: 14%" />
+              <col style="width: 14%" />
+              <col style="width: 14%" />
+              <col style="width: 14%" />
+              <col style="width: 12%" />
             </colgroup>
             <tbody>
               <tr
@@ -43,7 +43,7 @@
                 :key="i"
                 @click="router.push(`/Collectables/${item.path}`)"
               >
-                <td class="text-left" style="width: 32%">
+                <td class="text-left">
                   <div class="flex items-center">
                     <ui-img
                       class="w-8 h-8 rounded-full mr-2 overflow-hidden flex-shrink-0"
@@ -54,7 +54,7 @@
                   </div>
                 </td>
 
-                <td class="text-left" style="width: 11%">
+                <td class="text-left">
                   <div class="flex items-center">
                     <EthText>
                       {{
@@ -64,7 +64,7 @@
                   </div>
                 </td>
 
-                <td class="text-left" style="width: 11%">
+                <td class="text-left">
                   <div class="flex items-center">
                     <EthText>
                       {{ item.volume }}
@@ -72,17 +72,15 @@
                   </div>
                 </td>
                 <td
-                  class="text-right"
                   :class="{
                     'text-[#5EFF6A]': item.volumeRate > 0,
                     'text-[#FF5166]': item.volumeRate < 0,
                   }"
-                  style="width: 11%"
                 >
                   {{ suffixNum(item.volumeRate) }}%
                 </td>
-                <td style="width: 11%">
-                  <div class="flex items-center justify-end">
+                <td>
+                  <div class="flex items-center">
                     <EthText v-if="!+item.floorPrice == 0">
                       {{ localeNumber(item.floorPrice, 2) }}
                     </EthText>
@@ -90,10 +88,10 @@
                     <span v-else>—</span>
                   </div>
                 </td>
-                <td style="width: 20%">
-                  <div class="flex items-center justify-end">
+                <td>
+                  <div class="flex items-center">
                     <EthText>
-                      {{ localeNumber(item.marketCap, 2) }}
+                      {{ formatVal(item.marketCap) }}
                     </EthText>
                   </div>
                 </td>
@@ -204,7 +202,7 @@
 <script setup>
 import { getVaultList } from "@/api";
 import { useDesktop, useReqPages } from "@/hooks";
-import { suffixNum, localeNumber } from "@/utils";
+import { suffixNum, localeNumber, formatVal } from "@/utils";
 import { withThrottling } from "@/with";
 import numeral from "numeral";
 

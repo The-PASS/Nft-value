@@ -4,7 +4,7 @@
       <div class="font-bold text-xl">NFT Transaction</div>
 
       <div class="flex space-x-8">
-        <div class="flex space-x-2" v-if="originList.length > 12">
+        <div class="flex space-x-2">
           <div
             class="bar-time-btn flex items-center justify-center"
             :class="{
@@ -193,11 +193,11 @@ const option = computed(() => {
                           <span class="mr-4 font-bold">${value.platform}</span>
                         </div>
                         <div>${
-                          state.selectedType == 0 && !isTezos
+                          state.selectedType == 0 && !isTezos.value
                             ? '<i class="iconfont icon-ETH2-24 mr-1 text-xs"></i>'
                             : ""
                         }${localeNumber(value.sum)} ${
-                isTezos && state.selectedType == 0 ? " ꜩ" : ""
+                isTezos.value && state.selectedType == 0 ? " ꜩ" : ""
               }</div>
                       </div>`;
             })

@@ -57,7 +57,7 @@
                 </UiSort>
               </th>
               <th>
-                <div class="flex justify-end">
+                <div class="flex">
                   <UiSort v-model="state.sortValue" :index="4">
                     Last Price
                   </UiSort>
@@ -103,7 +103,7 @@
 
                 <td>
                   <EthText :tezos="isTezos">
-                    {{ formatVal(item.marketCap) }}
+                    {{ +item.marketCap ? formatVal(item.marketCap) : "--" }}
                   </EthText>
                 </td>
                 <td>
@@ -111,7 +111,6 @@
                     {{ formatVal(item.totalHistoryValue) }}
                   </EthText>
                 </td>
-
                 <td>
                   <div class="flex items-center">
                     <EthText :tezos="isTezos">
@@ -126,14 +125,16 @@
                     v-if="item.artworkValuationMin != item.artworkValuationMax"
                   >
                     <EthText :tezos="isTezos">
-                      {{ formatVal(item.artworkValuationMin) }} </EthText
-                    >&nbsp;&nbsp;~&nbsp;<EthText :tezos="isTezos">
-                      {{ formatVal(item.artworkValuationMax) }}
+                      {{
+                        formatVal(item.artworkValuationMin)
+                      }}&nbsp;&nbsp;~&nbsp;{{
+                        formatVal(item.artworkValuationMax)
+                      }}
                     </EthText>
                   </div>
                   <div v-else class="flex items-center">
                     <EthText :tezos="isTezos">{{
-                      item.artworkValuationMax
+                      item.artworkValuationMax ? item.artworkValuationMax : "--"
                     }}</EthText>
                   </div>
                 </td>
@@ -145,7 +146,7 @@
                 </td>
 
                 <td>
-                  <div class="flex items-center justify-end">
+                  <div class="flex items-center">
                     <EthText :tezos="isTezos">
                       {{
                         +item.lastTxPrice == 0

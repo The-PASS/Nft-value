@@ -1,12 +1,17 @@
 <template>
   <div class="w-full select-none">
-    <div class="flex justify-between mb-2 mt-4 text-base">
+    <div class="flex justify-between items-center mb-2 text-base">
       <div class="text-xl font-bold">Artwork Transaction History</div>
 
-      <div class="flex space-x-4" v-if="flags.length > 1">
-        <div class="flex items-center" v-for="(flag, i) in flags" :key="i">
+      <div class="flex space-x-4">
+        <div
+          class="flex items-center cursor-pointer"
+          @click="selectChart(i)"
+          v-for="(flag, i) in flags"
+          :key="i"
+        >
           <div
-            class="w-2 h-2 rounded-full mr-2"
+            class="w-3 h-3 rounded-full mr-2"
             :style="`background:${flag.color}`"
           ></div>
           {{ flag.text }}
@@ -37,16 +42,16 @@
       <div class="w-full h-full flex" v-else-if="state.source.length > 0">
         <div class="flex-1 min-w-0 flex flex-col">
           <div class="flex-1 min-h-0">
-            <VChart class="chart" :option="option"></VChart>
+            <VChart ref="chart" class="chart" :option="option"></VChart>
           </div>
 
-          <ui-move-bar-x v-model="state.xPoint" class="ml-10"></ui-move-bar-x>
+          <!-- <ui-move-bar-x v-model="state.xPoint" class="ml-10"></ui-move-bar-x> -->
         </div>
-        <ui-move-bar-y
+        <!-- <ui-move-bar-y
           v-model="state.yPoint"
           class="ml-4"
           style="height: calc(100% - 40px)"
-        ></ui-move-bar-y>
+        ></ui-move-bar-y> -->
       </div>
 
       <div
@@ -75,6 +80,7 @@ import { useReqByBool } from "@/hooks";
 import { getArtScatter, getArtScatterAll } from "@/api";
 import { useArtStore } from "@/store/art";
 
+const chart = ref(null);
 const $route = useRoute();
 const store = useArtStore();
 const color = ["#FF5166FF", "#9317B5FF"];
@@ -104,8 +110,6 @@ use([
 
 // TODO 选择对应的 artwork 的时候显示对应的值
 const flags = computed(() => {
-  console.log(state.source);
-
   const [single, edition] = state.source;
 
   const flag = [];
@@ -120,10 +124,15 @@ const flags = computed(() => {
     x.color = color[i];
   });
 
-  console.log(flag);
-
   return flag;
 });
+
+const selectChart = (i) => {
+  chart.value.dispatchAction({
+    type: "unselect",
+    seriesIndex: i,
+  });
+};
 
 const { loadData, loading } = useReqByBool(async () => {
   let list;
@@ -267,7 +276,7 @@ const option = computed(() => {
       max: yAxis.value[1],
     },
     legend: {
-      data: ["Single", "Edition"],
+      data: flags.value.map((x) => x.text),
       left: "right",
       top: 10,
       textStyle: {
@@ -303,7 +312,7 @@ const option = computed(() => {
         }
         return `${state.source[seriesIndex][dataIndex].tokenName}<br/>${
           data[1]
-        } ${isTezos ? "ꜩ" : "ETH"} <br/> ${formatDate(
+        } ${isTezos.value ? "ꜩ" : "ETH"} <br/> ${formatDate(
           data[0],
           "MMM DD YYYY  hh:mmA"
         )} `;
