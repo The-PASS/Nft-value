@@ -144,17 +144,17 @@
       </div>
     </div>
 
-    <div class="w-full relative">
-      <!-- <transition name="fade"> -->
-      <img
-        class="absolute right-0 z-[999] w-16 cursor-pointer"
-        :src="state.isChart ? art2table : art2chart"
-        :style="`top:${state.chartIconTop}px`"
-        alt=""
-        v-if="state.artworkType == 2"
-        @click="state.isChart = !state.isChart"
-      />
-      <!-- </transition> -->
+    <div class="w-full">
+      <div class="fixed right-[120px] bottom-20 z-[999] w-16 cursor-pointer">
+        <transition name="fade">
+          <img
+            :src="state.isChart ? art2table : art2chart"
+            alt=""
+            v-if="state.artworkType == 2 && state.chartIconShow"
+            @click="state.isChart = !state.isChart"
+          />
+        </transition>
+      </div>
 
       <div v-if="!state.isChart">
         <div
@@ -244,8 +244,7 @@ const state = reactive({
   seeMoreTx: false,
   isChart: false,
   chartIconShow: false,
-  chartIconTop: 60,
-  prev: 0,
+  chartIconTop: 140,
 });
 
 const ValuationTypes = computed(() => {
@@ -379,11 +378,8 @@ onMounted(async () => {
   state.selectedPlat = { label: "Platform", value: "" };
   loadRest();
   window.addEventListener("scroll", () => {
-    if (window.scrollY > container.value.offsetTop) {
-      state.chartIconTop += state.prev ? window.scrollY - state.prev : 0;
-      state.chartIconTop = Math.max(60, state.chartIconTop);
-    }
-    state.prev = window.scrollY;
+    state.chartIconShow = window.scrollY > container.value.offsetTop - 160;
+    // state.chartIconTop += 1;
   });
 });
 </script>
