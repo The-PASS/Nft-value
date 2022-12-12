@@ -352,6 +352,8 @@ export const getArtScatterAll = async (creatorName: string, chain: string) => {
   ]);
 
   const [single, edition] = res;
+  single.forEach((x: any) => (x.isSingle = true));
+  edition.forEach((x: any) => (x.isSingle = false));
 
   return res;
 };

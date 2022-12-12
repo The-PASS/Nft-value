@@ -3,10 +3,10 @@
     <div class="flex justify-between items-center mb-2 text-base">
       <div class="text-xl font-bold">Artwork Transaction History</div>
 
-      <div class="flex space-x-4">
+      <!-- <div class="flex space-x-4">
         <div
           class="flex items-center cursor-pointer"
-          @click="selectChart(i)"
+          @click="selectChart(flag)"
           v-for="(flag, i) in flags"
           :key="i"
         >
@@ -16,7 +16,7 @@
           ></div>
           {{ flag.text }}
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="w-full h-[380px] relative">
       <div class="absolute top-2">
@@ -45,13 +45,13 @@
             <VChart ref="chart" class="chart" :option="option"></VChart>
           </div>
 
-          <!-- <ui-move-bar-x v-model="state.xPoint" class="ml-10"></ui-move-bar-x> -->
+          <ui-move-bar-x v-model="state.xPoint" class="ml-10"></ui-move-bar-x>
         </div>
-        <!-- <ui-move-bar-y
+        <ui-move-bar-y
           v-model="state.yPoint"
           class="ml-4"
           style="height: calc(100% - 40px)"
-        ></ui-move-bar-y> -->
+        ></ui-move-bar-y>
       </div>
 
       <div
@@ -127,10 +127,10 @@ const flags = computed(() => {
   return flag;
 });
 
-const selectChart = (i) => {
+const selectChart = (info) => {
   chart.value.dispatchAction({
-    type: "unselect",
-    seriesIndex: i,
+    type: "legendUnSelect",
+    name: info.text,
   });
 };
 
@@ -210,16 +210,13 @@ const yAxis = computed(() => {
 const option = computed(() => {
   const series = [];
   state.source.forEach((list, i) => {
-    series.push({
-      name: store.selectedTx.valueType
-        ? store.selectedTx.isSingle
-          ? "Single"
-          : "Edition"
-        : store.evaTypes[i],
-      symbolSize: 10,
-      type: "scatter",
-      data: list.map((x) => [x.transactionTime, x.lastPrice]),
-    });
+    if (list.length > 0)
+      series.push({
+        name: list[0].isSingle ? "Single" : "Edition",
+        symbolSize: 10,
+        type: "scatter",
+        data: list.map((x) => [x.transactionTime, x.lastPrice]),
+      });
   });
 
   if (series.length == 1 && props.cutTime) {
