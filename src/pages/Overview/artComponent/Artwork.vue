@@ -145,13 +145,16 @@
     </div>
 
     <div class="w-full relative">
+      <!-- <transition name="fade"> -->
       <img
-        class="absolute right-0 top-40 z-[36] w-16 cursor-pointer"
+        class="absolute right-0 z-[999] w-16 cursor-pointer"
         :src="state.isChart ? art2table : art2chart"
+        :style="`top:${state.chartIconTop}px`"
         alt=""
         v-if="state.artworkType == 2"
         @click="state.isChart = !state.isChart"
       />
+      <!-- </transition> -->
 
       <div v-if="!state.isChart">
         <div
@@ -240,6 +243,9 @@ const state = reactive({
   txList: [],
   seeMoreTx: false,
   isChart: false,
+  chartIconShow: false,
+  chartIconTop: 60,
+  prev: 0,
 });
 
 const ValuationTypes = computed(() => {
@@ -344,7 +350,8 @@ watch(
     state.isChart = false;
     loadRest(true);
     setTimeout(() => {
-      window.scrollTo(0, container.value.offsetTop - 0.001);
+      if (window.scrollY > container.value.offsetTop - 10)
+        window.scrollTo(0, container.value.offsetTop - 0.001);
     }, 100);
   }
 );
@@ -371,6 +378,13 @@ onMounted(async () => {
   }
   state.selectedPlat = { label: "Platform", value: "" };
   loadRest();
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > container.value.offsetTop) {
+      state.chartIconTop += state.prev ? window.scrollY - state.prev : 0;
+      state.chartIconTop = Math.max(60, state.chartIconTop);
+    }
+    state.prev = window.scrollY;
+  });
 });
 </script>
 
