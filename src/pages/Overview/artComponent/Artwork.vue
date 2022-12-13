@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full min-h-[100vh]" ref="container">
+  <div class="w-full h-[100vh]" ref="container">
     <!-- <div class="flex justify-between mb-4">
       <div class="text-xl font-bold">ARTWORK</div>
     </div> -->
@@ -52,7 +52,12 @@
         </div>
       </div>
 
-      <div v-else-if="state.txList[0].length > 0 || state.txList[1].length > 0">
+      <div
+        v-else-if="
+          (state.txList[0] && state.txList[0].length > 0) ||
+          (state.txList[1] && state.txList[1].length > 0)
+        "
+      >
         <div class="flex py-4 space-x-4 border-b-[1px] border-b-[#FFFFFF1A]">
           <div
             class="bar-time-btn text-base h-10 px-4"
@@ -75,7 +80,7 @@
           class="flex flex-col text-base py-2 bg-[#FFFFFF0D] min-h-10 items-center justify-center hover:bg-[#121416FF] border-[1px] border-[transparent] hover:border-[#fff] rounded transition-all cursor-pointer"
           :class="{
             'bg-[#121416FF] border-[#fff]':
-              ValuationList[state.selectedTx].valueType == item.valueType,
+              ValuationItem.valueType == item.valueType,
           }"
           v-for="(item, i) in state.seeMoreTx
             ? ValuationList
@@ -113,31 +118,26 @@
       <div class="mt-8 py-4 grid grid-cols-3 text-base bg-[#FFFFFF0D]">
         <div class="flex flex-col items-center">
           <div class="font-bold">
-            {{ ValuationList[state.selectedTx].txCount }}
+            {{ ValuationItem.txCount }}
           </div>
           <div class="mt-2 text-[#FFFFFF66]">Total Transactions</div>
         </div>
         <div class="flex flex-col items-center">
           <div class="font-bold">
             {{
-              (ValuationList[state.selectedTx].isSingle
-                ? ValuationList[state.selectedTx].tag
-                : ValuationList[state.selectedTx].collectionName) || "--"
+              (ValuationItem.isSingle
+                ? ValuationItem.tag
+                : ValuationItem.collectionName) || "--"
             }}
-            <span v-if="!ValuationList[state.selectedTx].isSingle"
-              >,Edition:{{ ValuationList[state.selectedTx].editionCount }}</span
+            <span v-if="!ValuationItem.isSingle"
+              >,Edition:{{ ValuationItem.editionCount }}</span
             >
           </div>
           <div class="mt-2 text-[#FFFFFF66]">Key Trait</div>
         </div>
         <div class="flex flex-col items-center">
           <div class="font-bold">
-            {{
-              formatDate(
-                ValuationList[state.selectedTx].cutPoint,
-                "YYYY-MM-DD HH:mm"
-              )
-            }}
+            {{ formatDate(ValuationItem.cutPoint, "YYYY-MM-DD HH:mm") }}
           </div>
           <div class="mt-2 text-[#FFFFFF66]">Cut time</div>
         </div>
@@ -172,10 +172,7 @@
             <img class="w-6 h-6" src="@/assets/svgs/spin.svg" alt="" />
           </div>
         </div>
-        <div
-          v-if="results.length == 0 && !loading"
-          class="w-full h-full relative"
-        >
+        <div v-if="isEmpty" class="w-full h-full relative">
           <img
             class="w-full h-full"
             src="@/assets/images/no-tokenlist.png"
@@ -190,8 +187,8 @@
       </div>
       <div v-else>
         <ScatterChart
-          :valueType="ValuationList[state.selectedTx].valueType"
-          :cutTime="ValuationList[state.selectedTx].cutPoint"
+          :valueType="ValuationItem.valueType"
+          :cutTime="ValuationItem.cutPoint"
           class="w-[92%]"
         ></ScatterChart>
       </div>
@@ -249,10 +246,10 @@ const state = reactive({
 
 const ValuationTypes = computed(() => {
   const res = [];
-  if (state.txList[0].length > 0) {
+  if (state.txList[0] && state.txList[0].length > 0) {
     res.push("Single");
   }
-  if (state.txList[1].length > 0) {
+  if (state.txList[1] && state.txList[1].length > 0) {
     res.push("Edition");
   }
   return res;
@@ -261,7 +258,13 @@ const ValuationTypes = computed(() => {
 const ValuationList = computed(() => {
   const type = ValuationTypes.value[state.selectTxType];
   const res = state.txList[type == "Single" ? 0 : 1];
-  return res;
+
+  console.log(res || []);
+  return res || [];
+});
+
+const ValuationItem = computed(() => {
+  return ValuationList.value[state.selectedTx] || {};
 });
 
 const {
@@ -274,6 +277,7 @@ const {
   results,
   loadNext,
   loadRest,
+  isEmpty,
 } = useReqPages(async (i, cancel) => {
   if (state.artworkType == 2 && !state.selectedTx) {
     state.txList = await getArtTxRecord(
@@ -349,7 +353,7 @@ watch(
     state.isChart = false;
     loadRest(true);
     setTimeout(() => {
-      if (window.scrollY > container.value.offsetTop - 10)
+      if (container.value && window.scrollY > container.value.offsetTop - 10)
         window.scrollTo(0, container.value.offsetTop - 0.001);
     }, 100);
   }
@@ -358,6 +362,9 @@ watch(
 watch(
   () => state.selectTxType,
   () => {
+    if (state.selectedTx == 0) {
+      loadRest(true);
+    }
     state.selectedTx = 0;
   }
 );
@@ -378,7 +385,9 @@ onMounted(async () => {
   state.selectedPlat = { label: "Platform", value: "" };
   loadRest();
   window.addEventListener("scroll", () => {
-    state.chartIconShow = window.scrollY > container.value.offsetTop - 160;
+    if (container.value) {
+      state.chartIconShow = window.scrollY > container.value.offsetTop - 160;
+    }
     // state.chartIconTop += 1;
   });
 });

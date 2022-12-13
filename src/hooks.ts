@@ -3,6 +3,7 @@ import { defineProps, defineEmits } from "vue";
 export const useReqPages = (req: any) => {
   const loading = ref(0);
   const isEnd = ref(false);
+  const isEmpty = ref(false);
   const current = ref(0);
   const next: any = ref(1);
   const rows = ref(-1);
@@ -40,6 +41,10 @@ export const useReqPages = (req: any) => {
       results.value = [...results.value, ...result.records];
     }
 
+    if (results.value.length == 0) {
+      isEmpty.value = true;
+    }
+
     if (next.value > pages.value) {
       next.value = null;
       isEnd.value = true;
@@ -52,6 +57,7 @@ export const useReqPages = (req: any) => {
     next.value = 1;
     isEnd.value = false;
     results.value = [];
+    isEmpty.value = false;
     await loadNext(cancel);
   };
 

@@ -34,7 +34,7 @@ const routes = [
       },
       {
         name: "Art",
-        path: "/list/Art",
+        path: "/list/Art/:chain",
         component: () => import("@/pages/Category/Art.vue"),
       },
     ],

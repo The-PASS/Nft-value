@@ -21,7 +21,7 @@
       <!-- </div> -->
 
       <div class="flex justify-between mt-4">
-        <p class="font-bold text-4xl">{{ store.baseInfo.artistName }}</p>
+        <p class="font-bold text-4xl">{{ store.baseInfo.fullName }}</p>
         <div class="flex">
           <!-- <div class="text-2xl" @click="state.show = true">Holder do it.</div> -->
 

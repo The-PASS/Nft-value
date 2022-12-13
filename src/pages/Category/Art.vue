@@ -230,6 +230,13 @@ watch(
   }
 );
 
+watch(
+  () => $route.params.chain,
+  (val) => {
+    state.selected = val == "tezos" ? 1 : 0;
+  }
+);
+
 useInfiniteScroll(scroller, withThrottling(loadNext), {
   distance: 44,
 });
