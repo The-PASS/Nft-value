@@ -44,14 +44,16 @@
                 @click="router.push(`/Collectables/${item.path}`)"
               >
                 <td class="text-left">
-                  <div class="flex items-center">
-                    <ui-img
-                      class="w-8 h-8 rounded-full mr-2 overflow-hidden flex-shrink-0"
-                      :src="item.logo"
-                      alt=""
-                    />
-                    <div class="text-[#26AAFF]">{{ item.projectName }}</div>
-                  </div>
+                  <router-link :to="`/Collectables/${item.path}`">
+                    <div class="flex items-center">
+                      <ui-img
+                        class="w-8 h-8 rounded-full mr-2 overflow-hidden flex-shrink-0"
+                        :src="item.logo"
+                        alt=""
+                      />
+                      <div class="text-[#26AAFF]">{{ item.projectName }}</div>
+                    </div>
+                  </router-link>
                 </td>
 
                 <td class="text-left">

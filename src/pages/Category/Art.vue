@@ -89,16 +89,23 @@
                 "
               >
                 <td class="text-left">
-                  <div class="flex items-center">
-                    <ui-img
-                      class="w-8 h-8 rounded-full mr-2 overflow-hidden flex-shrink-0"
-                      :src="item.image || nftpng"
-                      alt=""
-                    />
-                    <div class="text-[#26AAFF] line-clamp-1 w-[140px]">
-                      {{ item.fullName }}
+                  <router-link
+                    :to="`/Art/${item.artistName}/${
+                      state.selected == 0 ? 'ethereum' : 'tezos'
+                    }`"
+                  >
+                    <div class="flex items-center">
+                      <ui-img
+                        class="w-8 h-8 rounded-full mr-2 overflow-hidden flex-shrink-0"
+                        :src="item.image || nftpng"
+                        alt=""
+                      />
+
+                      <div class="text-[#26AAFF] line-clamp-1 w-[140px]">
+                        {{ item.fullName }}
+                      </div>
                     </div>
-                  </div>
+                  </router-link>
                 </td>
 
                 <td>
@@ -179,6 +186,7 @@ import { useCommonStore } from "@/store/common.ts";
 
 const scroller = ref(null);
 const router = useRouter();
+const route = useRoute();
 const store = useCommonStore();
 
 const isDesktop = useDesktop();
@@ -187,7 +195,7 @@ const isTezos = computed(() => state.selected == 1);
 
 const state = reactive({
   sortValue: [0, -1, -1, -1, -1],
-  selected: 0,
+  selected: route.params.chain ? 1 : 0,
 });
 
 const sortKeys = [
@@ -225,13 +233,19 @@ watch(
 watch(
   () => state.selected,
   (val) => {
+    router.replace({
+      name: route.name,
+      params: {
+        chain: state.selected == 0 ? "" : "tezos",
+      },
+    });
     loadRest(true);
     store.setChain(state.selected == 0 ? "ethereum" : "tezos");
   }
 );
 
 watch(
-  () => $route.params.chain,
+  () => route.params.chain,
   (val) => {
     state.selected = val == "tezos" ? 1 : 0;
   }
