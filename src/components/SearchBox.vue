@@ -50,7 +50,7 @@
       <div v-if="state.searchKey">
         <div
           class="text-[#ffffff4d] h-12 flex items-center justify-center"
-          v-if="state.loading"
+          v-if="loading"
         >
           <img class="w-4 h-4" src="@/assets/svgs/spin.svg" alt="" />
         </div>
@@ -104,6 +104,7 @@
 
 <script setup>
 import { searchProject } from "@/api";
+import { useReqByBool } from "@/hooks";
 import { useCommonStore } from "@/store/common.ts";
 
 const store = useCommonStore();
@@ -121,7 +122,6 @@ const state = reactive({
   searchKey: "",
   searchList: [],
   list: [],
-  loading: 0,
 });
 
 onClickOutside(floatBox, (event) => (state.flag = false));
@@ -140,33 +140,25 @@ const showSearch = () => {
 
 // TODO 这里差一个鼠标点击操作
 
-const loadData = async (key) => {
-  try {
-    if (!key) {
-      state.list = await searchProject(
-        undefined,
-        $route.name.toUpperCase(),
-        isArt ? store.chain : "",
-        true
-      );
-    } else {
-      state.loading++;
-      const list = await searchProject(
-        key,
-        $route.name.toUpperCase(),
-        isArt ? store.chain : "",
-        true
-      );
-      state.loading--;
-      if (list) {
-        state.searchList = list;
-        console.log(list);
-      }
-    }
-  } catch (error) {
-    state.loading--;
-  }
+const loadPopular = async () => {
+  state.list = await searchProject(
+    undefined,
+    $route.name.toUpperCase(),
+    isArt ? store.chain : ""
+  );
 };
+
+const { loadData, loading } = useReqByBool(async () => {
+  const list = await searchProject(
+    state.searchKey,
+    $route.name.toUpperCase(),
+    isArt ? store.chain : "",
+    true
+  );
+  if (list) {
+    state.searchList = list;
+  }
+});
 
 const jump = (item) => {
   state.flag = false;
@@ -177,9 +169,8 @@ const jump = (item) => {
   );
 };
 
-// TODO 热度列表元素只会在加载的时候进行请求，其他不进行更新
 onMounted(() => {
-  loadData();
+  loadPopular();
 });
 
 watch(
@@ -196,7 +187,7 @@ watch(
   () => state.searchKey,
   (key) => {
     if (key) {
-      loadData(key);
+      loadData();
     } else {
       state.searchList = [];
     }
@@ -206,18 +197,9 @@ watch(
 watch(
   () => [$route.name, store.chain],
   (val) => {
-    loadData();
+    loadPopular();
   }
 );
-
-// TODO 搜索元素会在请求的时候出现
-
-/*
-  - 聚焦的时候显示 popular 列表
-  - 输入文字进行模糊查询
-  - 查找不到显示 popular + 无结果
-  - 查找到了只显示结果
- */
 </script>
 
 <style lang="scss" scoped></style>

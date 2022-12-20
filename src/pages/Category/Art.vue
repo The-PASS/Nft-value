@@ -198,6 +198,8 @@ const state = reactive({
   selected: route.params.chain ? 1 : 0,
 });
 
+store.setChain(state.selected == 1 ? "tezos" : "ethereum");
+
 const sortKeys = [
   "MARKET_CAP",
   "TOTAL_HISTORY_VALUE",
