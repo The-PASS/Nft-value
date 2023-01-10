@@ -106,7 +106,7 @@
         </span>
       </div>
 
-      <div class="flex justify-between">
+      <div class="flex justify-between" v-if="type != 'price'">
         <div class="font-bold">
           <span class="pr-2 text-[#FFFFFF66]">|</span> Evaluation:
         </div>
@@ -148,6 +148,7 @@ const state = reactive({
 
 defineProps({
   info: Object,
+  type: String,
 });
 
 const enter = () => {

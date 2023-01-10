@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-[100vh]" ref="container">
+  <div class="w-full" ref="container" style="min-height: 100vh">
     <!-- <div class="flex justify-between mb-4">
       <div class="text-xl font-bold">ARTWORK</div>
     </div> -->
@@ -162,7 +162,12 @@
           v-if="results.length > 0 || loading"
         >
           <div class="grid grid-cols-2 gap-4 pb-4">
-            <hover-card :info="item" v-for="(item, i) in results" :key="i" />
+            <hover-card
+              :info="item"
+              :type="['time', 'price', 'value'][state.artworkType]"
+              v-for="(item, i) in results"
+              :key="i"
+            />
           </div>
 
           <div
