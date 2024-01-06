@@ -155,7 +155,7 @@ const { loadData, loading } = useReqByBool(async () => {
   } catch (error) {
     // list = [];
   }
-
+  console.log(list);
   state.source = list;
 });
 

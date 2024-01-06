@@ -1,7 +1,7 @@
 <template>
   <div class="flex space-x-6 md:space-x-12">
     <ui-tippyer content="Twitter">
-      <a href="https://twitter.com/thepass_to" target="_blank" title="Twitter">
+      <a href="https://twitter.com/daobase_ai" target="_blank" title="Twitter">
         <i class="iconfont icon-Twitter2 text-4xl"></i>
       </a>
     </ui-tippyer>
